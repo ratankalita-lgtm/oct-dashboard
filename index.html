@@ -373,6 +373,33 @@ let allDiagnoses = [];
 let activeCategory = "All";
 let currentDx = null;
 
+// ===== SMART SEARCH CONFIG =====
+// Mapping common clinical shorthand to official terms
+const synonymMap = {
+  "sugar": "diabetic",
+  "dm": "diabetic",
+  "bs": "sugar",
+  "npdr": "diabetic",
+  "pdr": "diabetic",
+  "tbr": "vein occlusion",
+  "crvo": "vein occlusion",
+  "brvo": "vein occlusion",
+  "fluid": "edema",
+  "swelling": "edema",
+  "bleed": "hemorrhage",
+  "hemo": "hemorrhage",
+  "neo": "neovascularization",
+  "nv": "neovascularization",
+  "armd": "amd", // Age-related macular degeneration
+  "pvd": "detachment", // Vitreous detachment often searches for detachment
+  "rd": "detachment",
+  "hole": "macular hole",
+  "membrane": "epiretinal",
+  "erm": "epiretinal",
+  "csr": "central serous",
+  "csc": "central serous"
+};
+
 function norm(s){ return (s || "").toString().toLowerCase().trim(); }
 function getCategory(dx){ return (dx && dx.category) ? dx.category.toString().trim() : "Other"; }
 
@@ -409,27 +436,42 @@ function clearSearch(){
   applyFilters();
 }
 
+/* ===== UPDATED SMART SEARCH LOGIC ===== */
 function applyFilters(){
-  const term = norm(document.getElementById("search").value);
+  const rawInput = norm(document.getElementById("search").value);
+  
+  // 1. Tokenize: Split input into words (e.g. "diab fluid" -> ["diab", "fluid"])
+  let tokens = rawInput.split(/\s+/).filter(t => t.length > 0);
+
+  // 2. Expand tokens with synonyms
+  const smartTokens = tokens.map(t => {
+    // If a synonym exists, search for BOTH the typed word AND the medical term
+    return synonymMap[t] ? [t, synonymMap[t]] : [t];
+  });
 
   let data = allDiagnoses.slice();
 
+  // Category Filter
   if(activeCategory !== "All"){
     data = data.filter(d => getCategory(d) === activeCategory);
   }
 
-  if(term){
-    data = data.filter(d => {
-      const aliases = Array.isArray(d.aliases) ? d.aliases : [];
-      return norm(d.name).includes(term) ||
-             norm(d.id).includes(term) ||
-             norm(d.category).includes(term) ||
-             aliases.some(a => norm(a).includes(term));
+  // Smart Text Filter
+  if(smartTokens.length > 0){
+    data = data.filter(dx => {
+      // Create one large string of all searchable text
+      const aliases = Array.isArray(dx.aliases) ? dx.aliases.join(" ") : "";
+      const searchableText = norm(`${dx.name} ${dx.id} ${dx.category} ${aliases}`);
+
+      // Strict requirement: EVERY user token (or its synonym) must be present
+      return smartTokens.every(tokenVariations => {
+        return tokenVariations.some(variation => searchableText.includes(variation));
+      });
     });
   }
 
   renderTiles(data);
-  updateMeta(data.length, term);
+  updateMeta(data.length, rawInput);
 }
 
 function updateMeta(count, term){
