@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCT Protocol Dashboard – Dr. Ratan Kalita</title>
+<title>OCT Protocol Dashboard – Ratan Kalita</title>
 
 <style>
 :root{
@@ -309,7 +309,7 @@ li{margin-bottom:4px;line-height:1.45}
   );
 }
 .watermark::after{
-  content: "Dr. Ratan Kalita • Internal Use Only";
+  content: "Ratan Kalita • Internal Use Only";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -368,7 +368,7 @@ li{margin-bottom:4px;line-height:1.45}
   <div class="modalBox">
     <div class="modalTitle">OCT Dashboard Access</div>
     <div class="modalText">
-      <strong>Restricted Access:</strong> This software is the proprietary intellectual property of <strong>Dr. Ratan Kalita</strong>.
+      <strong>Restricted Access:</strong> This software is the proprietary intellectual property of <strong>Ratan Kalita</strong>.
       <br><br>
       By entering, you agree that:
       <ul style="margin:8px 0 0 0;padding-left:18px;">
@@ -615,12 +615,12 @@ function printProtocol(){
   </head>
   <body>
     <h1>${escapeHtml(dx.name)}</h1>
-    <div class="meta">Category: ${escapeHtml(getCategory(dx))} • Dr. Ratan Kalita</div>
+    <div class="meta">Category: ${escapeHtml(getCategory(dx))} • Ratan Kalita</div>
     <h2>Structural OCT</h2><ul>${safe(dx.oct)}</ul>
     <h2>OCT-A Protocol</h2><ul>${safe(dx.octa)}</ul>
     <h2>Analysis Targets</h2><ul>${safe(dx.targets)}</ul>
     <h2>Red Flags</h2><ul class="flags">${safe(dx.red_flags)}</ul>
-    <div class="foot">CONFIDENTIAL • Dr. Ratan Kalita • Internal Use Only</div>
+    <div class="foot">CONFIDENTIAL • Ratan Kalita • Internal Use Only</div>
     <script>window.print();<\/script>
   </body></html>`;
   const w = window.open("", "_blank");
@@ -640,7 +640,7 @@ function showToast(msg, sub){
   clearTimeout(_toastTimer);
   _toastTimer = setTimeout(()=>{ el.remove(); }, 2400);
 }
-document.addEventListener("contextmenu", (e)=>{ e.preventDefault(); showToast("Right-click disabled", "Copyright © 2026 Dr. Ratan Kalita"); });
+document.addEventListener("contextmenu", (e)=>{ e.preventDefault(); showToast("Right-click disabled", "Copyright © 2026 Ratan Kalita"); });
 document.addEventListener("keydown", (e)=>{
   if((e.ctrlKey||e.metaKey) && (e.key==="p"||e.key==="s"||e.key==="u")){ e.preventDefault(); showToast("Action Blocked", "Use the on-screen Print button."); }
 });
