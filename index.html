@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCT Protocol Dashboard – Ratan Kalita</title>
+<title>OCT Protocol Dashboard – Dr. Ratan Kalita</title>
 
 <style>
 :root{
@@ -27,7 +27,8 @@ body{
   color:#111;
 }
 
-.wrap{max-width:1220px;margin:auto;}
+.wrap{max-width:1220px;margin:auto; filter: blur(5px); transition: filter 0.3s;}
+body.access-granted .wrap{ filter: none; }
 
 header{
   background:linear-gradient(135deg,#1d4ed8,#06b6d4);
@@ -234,12 +235,65 @@ li{margin-bottom:4px;line-height:1.45}
   font-size:12px;
 }
 
-/* ===== Preview Watermark (discourages screenshots) ===== */
+/* ===== Terms Modal (The Gatekeeper) ===== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(8px);
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modalBox{
+  background:white;
+  max-width:480px;
+  width:100%;
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);
+  text-align:center;
+}
+.modalTitle{
+  font-size:22px;
+  font-weight:900;
+  color:#111;
+  margin-bottom:12px;
+}
+.modalText{
+  font-size:14px;
+  color:#4b5563;
+  line-height:1.5;
+  margin-bottom:20px;
+  text-align:left;
+  background:#f3f4f6;
+  padding:14px;
+  border-radius:8px;
+  border:1px solid #e5e7eb;
+}
+.agreeBtn{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#1d4ed8,#06b6d4);
+  color:white;
+  font-weight:bold;
+  border:none;
+  cursor:pointer;
+  font-size:16px;
+  transition:transform 0.1s;
+}
+.agreeBtn:hover{transform:scale(1.02);}
+.agreeBtn:active{transform:scale(0.98);}
+
+/* ===== Preview Watermark ===== */
 .watermark {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 9998;
   opacity: 1;
 }
 .watermark::before{
@@ -255,7 +309,7 @@ li{margin-bottom:4px;line-height:1.45}
   );
 }
 .watermark::after{
-  content: "PREVIEW • Ratan Kalita OCT Protocol System";
+  content: "Dr. Ratan Kalita • Internal Use Only";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -269,7 +323,6 @@ li{margin-bottom:4px;line-height:1.45}
   mix-blend-mode: overlay;
 }
 
-/* ===== Preview Banner (subtle) ===== */
 .previewPill{
   display:inline-flex;
   align-items:center;
@@ -289,7 +342,6 @@ li{margin-bottom:4px;line-height:1.45}
   box-shadow: 0 0 0 6px rgba(220,38,38,0.18);
 }
 
-/* ===== Toast (non-intrusive security warning) ===== */
 .toast{
   position: fixed;
   left: 50%;
@@ -307,17 +359,28 @@ li{margin-bottom:4px;line-height:1.45}
   display: none;
   max-width: 92vw;
 }
-.toast small{
-  display:block;
-  margin-top:4px;
-  opacity:0.9;
-  font-weight:700;
-}
-
 </style>
 </head>
 
 <body>
+
+<div id="termsModal" class="modalOverlay">
+  <div class="modalBox">
+    <div class="modalTitle">OCT Dashboard Access</div>
+    <div class="modalText">
+      <strong>Restricted Access:</strong> This software is the proprietary intellectual property of <strong>Dr. Ratan Kalita</strong>.
+      <br><br>
+      By entering, you agree that:
+      <ul style="margin:8px 0 0 0;padding-left:18px;">
+        <li>This tool is for clinical guidance only.</li>
+        <li>You will de-identify all patient data.</li>
+        <li>You will not copy, distribute, or share this code.</li>
+      </ul>
+    </div>
+    <button class="agreeBtn" onclick="acceptTerms()">I Accept & Enter</button>
+  </div>
+</div>
+
 <div class="wrap">
 
 <header>
@@ -331,7 +394,7 @@ li{margin-bottom:4px;line-height:1.45}
       <div class="clearX" title="Clear" onclick="clearSearch()">×</div>
     </div>
     <button class="btn" type="button" onclick="applyFilters()">Search</button>
-    <div class="previewPill" title="Preview mode. Discourages screenshots."><span class="previewDot"></span>PREVIEW MODE</div>
+    <div class="previewPill" title="Restricted Mode"><span class="previewDot"></span>CLINIC USE ONLY</div>
   </div>
 
   <div class="filterBar" id="categoryFilters"></div>
@@ -364,7 +427,7 @@ li{margin-bottom:4px;line-height:1.45}
   </div>
 </div>
 
-<div class="footer">© Ratan Kalita • De-identify all images before adding • Private clinical tool<br>Preview build • Not for redistribution • Screenshots discouraged</div>
+<div class="footer">© 2026 Ratan Kalita • All Rights Reserved • Proprietary Software</div>
 
 </div>
 
@@ -374,30 +437,17 @@ let activeCategory = "All";
 let currentDx = null;
 
 // ===== SMART SEARCH CONFIG =====
-// Mapping common clinical shorthand to official terms
 const synonymMap = {
-  "sugar": "diabetic",
-  "dm": "diabetic",
-  "bs": "sugar",
-  "npdr": "diabetic",
-  "pdr": "diabetic",
-  "tbr": "vein occlusion",
-  "crvo": "vein occlusion",
-  "brvo": "vein occlusion",
-  "fluid": "edema",
-  "swelling": "edema",
-  "bleed": "hemorrhage",
-  "hemo": "hemorrhage",
-  "neo": "neovascularization",
-  "nv": "neovascularization",
-  "armd": "amd", // Age-related macular degeneration
-  "pvd": "detachment", // Vitreous detachment often searches for detachment
-  "rd": "detachment",
+  "sugar": "diabetic", "dm": "diabetic", "bs": "sugar", "npdr": "diabetic", "pdr": "diabetic",
+  "tbr": "vein occlusion", "crvo": "vein occlusion", "brvo": "vein occlusion",
+  "fluid": "edema", "swelling": "edema",
+  "bleed": "hemorrhage", "hemo": "hemorrhage",
+  "neo": "neovascularization", "nv": "neovascularization",
+  "armd": "amd", 
+  "pvd": "detachment", "rd": "detachment",
   "hole": "macular hole",
-  "membrane": "epiretinal",
-  "erm": "epiretinal",
-  "csr": "central serous",
-  "csc": "central serous"
+  "membrane": "epiretinal", "erm": "epiretinal",
+  "csr": "central serous", "csc": "central serous"
 };
 
 function norm(s){ return (s || "").toString().toLowerCase().trim(); }
@@ -413,10 +463,8 @@ async function loadData(){
 function buildCategoryFilters(){
   const bar = document.getElementById("categoryFilters");
   bar.innerHTML = "";
-
   const set = new Set(allDiagnoses.map(d => getCategory(d)));
   const cats = ["All", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
-
   cats.forEach(cat=>{
     const b = document.createElement("button");
     b.className = "filterBtn" + (cat === activeCategory ? " active" : "");
@@ -436,40 +484,24 @@ function clearSearch(){
   applyFilters();
 }
 
-/* ===== UPDATED SMART SEARCH LOGIC ===== */
+/* ===== SMART SEARCH LOGIC ===== */
 function applyFilters(){
   const rawInput = norm(document.getElementById("search").value);
-  
-  // 1. Tokenize: Split input into words (e.g. "diab fluid" -> ["diab", "fluid"])
   let tokens = rawInput.split(/\s+/).filter(t => t.length > 0);
-
-  // 2. Expand tokens with synonyms
-  const smartTokens = tokens.map(t => {
-    // If a synonym exists, search for BOTH the typed word AND the medical term
-    return synonymMap[t] ? [t, synonymMap[t]] : [t];
-  });
+  const smartTokens = tokens.map(t => synonymMap[t] ? [t, synonymMap[t]] : [t]);
 
   let data = allDiagnoses.slice();
+  if(activeCategory !== "All") data = data.filter(d => getCategory(d) === activeCategory);
 
-  // Category Filter
-  if(activeCategory !== "All"){
-    data = data.filter(d => getCategory(d) === activeCategory);
-  }
-
-  // Smart Text Filter
   if(smartTokens.length > 0){
     data = data.filter(dx => {
-      // Create one large string of all searchable text
       const aliases = Array.isArray(dx.aliases) ? dx.aliases.join(" ") : "";
       const searchableText = norm(`${dx.name} ${dx.id} ${dx.category} ${aliases}`);
-
-      // Strict requirement: EVERY user token (or its synonym) must be present
       return smartTokens.every(tokenVariations => {
         return tokenVariations.some(variation => searchableText.includes(variation));
       });
     });
   }
-
   renderTiles(data);
   updateMeta(data.length, rawInput);
 }
@@ -485,33 +517,28 @@ function updateMeta(count, term){
 function renderTiles(data){
   const t = document.getElementById("tiles");
   t.innerHTML = "";
-
   if(!data.length){
     t.innerHTML = "<div style='color:rgba(255,255,255,.85)'>No match found.</div>";
     return;
   }
-
   data.forEach(dx=>{
     const tile = document.createElement("div");
     tile.className = "tile";
     tile.onclick = ()=>showDetails(dx);
-
     const octN = (dx.oct || []).length;
     const octaN = (dx.octa || []).length;
     const tarN = (dx.targets || []).length;
     const flagN = (dx.red_flags || []).length;
-
     tile.innerHTML = `
       <div class="tileTitle">${dx.name || dx.id || "Untitled"}</div>
       <div class="catPill">${getCategory(dx)}</div>
       <div class="countRow">
         <span>📷 OCT: ${octN}</span>
         <span>🧬 OCTA: ${octaN}</span>
-        <span>🎯 Targets: ${tarN}</span>
-        <span>⚠ Flags: ${flagN}</span>
+        <span>🎯 ${tarN}</span>
+        <span>⚠ ${flagN}</span>
       </div>
     `;
-
     t.appendChild(tile);
   });
 }
@@ -526,33 +553,21 @@ function fill(id, arr){
   });
 }
 
-function setCount(id, n){
-  document.getElementById(id).textContent = n ? `(${n})` : "";
-}
+function setCount(id, n){ document.getElementById(id).textContent = n ? `(${n})` : ""; }
 
 function showDetails(dx){
   currentDx = dx;
   const panel = document.getElementById("details");
   panel.style.display = "block";
-
   document.getElementById("dxName").textContent = dx.name || dx.id || "";
-
-  const o = dx.oct || [];
-  const a = dx.octa || [];
-  const t = dx.targets || [];
-  const f = dx.red_flags || [];
-
-  fill("octList", o);
-  fill("octaList", a);
-  fill("targetsList", t);
-  fill("flagsList", f);
-
-  setCount("octCount", o.length);
-  setCount("octaCount", a.length);
-  setCount("tCount", t.length);
-  setCount("fCount", f.length);
-
-  // On mobile, scroll to details after click
+  fill("octList", dx.oct);
+  fill("octaList", dx.octa);
+  fill("targetsList", dx.targets);
+  fill("flagsList", dx.red_flags);
+  setCount("octCount", (dx.oct||[]).length);
+  setCount("octaCount", (dx.octa||[]).length);
+  setCount("tCount", (dx.targets||[]).length);
+  setCount("fCount", (dx.red_flags||[]).length);
   if (window.matchMedia("(max-width: 920px)").matches) {
     panel.scrollIntoView({behavior:"smooth", block:"start"});
   }
@@ -563,18 +578,31 @@ function collapseDetails(){
   currentDx = null;
 }
 
-/* ===== Print Protocol Sheet (clean print view) ===== */
+/* ===== TERMS OF USE LOGIC ===== */
+function checkTerms(){
+  // Check if user already agreed in this session
+  if(sessionStorage.getItem("octTermsAgreed") === "true"){
+    document.getElementById("termsModal").style.display = "none";
+    document.body.classList.add("access-granted");
+  }
+}
+function acceptTerms(){
+  sessionStorage.setItem("octTermsAgreed", "true");
+  document.getElementById("termsModal").style.display = "none";
+  document.body.classList.add("access-granted");
+}
+// Run check on load
+checkTerms();
+
+/* ===== PRINT & SECURITY ===== */
 function printProtocol(){
   if(!currentDx) return;
-
   const dx = currentDx;
   const safe = (arr)=> (arr||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join("") || "<li>—</li>";
-
   const html = `
   <html>
   <head>
-    <meta charset="utf-8">
-    <title>Protocol Sheet - ${escapeHtml(dx.name || "")}</title>
+    <meta charset="utf-8"><title>${escapeHtml(dx.name)} - Protocol</title>
     <style>
       body{font-family:Arial,sans-serif;margin:28px;color:#111}
       h1{margin:0 0 8px 0;color:#1d4ed8}
@@ -586,101 +614,36 @@ function printProtocol(){
     </style>
   </head>
   <body>
-    <h1>${escapeHtml(dx.name || "")}</h1>
-    <div class="meta">Category: ${escapeHtml(getCategory(dx))} • Prepared by Dr. Ratan Kalita</div>
-
-    <h2>Structural OCT</h2>
-    <ul>${safe(dx.oct)}</ul>
-
-    <h2>OCT-A Protocol</h2>
-    <ul>${safe(dx.octa)}</ul>
-
-    <h2>Analysis Targets</h2>
-    <ul>${safe(dx.targets)}</ul>
-
-    <h2>Red Flags</h2>
-    <ul class="flags">${safe(dx.red_flags)}</ul>
-
-    <div class="foot">De-identify patient data before sharing. For clinical guidance only.</div>
-    <script>window.print();</script>
-  
-  <div class="toast" id="toast"></div>
-  <div class="watermark" aria-hidden="true"></div>
-
-</body>
-  </html>
-  `;
-
+    <h1>${escapeHtml(dx.name)}</h1>
+    <div class="meta">Category: ${escapeHtml(getCategory(dx))} • Dr. Ratan Kalita</div>
+    <h2>Structural OCT</h2><ul>${safe(dx.oct)}</ul>
+    <h2>OCT-A Protocol</h2><ul>${safe(dx.octa)}</ul>
+    <h2>Analysis Targets</h2><ul>${safe(dx.targets)}</ul>
+    <h2>Red Flags</h2><ul class="flags">${safe(dx.red_flags)}</ul>
+    <div class="foot">CONFIDENTIAL • Dr. Ratan Kalita • Internal Use Only</div>
+    <script>window.print();<\/script>
+  </body></html>`;
   const w = window.open("", "_blank");
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
+  w.document.open();w.document.write(html);w.document.close();
 }
-
 function escapeHtml(s){
-  return (s||"").toString()
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  return (s||"").toString().replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
 }
 
-
-/* ===== Light Security (discourages casual copying) ===== */
 let _toastTimer = null;
 function showToast(msg, sub){
-  const el = document.getElementById("toast");
-  if(!el) return;
+  const el = document.createElement("div");
+  el.className = "toast";
   el.innerHTML = `${msg}${sub ? `<small>${sub}</small>` : ""}`;
+  document.body.appendChild(el);
   el.style.display = "block";
   clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(()=>{ el.style.display="none"; }, 2400);
+  _toastTimer = setTimeout(()=>{ el.remove(); }, 2400);
 }
-
-// Disable right-click context menu (gentle)
-document.addEventListener("contextmenu", (e)=>{
-  e.preventDefault();
-  showToast("Preview mode: right‑click disabled.", "Please avoid copying or screenshots.");
-});
-
-// Warn on common shortcuts (not bulletproof)
+document.addEventListener("contextmenu", (e)=>{ e.preventDefault(); showToast("Right-click disabled", "Copyright © 2026 Dr. Ratan Kalita"); });
 document.addEventListener("keydown", (e)=>{
-  const k = (e.key || "").toLowerCase();
-
-  // Print / Save / View source-ish
-  if ((e.ctrlKey || e.metaKey) && (k === "p" || k === "s" || k === "u")) {
-    e.preventDefault();
-    showToast("Preview mode: action blocked.", "Printing/saving is disabled in preview.");
-    return;
-  }
-
-  // Devtools shortcuts
-  if ((e.ctrlKey || e.metaKey) && e.shiftKey && (k === "i" || k === "j" || k === "c")) {
-    e.preventDefault();
-    showToast("Preview mode: action blocked.", "DevTools shortcuts disabled in preview.");
-    return;
-  }
-
-  // F12
-  if (e.key === "F12") {
-    e.preventDefault();
-    showToast("Preview mode: action blocked.", "DevTools disabled in preview.");
-    return;
-  }
-
-  // PrintScreen (cannot reliably block, but we can warn)
-  if (k === "printscreen") {
-    showToast("Please avoid screenshots.", "This is a preview build.");
-  }
+  if((e.ctrlKey||e.metaKey) && (e.key==="p"||e.key==="s"||e.key==="u")){ e.preventDefault(); showToast("Action Blocked", "Use the on-screen Print button."); }
 });
-
-// If user switches tab/window, show reminder (gentle)
-document.addEventListener("visibilitychange", ()=>{
-  if (document.visibilityState === "hidden") return;
-  showToast("Reminder: Preview build.", "Please avoid screenshots or forwarding.");
-});
-
 
 loadData();
 </script>
