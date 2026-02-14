@@ -1,0 +1,1151 @@
+[
+  {
+    "id": "dme",
+    "name": "Diabetic Macular Edema (DME)",
+    "aliases": [
+      "dme",
+      "diabetic macular edema",
+      "diabetic edema",
+      "dr macula swelling"
+    ],
+    "category": "Diabetes / DR",
+    "oct": [
+      "Macula cube (fovea centered)",
+      "Check INL/OPL cysts, SRF, DRIL",
+      "Check VMI traction (VMT/ERM contribution)"
+    ],
+    "octa": [
+      "6x6 mm (3x3 for detail)",
+      "Slabs: SCP + DCP (DCP key)",
+      "Assess FAZ border + capillary dropout"
+    ],
+    "targets": [
+      "INL/OPL cysts + DRIL",
+      "DCP ischemia / FAZ enlargement",
+      "Outer retina slab if CNV suspected (chronic DME)"
+    ],
+    "red_flags": [
+      "Marked DCP dropout / enlarged FAZ",
+      "SRF with sudden VA drop",
+      "Poor VA with mild edema -> ischemia likely"
+    ],
+    "images": []
+  },
+  {
+    "id": "npdr",
+    "name": "Non-Proliferative Diabetic Retinopathy (NPDR) - macular assessment",
+    "aliases": [
+      "npdr",
+      "diabetic retinopathy",
+      "dr screening"
+    ],
+    "category": "Diabetes / DR",
+    "oct": [
+      "Macula cube",
+      "Look for subtle edema, exudates shadows, DRIL",
+      "Baseline for follow-up"
+    ],
+    "octa": [
+      "6x6 mm",
+      "SCP + DCP density/FAZ",
+      "Document if symptoms or unexplained VA"
+    ],
+    "targets": [
+      "FAZ irregularity",
+      "Early DCP dropout",
+      "Correlation if VA low"
+    ],
+    "red_flags": [
+      "Progressive FAZ enlargement",
+      "New edema/SRF"
+    ],
+    "images": []
+  },
+  {
+    "id": "pdr",
+    "name": "Proliferative DR / Neovascularization (NVD/NVE) screening",
+    "aliases": [
+      "pdr",
+      "nvd",
+      "nve",
+      "neovascularization",
+      "proliferative dr"
+    ],
+    "category": "Diabetes / DR",
+    "oct": [
+      "Macula cube + targeted scans if membrane seen",
+      "Assess tractional components (TRD risk)",
+      "Look for preretinal hyperreflective tissue"
+    ],
+    "octa": [
+      "6x6 or 9x9 if available",
+      "SCP/DCP + VRI slab if available",
+      "Look for frond-like abnormal flow at disc/arcades"
+    ],
+    "targets": [
+      "Neovascular complexes (abnormal flow)",
+      "Traction on OCT structural",
+      "Macular ischemia coexisting"
+    ],
+    "red_flags": [
+      "Suspected NVD/NVE",
+      "Traction threatening macula",
+      "Sudden floaters/vision loss (possible VH)"
+    ],
+    "images": []
+  },
+  {
+    "id": "rvo_brvo",
+    "name": "Branch Retinal Vein Occlusion (BRVO)",
+    "aliases": [
+      "brvo",
+      "branch rvo",
+      "vein occlusion branch"
+    ],
+    "category": "Vascular",
+    "oct": [
+      "Macula cube + line scan through maximal edema",
+      "Document CME +/- SRF",
+      "Look for hemorrhage shadowing artifacts"
+    ],
+    "octa": [
+      "6x6 mm",
+      "SCP + DCP",
+      "Assess sectoral non-perfusion + FAZ distortion"
+    ],
+    "targets": [
+      "DCP non-perfusion (often prominent)",
+      "Collaterals pattern",
+      "FAZ enlargement/irregularity"
+    ],
+    "red_flags": [
+      "Large ischemic areas",
+      "Severe CME/SRF",
+      "Neovascular suspicion"
+    ],
+    "images": []
+  },
+  {
+    "id": "rvo_crvo",
+    "name": "Central Retinal Vein Occlusion (CRVO)",
+    "aliases": [
+      "crvo",
+      "central rvo",
+      "vein occlusion central"
+    ],
+    "category": "Vascular",
+    "oct": [
+      "Macula cube + line scan",
+      "CME +/- SRF; consider optic disc edema clinically"
+    ],
+    "octa": [
+      "6x6 mm (consider wider if possible)",
+      "SCP + DCP",
+      "Look for widespread dropout"
+    ],
+    "targets": [
+      "Extent of ischemia (esp DCP)",
+      "FAZ changes",
+      "Baseline for follow-up"
+    ],
+    "red_flags": [
+      "Severe ischemia suspicion",
+      "NV risk signs",
+      "Sudden deterioration"
+    ],
+    "images": []
+  },
+  {
+    "id": "rao",
+    "name": "Retinal Artery Occlusion (CRAO/BRAO)",
+    "aliases": [
+      "crao",
+      "brao",
+      "artery occlusion",
+      "retinal infarct"
+    ],
+    "category": "Vascular",
+    "oct": [
+      "High-res line scan through fovea",
+      "Acute: inner retinal hyperreflectivity + thickening",
+      "Follow-up: inner retinal thinning"
+    ],
+    "octa": [
+      "3x3 mm",
+      "SCP (key) + DCP",
+      "Document perfusion loss; beware motion artifacts"
+    ],
+    "targets": [
+      "Inner retina structural evolution",
+      "Capillary non-perfusion pattern"
+    ],
+    "red_flags": [
+      "Acute onset with severe vision loss (emergency)",
+      "Associated systemic stroke risk symptoms"
+    ],
+    "images": []
+  },
+  {
+    "id": "htn_ret",
+    "name": "Hypertensive Retinopathy / Macular involvement",
+    "aliases": [
+      "hypertension",
+      "htn retinopathy",
+      "cotton wool"
+    ],
+    "category": "Vascular",
+    "oct": [
+      "Macula cube if VA symptoms",
+      "Look for SRF, exudation, macular edema if present"
+    ],
+    "octa": [
+      "Optional 6x6",
+      "SCP/DCP density if ischemia suspected"
+    ],
+    "targets": [
+      "Macular edema vs ischemia differentiation",
+      "Baseline documentation"
+    ],
+    "red_flags": [
+      "Severe edema/SRF",
+      "Rapid VA change"
+    ],
+    "images": []
+  },
+  {
+    "id": "mac_ischemia",
+    "name": "Macular Ischemia (VA low but OCT mild)",
+    "aliases": [
+      "macular ischemia",
+      "faz",
+      "unexplained low va",
+      "ischemia"
+    ],
+    "category": "Vascular",
+    "oct": [
+      "Macula cube (often mild structural change)",
+      "If VA low out of proportion -> prioritize OCT-A"
+    ],
+    "octa": [
+      "3x3 mm preferred",
+      "Slabs: DCP (primary) + SCP",
+      "Assess FAZ enlargement/irregularity + rarefaction"
+    ],
+    "targets": [
+      "FAZ size and border",
+      "DCP dropout pattern"
+    ],
+    "red_flags": [
+      "Extensive DCP non-perfusion",
+      "Progressive vision loss"
+    ],
+    "images": []
+  },
+  {
+    "id": "pamm_amn",
+    "name": "PAMM / AMN (acute ischemic maculopathy patterns)",
+    "aliases": [
+      "pamm",
+      "amn",
+      "paracentral scotoma"
+    ],
+    "category": "Vascular",
+    "oct": [
+      "High-res line scan through symptomatic area",
+      "PAMM: hyperreflective band at INL",
+      "AMN: outer retina focal lesions"
+    ],
+    "octa": [
+      "3x3 mm",
+      "DCP (key) + SCP",
+      "Look for focal DCP flow deficits"
+    ],
+    "targets": [
+      "DCP perfusion defect",
+      "INL/outer retina structural correlate"
+    ],
+    "red_flags": [
+      "Progressive scotomas",
+      "Systemic vascular risk suspicion"
+    ],
+    "images": []
+  },
+  {
+    "id": "cnv_wet_amd",
+    "name": "Wet AMD / CNV (suspected)",
+    "aliases": [
+      "wet amd",
+      "cnv",
+      "neovascular amd",
+      "ped",
+      "shrm"
+    ],
+    "category": "AMD / CNV",
+    "oct": [
+      "Macula cube + radial line scans",
+      "Look for PED, SRF, SHRM"
+    ],
+    "octa": [
+      "3x3 mm preferred (6x6 if needed)",
+      "Outer Retina + Choriocapillaris slabs",
+      "Outer retina should be avascular -> any flow suggests CNV"
+    ],
+    "targets": [
+      "Outer retina flow network",
+      "Segmentation accuracy around PED"
+    ],
+    "red_flags": [
+      "Any flow in outer retina slab",
+      "New SRF with PED",
+      "Rapid vision decline/metamorphopsia"
+    ],
+    "images": []
+  },
+  {
+    "id": "amd_dry",
+    "name": "Dry AMD / Drusen / Early AMD",
+    "aliases": [
+      "dry amd",
+      "drusen",
+      "early amd"
+    ],
+    "category": "AMD / CNV",
+    "oct": [
+      "Macula cube",
+      "Drusen/RPE undulations; check EZ integrity",
+      "If symptoms change -> re-check for CNV"
+    ],
+    "octa": [
+      "Optional 3x3 or 6x6",
+      "Outer retina slab to ensure no CNV flow",
+      "CC slab for flow changes in atrophy"
+    ],
+    "targets": [
+      "RPE/drusen architecture",
+      "Rule out CNV (outer retina flow = abnormal)"
+    ],
+    "red_flags": [
+      "New SRF/bleed suspicion",
+      "New distortion/VA drop"
+    ],
+    "images": []
+  },
+  {
+    "id": "ga",
+    "name": "Geographic Atrophy (GA) / Advanced dry AMD pattern",
+    "aliases": [
+      "ga",
+      "geographic atrophy",
+      "advanced dry amd"
+    ],
+    "category": "AMD / CNV",
+    "oct": [
+      "Macula cube",
+      "Map outer retinal/RPE loss; measure EZ/ELM loss"
+    ],
+    "octa": [
+      "Optional 6x6",
+      "CC slab may show flow impairment around GA"
+    ],
+    "targets": [
+      "Document atrophy margins",
+      "Baseline for progression"
+    ],
+    "red_flags": [
+      "Sudden new SRF/bleed -> suspect CNV"
+    ],
+    "images": []
+  },
+  {
+    "id": "pcv",
+    "name": "PCV / Aneurysmal Type 1 Neovascularization (Asian/India common)",
+    "aliases": [
+      "pcv",
+      "polypoidal",
+      "aneurysmal type 1",
+      "asia amd variant"
+    ],
+    "category": "AMD / CNV",
+    "oct": [
+      "Macula cube + line scans through PED",
+      "Look for sharp-peaked PED, notches, sub-RPE changes, SRF"
+    ],
+    "octa": [
+      "3x3 mm preferred",
+      "Outer retina + CC slabs",
+      "Look for branching vascular network (polyps may be variable)"
+    ],
+    "targets": [
+      "Type 1 neovascular complex under RPE",
+      "Segmentation around PED/notch"
+    ],
+    "red_flags": [
+      "New SRF/bleed",
+      "Rapid VA loss/metamorphopsia"
+    ],
+    "images": []
+  },
+  {
+    "id": "rap",
+    "name": "Retinal Angiomatous Proliferation (RAP) / Type 3 NV (suspected)",
+    "aliases": [
+      "rap",
+      "type 3",
+      "intraretinal neovascularization"
+    ],
+    "category": "AMD / CNV",
+    "oct": [
+      "Macula cube",
+      "Look for intraretinal hyperreflective foci, cysts, small PED",
+      "Check for SRF/IRF"
+    ],
+    "octa": [
+      "3x3 mm",
+      "SCP/DCP + Outer retina",
+      "Look for focal intraretinal flow signal"
+    ],
+    "targets": [
+      "Intraretinal neovascular focus",
+      "Associated edema"
+    ],
+    "red_flags": [
+      "Rapid fluid recurrence",
+      "Hemorrhage suspicion"
+    ],
+    "images": []
+  },
+  {
+    "id": "csr",
+    "name": "Central Serous Chorioretinopathy (CSC/CSR)",
+    "aliases": [
+      "csr",
+      "cscr",
+      "central serous",
+      "pachychoroid"
+    ],
+    "category": "Choroid / Pachychoroid",
+    "oct": [
+      "Macula cube",
+      "SRF pocket + RPE changes",
+      "Check choroidal thickness if available"
+    ],
+    "octa": [
+      "6x6 mm",
+      "Choriocapillaris (key); Outer retina if chronic to exclude CNV"
+    ],
+    "targets": [
+      "SRF + thick choroid pattern",
+      "CC perfusion changes",
+      "Exclude secondary CNV in chronic CSR"
+    ],
+    "red_flags": [
+      "Chronic/recurrent SRF",
+      "Outer retina flow suggesting CNV"
+    ],
+    "images": []
+  },
+  {
+    "id": "pachy_nod",
+    "name": "Pachychoroid Neovasculopathy (PNV) (suspected)",
+    "aliases": [
+      "pnv",
+      "pachychoroid neovasculopathy"
+    ],
+    "category": "Choroid / Pachychoroid",
+    "oct": [
+      "Macula cube",
+      "Shallow irregular PED +/- SRF"
+    ],
+    "octa": [
+      "3x3 or 6x6",
+      "Outer retina + CC slabs",
+      "Look for type 1 network"
+    ],
+    "targets": [
+      "Type 1 network under RPE",
+      "Segmentation check"
+    ],
+    "red_flags": [
+      "Outer retina flow network",
+      "New SRF/bleed"
+    ],
+    "images": []
+  },
+  {
+    "id": "erm",
+    "name": "Epiretinal Membrane (ERM)",
+    "aliases": [
+      "erm",
+      "macular pucker",
+      "pucker"
+    ],
+    "category": "Vitreomacular Interface",
+    "oct": [
+      "Macula cube + interface line scans",
+      "Assess distortion, thickening, EIFL if present"
+    ],
+    "octa": [
+      "Usually not required",
+      "If VA poor beyond structure -> consider DCP ischemia separately"
+    ],
+    "targets": [
+      "ILM traction / membrane",
+      "Foveal contour + EIFL"
+    ],
+    "red_flags": [
+      "Rapid worsening metamorphopsia",
+      "Macular hole/VMT suspicion"
+    ],
+    "images": []
+  },
+  {
+    "id": "vmt",
+    "name": "Vitreomacular Traction (VMT)",
+    "aliases": [
+      "vmt",
+      "traction"
+    ],
+    "category": "Vitreomacular Interface",
+    "oct": [
+      "Radial scans through fovea",
+      "Document traction points and foveal deformation"
+    ],
+    "octa": [
+      "Optional",
+      "If available: document perfusion only"
+    ],
+    "targets": [
+      "Traction configuration",
+      "Outer retinal disruption"
+    ],
+    "red_flags": [
+      "Progressive VA drop",
+      "Impending macular hole"
+    ],
+    "images": []
+  },
+  {
+    "id": "mh_ft",
+    "name": "Macular Hole - Full Thickness (FTMH)",
+    "aliases": [
+      "ftmh",
+      "full thickness macular hole",
+      "macular hole"
+    ],
+    "category": "Vitreomacular Interface",
+    "oct": [
+      "High-res line scan + radial scans",
+      "Measure minimum/BASE diameter; assess edges"
+    ],
+    "octa": [
+      "Not essential",
+      "Optional for documentation"
+    ],
+    "targets": [
+      "Hole stage documentation",
+      "Outer retina/RPE involvement"
+    ],
+    "red_flags": [
+      "Full-thickness defect",
+      "Rapid VA loss"
+    ],
+    "images": []
+  },
+  {
+    "id": "mh_lamellar",
+    "name": "Lamellar Macular Hole / ERM-related foveoschisis",
+    "aliases": [
+      "lamellar hole",
+      "lmh",
+      "foveoschisis"
+    ],
+    "category": "Vitreomacular Interface",
+    "oct": [
+      "High-res scans",
+      "Differentiate LMH vs FTMH; note ERM/traction"
+    ],
+    "octa": [
+      "Not essential"
+    ],
+    "targets": [
+      "Foveal architecture",
+      "ERM contribution"
+    ],
+    "red_flags": [
+      "Progression toward FTMH",
+      "Significant symptoms"
+    ],
+    "images": []
+  },
+  {
+    "id": "myopic_schisis",
+    "name": "Myopic Traction Maculopathy / Myopic Foveoschisis",
+    "aliases": [
+      "myopic schisis",
+      "mtm",
+      "foveoschisis",
+      "high myopia traction"
+    ],
+    "category": "Myopia",
+    "oct": [
+      "Macula cube + line scans",
+      "Look for schisis layers, traction, foveal detachment"
+    ],
+    "octa": [
+      "Optional 3x3",
+      "Outer retina slab if CNV suspected"
+    ],
+    "targets": [
+      "Schisis extent and layers",
+      "Traction/ERM contribution"
+    ],
+    "red_flags": [
+      "Foveal detachment",
+      "Impending macular hole"
+    ],
+    "images": []
+  },
+  {
+    "id": "myopic_cnv",
+    "name": "Myopic CNV (suspected)",
+    "aliases": [
+      "myopic cnv",
+      "pathologic myopia cnv"
+    ],
+    "category": "Myopia",
+    "oct": [
+      "Macula cube",
+      "Look for SHRM, SRF/IRF, small PED"
+    ],
+    "octa": [
+      "3x3 mm",
+      "Outer retina + CC",
+      "Look for focal network"
+    ],
+    "targets": [
+      "Outer retina flow network",
+      "Segmentation around lesions"
+    ],
+    "red_flags": [
+      "New SRF/bleed",
+      "Rapid VA drop"
+    ],
+    "images": []
+  },
+  {
+    "id": "uveitic_cme",
+    "name": "Uveitic CME (Inflammatory macular edema)",
+    "aliases": [
+      "uveitis cme",
+      "inflammatory cme",
+      "uveitic edema"
+    ],
+    "category": "Uveitis",
+    "oct": [
+      "Macula cube",
+      "CME +/- SRF; correlate with inflammation clinically"
+    ],
+    "octa": [
+      "Optional 3x3 or 6x6",
+      "Outer retina slab if chronic to exclude CNV"
+    ],
+    "targets": [
+      "Cystoid spaces; outer retina integrity",
+      "Exclude CNV if chronic"
+    ],
+    "red_flags": [
+      "Persistent SRF",
+      "Suspicious outer retina flow"
+    ],
+    "images": []
+  },
+  {
+    "id": "vkh",
+    "name": "VKH (acute serous detachments / choroiditis pattern)",
+    "aliases": [
+      "vkh",
+      "vogt koyanagi harada",
+      "harada"
+    ],
+    "category": "Uveitis",
+    "oct": [
+      "Macula cube",
+      "Look for multilobular SRF, septae, RPE folds",
+      "Choroidal thickening if available"
+    ],
+    "octa": [
+      "6x6",
+      "Choriocapillaris slab (key); SCP/DCP optional",
+      "Look for diffuse CC hypoperfusion/flow voids"
+    ],
+    "targets": [
+      "CC involvement documentation",
+      "SRF pattern for response tracking"
+    ],
+    "red_flags": [
+      "Extensive SRF involving fovea",
+      "Persistent SRF despite treatment"
+    ],
+    "images": []
+  },
+  {
+    "id": "tb_slc",
+    "name": "TB-Associated Serpiginous-like Choroiditis (SLC)",
+    "aliases": [
+      "tb choroiditis",
+      "serpiginous like",
+      "slc",
+      "tubercular choroiditis"
+    ],
+    "category": "Uveitis",
+    "oct": [
+      "Lesion-centered line scans + macula cube",
+      "Outer retina/RPE disruption; document active edges"
+    ],
+    "octa": [
+      "3x3 or 6x6",
+      "Choriocapillaris (key) + Outer retina (exclude CNV)",
+      "CC flow void corresponding to active lesion"
+    ],
+    "targets": [
+      "CC flow void extent/activity",
+      "Exclude secondary CNV"
+    ],
+    "red_flags": [
+      "Lesion approaching fovea",
+      "Outer retina flow network (secondary CNV)"
+    ],
+    "images": []
+  },
+  {
+    "id": "toxo",
+    "name": "Toxoplasma Retinochoroiditis (active vs scar)",
+    "aliases": [
+      "toxo",
+      "toxoplasma",
+      "retinochoroiditis"
+    ],
+    "category": "Uveitis",
+    "oct": [
+      "Lesion-centered line scan",
+      "Focal full-thickness hyperreflectivity; vitreous haze artifact"
+    ],
+    "octa": [
+      "3x3 or 6x6",
+      "CC + Outer retina (exclude CNV in scars)"
+    ],
+    "targets": [
+      "Active edge vs scar documentation",
+      "Exclude CNV if new symptoms near scar"
+    ],
+    "red_flags": [
+      "Lesion near fovea/ONH",
+      "New SRF/bleed near scar"
+    ],
+    "images": []
+  },
+  {
+    "id": "cmv",
+    "name": "CMV Retinitis (immunocompromised)",
+    "aliases": [
+      "cmv",
+      "cmv retinitis",
+      "hiv retinitis"
+    ],
+    "category": "Uveitis",
+    "oct": [
+      "Lesion-centered scan",
+      "Depth of involvement; structural disruption"
+    ],
+    "octa": [
+      "6x6",
+      "SCP/DCP for documentation"
+    ],
+    "targets": [
+      "Structural depth mapping",
+      "Perfusion loss documentation"
+    ],
+    "red_flags": [
+      "Macular involvement",
+      "Rapid progression/new lesions"
+    ],
+    "images": []
+  },
+  {
+    "id": "mfc_pic",
+    "name": "MFC / PIC (white dot syndromes - CNV risk)",
+    "aliases": [
+      "mfc",
+      "multifocal choroiditis",
+      "pic",
+      "punctate inner choroidopathy"
+    ],
+    "category": "Uveitis",
+    "oct": [
+      "Macula cube + lesion scan",
+      "Outer retina/RPE focal lesions"
+    ],
+    "octa": [
+      "3x3",
+      "Outer retina + CC",
+      "Look for secondary CNV networks"
+    ],
+    "targets": [
+      "Outer retina flow (CNV)",
+      "Lesion activity documentation"
+    ],
+    "red_flags": [
+      "New SRF/bleed",
+      "Outer retina flow network"
+    ],
+    "images": []
+  },
+  {
+    "id": "rd_macular",
+    "name": "Retinal Detachment (macula-on/off screening)",
+    "aliases": [
+      "rd",
+      "retinal detachment",
+      "macula on",
+      "macula off"
+    ],
+    "category": "Emergency",
+    "oct": [
+      "Quick fovea-centered line scan",
+      "Determine macula-on vs macula-off (SRF at fovea)"
+    ],
+    "octa": [
+      "Not required for initial decision"
+    ],
+    "targets": [
+      "SRF at fovea",
+      "Outer retina integrity if chronic"
+    ],
+    "red_flags": [
+      "Macula-on RD (time-critical)",
+      "Rapid progression symptoms"
+    ],
+    "images": []
+  },
+  {
+    "id": "trauma_commotio",
+    "name": "Commotio Retinae / Blunt trauma maculopathy",
+    "aliases": [
+      "commotio",
+      "trauma maculopathy",
+      "berlin edema"
+    ],
+    "category": "Trauma",
+    "oct": [
+      "Macula line scan",
+      "Outer retinal hyperreflectivity (photoreceptor disruption)"
+    ],
+    "octa": [
+      "Optional 3x3",
+      "Document perfusion if needed (adjunct)"
+    ],
+    "targets": [
+      "EZ/outer retina integrity (prognosis)"
+    ],
+    "red_flags": [
+      "New SRF/hemorrhage suspicion",
+      "Progressive VA loss"
+    ],
+    "images": []
+  },
+  {
+    "id": "mactel2",
+    "name": "Macular Telangiectasia Type 2",
+    "aliases": [
+      "mactel",
+      "macular telangiectasia",
+      "type 2"
+    ],
+    "category": "Macula",
+    "oct": [
+      "Macula cube",
+      "Look for ILM drape, inner/outer cavitations, temporal EZ loss"
+    ],
+    "octa": [
+      "3x3",
+      "SCP + DCP (DCP often shows changes)",
+      "Outer retina if CNV suspected"
+    ],
+    "targets": [
+      "Parafoveal vascular changes (DCP)",
+      "EZ integrity for prognosis"
+    ],
+    "red_flags": [
+      "Secondary CNV suspicion (outer retina flow)",
+      "Rapid VA decline"
+    ],
+    "images": []
+  },
+  {
+    "id": "vitelliform",
+    "name": "Adult-onset Vitelliform / Pattern dystrophy (macular)",
+    "aliases": [
+      "vitelliform",
+      "pattern dystrophy",
+      "avmd"
+    ],
+    "category": "Dystrophy",
+    "oct": [
+      "Macula cube",
+      "Subfoveal hyperreflective material; RPE changes"
+    ],
+    "octa": [
+      "Optional 3x3",
+      "Outer retina slab to exclude CNV if fluid symptoms"
+    ],
+    "targets": [
+      "Outer retina/RPE integrity",
+      "Exclude CNV if new fluid"
+    ],
+    "red_flags": [
+      "New SRF",
+      "Outer retina flow"
+    ],
+    "images": []
+  },
+  {
+    "id": "hcq_tox",
+    "name": "Hydroxychloroquine (HCQ) toxicity screening",
+    "aliases": [
+      "hcq",
+      "plaquenil",
+      "hydroxychloroquine toxicity"
+    ],
+    "category": "Toxicity",
+    "oct": [
+      "Macula cube (prefer 6mm)",
+      "Look for parafoveal EZ loss ('flying saucer')"
+    ],
+    "octa": [
+      "Not primary",
+      "Optional for documentation"
+    ],
+    "targets": [
+      "EZ integrity parafoveal",
+      "Outer retina thinning pattern"
+    ],
+    "red_flags": [
+      "Progressive EZ loss",
+      "Symptoms with early structural change"
+    ],
+    "images": []
+  },
+  {
+    "id": "solar_ret",
+    "name": "Solar / Laser maculopathy",
+    "aliases": [
+      "solar retinopathy",
+      "laser injury",
+      "sun gazing"
+    ],
+    "category": "Toxicity",
+    "oct": [
+      "High-res foveal line scan",
+      "Focal outer retina/EZ/RPE microdefect"
+    ],
+    "octa": [
+      "Optional"
+    ],
+    "targets": [
+      "Outer retina microdefect documentation"
+    ],
+    "red_flags": [
+      "New SRF/hemorrhage (unusual)"
+    ],
+    "images": []
+  },
+  {
+    "id": "glaucoma_protocol",
+    "name": "Glaucoma / Suspect - RNFL + GCC Protocol",
+    "aliases": [
+      "glaucoma",
+      "rnfl",
+      "gcc",
+      "gcipl",
+      "oct nerve"
+    ],
+    "category": "Optic Nerve / Glaucoma",
+    "oct": [
+      "ONH/RNFL peripapillary circle + optic disc cube",
+      "Macular GCC/GCIPL scan (if available)",
+      "Repeat same protocol for progression"
+    ],
+    "octa": [
+      "Optional: ONH/peripapillary OCT-A if available",
+      "Consider RPC density as adjunct (not primary)"
+    ],
+    "targets": [
+      "RNFL sector thinning",
+      "GCC loss pattern",
+      "Inter-eye asymmetry + progression"
+    ],
+    "red_flags": [
+      "Rapid progression on repeat scans",
+      "Disc hemorrhage with structural loss"
+    ],
+    "images": []
+  },
+  {
+    "id": "papilledema",
+    "name": "Papilledema / Disc edema - screening + follow-up",
+    "aliases": [
+      "papilledema",
+      "disc edema",
+      "raised icp"
+    ],
+    "category": "Neuro-ophthalmology",
+    "oct": [
+      "ONH scan + RNFL baseline",
+      "Macula scan if symptoms (severe cases may show SRF)"
+    ],
+    "octa": [
+      "Adjunct only",
+      "If available: ONH OCT-A for documentation"
+    ],
+    "targets": [
+      "RNFL thickness baseline",
+      "Macular SRF if present"
+    ],
+    "red_flags": [
+      "Worsening symptoms/headache",
+      "Vision changes"
+    ],
+    "images": []
+  },
+  {
+    "id": "optic_neuritis",
+    "name": "Optic Neuritis (supportive OCT follow-up)",
+    "aliases": [
+      "optic neuritis",
+      "demyelinating",
+      "ms optic neuritis"
+    ],
+    "category": "Neuro-ophthalmology",
+    "oct": [
+      "Acute: RNFL may be normal or swollen",
+      "Follow-up (6-12 weeks): GCC loss; later RNFL thinning"
+    ],
+    "octa": [
+      "Not primary"
+    ],
+    "targets": [
+      "GCC as early marker",
+      "RNFL thinning over time"
+    ],
+    "red_flags": [
+      "Progressive worsening",
+      "Atypical features (pain absent, severe disc edema, etc.)"
+    ],
+    "images": []
+  },
+  {
+    "id": "naion",
+    "name": "NAION / Ischemic optic neuropathy (supportive OCT)",
+    "aliases": [
+      "naion",
+      "aion",
+      "ischemic optic neuropathy"
+    ],
+    "category": "Neuro-ophthalmology",
+    "oct": [
+      "Acute: RNFL thickening",
+      "Follow-up: sectoral RNFL thinning + GCC loss"
+    ],
+    "octa": [
+      "Optional adjunct: ONH OCT-A perfusion documentation"
+    ],
+    "targets": [
+      "RNFL evolution (thick -> thin)",
+      "Macular GCC loss over time"
+    ],
+    "red_flags": [
+      "GCA suspicion symptoms (older patients) -> urgent referral",
+      "Progressive loss"
+    ],
+    "images": []
+  },
+  {
+    "id": "rp",
+    "name": "Retinitis Pigmentosa pattern (outer retina loss)",
+    "aliases": [
+      "rp",
+      "retinitis pigmentosa",
+      "rod cone dystrophy"
+    ],
+    "category": "Dystrophy",
+    "oct": [
+      "Macula cube + line scan",
+      "Assess EZ integrity and outer retinal thinning"
+    ],
+    "octa": [
+      "Optional",
+      "May show reduced density (not primary)"
+    ],
+    "targets": [
+      "EZ disruption/loss",
+      "Outer retinal thinning"
+    ],
+    "red_flags": [
+      "CME in RP (treatable cause of VA reduction)",
+      "Rapid decline -> consider alternate pathology"
+    ],
+    "images": []
+  },
+  {
+    "id": "stargardt",
+    "name": "Stargardt / Juvenile macular dystrophy (pattern)",
+    "aliases": [
+      "stargardt",
+      "juvenile macular dystrophy",
+      "fundus flavimaculatus"
+    ],
+    "category": "Dystrophy",
+    "oct": [
+      "Macula cube",
+      "Outer retinal/RPE changes; central atrophy patterns"
+    ],
+    "octa": [
+      "Optional",
+      "CC documentation if needed"
+    ],
+    "targets": [
+      "Photoreceptor/RPE integrity",
+      "Atrophy documentation"
+    ],
+    "red_flags": [
+      "Unexpected fluid or CNV suspicion"
+    ],
+    "images": []
+  },
+  {
+    "id": "foveal_hypoplasia",
+    "name": "Foveal Hypoplasia / Albinism pattern",
+    "aliases": [
+      "foveal hypoplasia",
+      "albinism",
+      "absent foveal pit"
+    ],
+    "category": "Congenital",
+    "oct": [
+      "Fovea-centered line scan",
+      "Absent foveal pit; persistence of inner layers at fovea"
+    ],
+    "octa": [
+      "Optional",
+      "FAZ may be small/absent"
+    ],
+    "targets": [
+      "Absent foveal pit",
+      "Inner layers not displaced"
+    ],
+    "red_flags": [
+      "New fluid/change -> separate acquired pathology likely"
+    ],
+    "images": []
+  }
+]
