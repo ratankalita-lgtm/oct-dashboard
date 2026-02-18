@@ -467,7 +467,7 @@ function norm(s){ return (s || "").toString().toLowerCase().trim(); }
 function getCategory(dx){ return (dx && dx.category) ? dx.category.toString().trim() : "Other"; }
 
 async function loadData(){
-  const res = await fetch('diagnoses_final.json');
+  const res = await fetch('diagnoses.json');
   allDiagnoses = await res.json();
   buildCategoryFilters();
   applyFilters();
@@ -482,6 +482,71 @@ function listify(v){
   return s.split(/\r?\n/)
     .map(x=>x.replace(/^\s*[•\-*]+\s*/,"").trim())
     .filter(x=>x.length);
+}
+
+function nrm(s){ return String(s||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim(); }
+function tokens(s){
+  const t = nrm(s).split(/\s+/).filter(Boolean);
+  return t.map(w=>w.endsWith("s") && w.length>3 ? w.slice(0,-1) : w);
+}
+function levenshtein(a,b){
+  a = String(a||""); b = String(b||"");
+  const m=a.length,n=b.length;
+  if(!m) return n; if(!n) return m;
+  const dp = new Array(n+1);
+  for(let j=0;j<=n;j++) dp[j]=j;
+  for(let i=1;i<=m;i++){
+    let prev = dp[0]; dp[0]=i;
+    for(let j=1;j<=n;j++){
+      const tmp = dp[j];
+      const cost = a[i-1]===b[j-1]?0:1;
+      dp[j]=Math.min(dp[j]+1, dp[j-1]+1, prev+cost);
+      prev = tmp;
+    }
+  }
+  return dp[n];
+}
+function scoreDx(dx, qTokens){
+  const name = nrm(dx.name||dx.id||"");
+  const domain = nrm(dx.domain||"");
+  const category = nrm(dx.category||"");
+  const aliases = (dx.aliases||dx.synonyms||[]);
+  const kw = (dx.keywords||[]);
+  const bag = [name, domain, category]
+    .concat(aliases.map(nrm))
+    .concat(kw.map(nrm))
+    .concat(tokens(dx.targets||"").join(" "))
+    .concat(tokens(dx.oct||"").join(" "))
+    .concat(tokens(dx.octa||"").join(" "))
+    .concat(tokens(dx.red_flags||"").join(" "))
+    .join(" ");
+
+  let score = 0;
+  for(const qt of qTokens){
+    if(!qt) continue;
+    if(name.includes(qt)) score += 50;
+    if(domain.includes(qt) || category.includes(qt)) score += 20;
+    if(bag.includes(qt)) score += 10;
+
+    const nameWords = name.split(/\s+/);
+    let best = 99;
+    for(const nw of nameWords){
+      best = Math.min(best, levenshtein(qt, nw));
+    }
+    if(best<=1) score += 18;
+    else if(best==2) score += 8;
+  }
+  if(qTokens.length && name.startsWith(qTokens[0])) score += 8;
+  return score;
+}
+function smartSearch(query, list){
+  const q = nrm(query);
+  if(!q) return {filtered:list, ranked:null};
+  const qTokens = tokens(q);
+  const ranked = list.map(dx=>({dx, score: scoreDx(dx, qTokens)}))
+    .filter(x=>x.score>0)
+    .sort((a,b)=>b.score-a.score);
+  return {filtered: ranked.map(x=>x.dx), ranked};
 }
 
 function buildCategoryFilters(){
@@ -506,12 +571,14 @@ function buildCategoryFilters(){
 }
 
 function clearSearch(){
-  document.getElementById("search").value = "";
+  const s = document.getElementById("search");
+  if(s) s.value = "";
   applyFilters();
 }
 
 function applyFilters(){
-  const term = norm(document.getElementById("search").value);
+  const raw = (document.getElementById("search").value || "");
+  const term = raw.trim();
 
   let data = allDiagnoses.slice();
 
@@ -520,13 +587,13 @@ function applyFilters(){
   }
 
   if(term){
-    data = data.filter(d => {
-      const aliases = Array.isArray(d.aliases) ? d.aliases : [];
-      return norm(d.name).includes(term) ||
-             norm(d.id).includes(term) ||
-             norm(d.category).includes(term) ||
-             aliases.some(a => norm(a).includes(term));
-    });
+    const res = smartSearch(term, data);
+    data = res.filtered;
+
+    if(!data.length && activeCategory !== "All"){
+      const res2 = smartSearch(term, allDiagnoses.slice());
+      data = res2.filtered;
+    }
   }
 
   renderTiles(data);
@@ -537,7 +604,7 @@ function updateMeta(count, term){
   const meta = document.getElementById("metaLine");
   let parts = [`<b>${count}</b> shown`];
   if(activeCategory !== "All") parts.push(`Category: <b>${activeCategory}</b>`);
-  if(term) parts.push(`Search: <b>${term}</b>`);
+  if(term) parts.push(`Search: <b>${term}</b> (smart)`);
   meta.innerHTML = parts.join(" • ");
 }
 
@@ -555,10 +622,10 @@ function renderTiles(data){
     tile.className = "tile";
     tile.onclick = ()=>showDetails(dx);
 
-    const octN = (dx.oct || []).length;
-    const octaN = (dx.octa || []).length;
-    const tarN = (dx.targets || []).length;
-    const flagN = (dx.red_flags || []).length;
+    const octN = listify(dx.oct).length;
+    const octaN = listify(dx.octa).length;
+    const tarN = listify(dx.targets).length;
+    const flagN = listify(dx.red_flags).length;
 
     tile.innerHTML = `
       <div class="tileTitle">${dx.name || dx.id || "Untitled"}</div>
