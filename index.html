@@ -3,9 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCT Protocol Dashboard – Ratan Kalita</title>
+<title>OCT Protocol Dashboard – Dr. Ratan Kalita</title>
 
 <style>
+
+.ddx-chip{
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  cursor:pointer;
+  user-select:none;
+  transition:.15s;
+}
+.ddx-chip:hover{ background:rgba(255,255,255,.12); }
 :root{
   --bg:#0b1020;
   --card:#ffffff;
@@ -27,8 +39,7 @@ body{
   color:#111;
 }
 
-.wrap{max-width:1220px;margin:auto; filter: blur(5px); transition: filter 0.3s;}
-body.access-granted .wrap{ filter: none; }
+.wrap{max-width:1220px;margin:auto;}
 
 header{
   background:linear-gradient(135deg,#1d4ed8,#06b6d4);
@@ -235,157 +246,41 @@ li{margin-bottom:4px;line-height:1.45}
   font-size:12px;
 }
 
-/* ===== Terms Modal (The Gatekeeper) ===== */
-.modalOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.85);
-  backdrop-filter:blur(8px);
-  z-index:99999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-.modalBox{
-  background:white;
-  max-width:480px;
-  width:100%;
-  border-radius:16px;
-  padding:24px;
-  box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);
-  text-align:center;
-}
-.modalTitle{
-  font-size:22px;
-  font-weight:900;
-  color:#111;
-  margin-bottom:12px;
-}
-.modalText{
-  font-size:14px;
-  color:#4b5563;
-  line-height:1.5;
-  margin-bottom:20px;
-  text-align:left;
-  background:#f3f4f6;
-  padding:14px;
-  border-radius:8px;
-  border:1px solid #e5e7eb;
-}
-.agreeBtn{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#1d4ed8,#06b6d4);
-  color:white;
-  font-weight:bold;
-  border:none;
-  cursor:pointer;
-  font-size:16px;
-  transition:transform 0.1s;
-}
-.agreeBtn:hover{transform:scale(1.02);}
-.agreeBtn:active{transform:scale(0.98);}
+  /* Drawer (Patients) */
+  .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.2s;z-index:60}
+  .drawer-overlay.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:-420px;width:420px;max-width:92vw;height:100vh;background:var(--bg-card);border-left:1px solid rgba(148,163,184,.2);z-index:70;transition:.25s;display:flex;flex-direction:column}
+  .drawer.open{right:0}
+  .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid rgba(148,163,184,.15);background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(139,92,246,.06))}
+  .drawer-body{padding:14px;overflow:auto;display:flex;flex-direction:column;gap:12px}
+  .panel{background:rgba(51,65,85,.55);border:1px solid rgba(148,163,184,.12);border-radius:16px;padding:12px}
+  .panel-title{font-size:12px;color:var(--text-muted);margin-bottom:8px;letter-spacing:.02em;text-transform:uppercase}
+  .row{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+  .row label{font-size:12px;color:var(--text-muted)}
+  .row input,.row select{background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.18);color:var(--text-main);border-radius:12px;padding:10px 12px;outline:none}
+  .row input:focus,.row select:focus{border-color:rgba(59,130,246,.6);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+  .chk{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-main);background:rgba(15,23,42,.35);padding:8px 10px;border-radius:999px;border:1px solid rgba(148,163,184,.12)}
+  .chk input{accent-color:var(--primary)}
+  .actions{display:flex;gap:10px;justify-content:flex-end}
+  .list{display:flex;flex-direction:column;gap:8px}
+  .item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(15,23,42,.35);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:10px 12px}
+  .item strong{color:white;font-size:13px}
+  .item small{color:var(--text-muted);font-size:11px}
+  .item button{padding:8px 10px;font-size:12px}
+  .hint{margin-top:8px;color:var(--text-muted);font-size:12px}
+  @media (max-width:520px){.drawer{width:100vw}}
 
-/* ===== Preview Watermark ===== */
-.watermark {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 1;
-}
-.watermark::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    -30deg,
-    rgba(255,255,255,0.06),
-    rgba(255,255,255,0.06) 1px,
-    transparent 1px,
-    transparent 160px
-  );
-}
-.watermark::after{
-  content: "Ratan Kalita • Internal Use Only";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%) rotate(-30deg);
-  font-size: 42px;
-  font-weight: 950;
-  color: rgba(255,255,255,0.10);
-  white-space: nowrap;
-  text-align: center;
-  letter-spacing: 0.5px;
-  mix-blend-mode: overlay;
-}
-
-.previewPill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.40);
-  background:rgba(255,255,255,.16);
-  color:#fff;
-  font-weight:950;
-  font-size:12px;
-  user-select:none;
-}
-.previewDot{
-  width:10px;height:10px;border-radius:999px;
-  background: rgba(220,38,38,0.95);
-  box-shadow: 0 0 0 6px rgba(220,38,38,0.18);
-}
-
-.toast{
-  position: fixed;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  background: rgba(17,24,39,0.92);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.14);
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 13px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.28);
-  z-index: 10000;
-  display: none;
-  max-width: 92vw;
-}
 </style>
 </head>
 
 <body>
-
-<div id="termsModal" class="modalOverlay">
-  <div class="modalBox">
-    <div class="modalTitle">OCT Dashboard Access</div>
-    <div class="modalText">
-      <strong>Restricted Access:</strong> This software is the proprietary intellectual property of <strong>Ratan Kalita</strong>.
-      <br><br>
-      By entering, you agree that:
-      <ul style="margin:8px 0 0 0;padding-left:18px;">
-        <li>This tool is for clinical guidance only.</li>
-        <li>You will de-identify all patient data.</li>
-        <li>You will not copy, distribute, or share this code.</li>
-      </ul>
-    </div>
-    <button class="agreeBtn" onclick="acceptTerms()">I Accept & Enter</button>
-  </div>
-</div>
-
 <div class="wrap">
 
 <header>
-  <h1>Ratan Kalita</h1>
-  <div class="sub">OCT / OCT-A Clinical Protocol Dashboard </div>
+  <h1>Dr. Ratan Kalita</h1>
+  <div class="sub">OCT / OCT-A Clinical Protocol Dashboard • DRI Triton OCTA</div>
   <div class="sub">India-focused retina + optic nerve workflows • Training tool for clinic team</div>
 
   <div class="toolsRow">
@@ -394,7 +289,6 @@ li{margin-bottom:4px;line-height:1.45}
       <div class="clearX" title="Clear" onclick="clearSearch()">×</div>
     </div>
     <button class="btn" type="button" onclick="applyFilters()">Search</button>
-    <div class="previewPill" title="Restricted Mode"><span class="previewDot"></span>CLINIC USE ONLY</div>
   </div>
 
   <div class="filterBar" id="categoryFilters"></div>
@@ -412,6 +306,31 @@ li{margin-bottom:4px;line-height:1.45}
       <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print Protocol</button>
       <button class="pBtn" type="button" onclick="collapseDetails()">✖ Close</button>
     </div>
+    <div class="panel" style="margin:12px 0 14px 0;">
+      <div class="row2" style="gap:14px;">
+        <div class="row">
+          <label style="font-weight:600;">Triage</label>
+          <select id="triageSelect">
+            <option value="Routine">Routine</option>
+            <option value="Soon">Refer soon</option>
+            <option value="Urgent">Urgent</option>
+          </select>
+          <div class="hint" style="margin-top:6px;">Set urgency based on red flags + your clinical context.</div>
+          <div class="hint" style="margin-top:8px; display:flex; align-items:center; gap:10px;">
+            <span style="font-weight:700;">Decision:</span>
+            <span id="decisionBadge" class="badge">—</span>
+            <span id="decisionText" style="color:var(--text-muted); font-size:12px;">Select a diagnosis to generate.</span>
+          </div>
+
+        </div>
+        <div class="row">
+          <label style="font-weight:600;">DDx suggestions</label>
+          <div id="ddxChips" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+          <div class="hint" style="margin-top:6px;">Click a chip to open that protocol.</div>
+        </div>
+      </div>
+    </div>
+
 
     <h3>Structural OCT <span id="octCount"></span></h3>
     <ul id="octList"></ul>
@@ -422,49 +341,156 @@ li{margin-bottom:4px;line-height:1.45}
     <h3>Analysis Targets <span id="tCount"></span></h3>
     <ul id="targetsList"></ul>
 
+    
+    <div id="rvoCompareWrap" class="panel" style="margin-top:14px; display:none;">
+      <div class="panel-title">BRVO vs CRVO — quick compare</div>
+      <div class="row2" style="gap:12px;">
+        <div class="panel" style="margin:0;">
+          <div style="font-weight:700; margin-bottom:8px;">BRVO (typical)</div>
+          <ul id="brvoCompare"></ul>
+        </div>
+        <div class="panel" style="margin:0;">
+          <div style="font-weight:700; margin-bottom:8px;">CRVO (typical)</div>
+          <ul id="crvoCompare"></ul>
+        </div>
+      </div>
+      <div class="hint" style="margin-top:10px;">Tip: Use this as a chairside pattern check. Final diagnosis must match fundus + history.</div>
+    </div>
+
+
     <h3>⚠ Red Flags <span id="fCount"></span></h3>
     <ul id="flagsList"></ul>
   </div>
 </div>
 
-<div class="footer">© 2026 Ratan Kalita • All Rights Reserved • Proprietary Software</div>
+<div class="footer">© Ratan Kalita (Optometry) • De-identify all images before adding • Private clinical tool</div>
 
 </div>
+
+
+<!-- PATIENT DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closePatients(event)"></div>
+<aside class="drawer" id="patientDrawer" aria-hidden="true">
+  <div class="drawer-header">
+    <div>
+      <div style="font-weight:700; color: white; font-size:16px;">Patients</div>
+      <div style="font-size:12px; color: var(--text-muted);">Local follow-ups (offline). No cloud sync yet.</div>
+    </div>
+    <button class="close-btn" onclick="closePatients()">×</button>
+  </div>
+
+  <div class="drawer-body">
+    <div class="panel">
+      <div class="panel-title">Active Patient</div>
+      <div class="row">
+        <label>Patient ID / OPD No</label>
+        <input id="p_id" placeholder="e.g. OPD-1203 / Phone" />
+      </div>
+      <div class="row2">
+        <div class="row">
+          <label>Age</label>
+          <input id="p_age" inputmode="numeric" placeholder="e.g. 58" />
+        </div>
+        <div class="row">
+          <label>Sex</label>
+          <select id="p_sex">
+            <option value="">—</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="row">
+          <label>Eye</label>
+          <select id="p_eye">
+            <option>OD</option>
+            <option>OS</option>
+            <option>OU</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>VA (BCVA)</label>
+          <input id="p_va" placeholder="e.g. 6/12" />
+        </div>
+      </div>
+
+      <div class="chips">
+        <label class="chk"><input type="checkbox" id="p_dm"> Diabetes</label>
+        <label class="chk"><input type="checkbox" id="p_htn"> Hypertension</label>
+        <label class="chk"><input type="checkbox" id="p_myopia"> High myopia</label>
+        <label class="chk"><input type="checkbox" id="p_steroid"> Steroid use</label>
+        <label class="chk"><input type="checkbox" id="p_smoke"> Smoker</label>
+      </div>
+
+      <div class="row">
+        <label>Symptoms / Onset (optional)</label>
+        <input id="p_symptoms" placeholder="e.g. sudden blur 3 days, metamorphopsia" />
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="clearPatientForm()">Clear</button>
+        <button class="btn btn-primary" onclick="savePatientAndMaybeVisit()">Save Patient</button>
+      </div>
+      <div class="row" style="margin-top:10px; gap:10px; display:flex; flex-wrap:wrap;">
+        <button class="btn btn-ghost" type="button" onclick="exportBackup()">Export Backup</button>
+        <label class="btn btn-ghost" style="cursor:pointer;">Import Backup
+          <input id="importBackupInput" type="file" accept="application/json" style="display:none" onchange="importBackupFile(this.files[0]); this.value='';">
+        </label>
+        <button class="btn btn-ghost" type="button" onclick="clearAllLocalData()" style="border-color:rgba(255,86,86,.35); color:#ffb3b3;">Clear Local Data</button>
+      </div>
+
+      <div id="activeDxHint" class="hint" style="display:none;"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Patient List</div>
+      <input id="patientSearch" placeholder="Search patient ID..." oninput="renderPatientList()" />
+      <div id="patientList" class="list"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Visit History</div>
+      <div id="visitList" class="list"></div>
+    </div>
+  </div>
+</aside>
 
 <script>
 let allDiagnoses = [];
 let activeCategory = "All";
 let currentDx = null;
 
-// ===== SMART SEARCH CONFIG =====
-const synonymMap = {
-  "sugar": "diabetic", "dm": "diabetic", "bs": "sugar", "npdr": "diabetic", "pdr": "diabetic",
-  "tbr": "vein occlusion", "crvo": "vein occlusion", "brvo": "vein occlusion",
-  "fluid": "edema", "swelling": "edema",
-  "bleed": "hemorrhage", "hemo": "hemorrhage",
-  "neo": "neovascularization", "nv": "neovascularization",
-  "armd": "amd", 
-  "pvd": "detachment", "rd": "detachment",
-  "hole": "macular hole",
-  "membrane": "epiretinal", "erm": "epiretinal",
-  "csr": "central serous", "csc": "central serous"
-};
-
 function norm(s){ return (s || "").toString().toLowerCase().trim(); }
 function getCategory(dx){ return (dx && dx.category) ? dx.category.toString().trim() : "Other"; }
 
 async function loadData(){
-  const res = await fetch("diagnoses.json");
+  const res = await fetch('diagnoses_final.json');
   allDiagnoses = await res.json();
   buildCategoryFilters();
   applyFilters();
 }
 
+function listify(v){
+  // Accept array OR string; return array of clean lines
+  if(Array.isArray(v)) return v.filter(x=>String(x||"").trim().length).map(x=>String(x));
+  if(v==null) return [];
+  const s = String(v);
+  // Split by newlines; drop bullets and empty lines
+  return s.split(/\r?\n/)
+    .map(x=>x.replace(/^\s*[•\-*]+\s*/,"").trim())
+    .filter(x=>x.length);
+}
+
 function buildCategoryFilters(){
   const bar = document.getElementById("categoryFilters");
   bar.innerHTML = "";
+
   const set = new Set(allDiagnoses.map(d => getCategory(d)));
   const cats = ["All", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
+
   cats.forEach(cat=>{
     const b = document.createElement("button");
     b.className = "filterBtn" + (cat === activeCategory ? " active" : "");
@@ -484,26 +510,27 @@ function clearSearch(){
   applyFilters();
 }
 
-/* ===== SMART SEARCH LOGIC ===== */
 function applyFilters(){
-  const rawInput = norm(document.getElementById("search").value);
-  let tokens = rawInput.split(/\s+/).filter(t => t.length > 0);
-  const smartTokens = tokens.map(t => synonymMap[t] ? [t, synonymMap[t]] : [t]);
+  const term = norm(document.getElementById("search").value);
 
   let data = allDiagnoses.slice();
-  if(activeCategory !== "All") data = data.filter(d => getCategory(d) === activeCategory);
 
-  if(smartTokens.length > 0){
-    data = data.filter(dx => {
-      const aliases = Array.isArray(dx.aliases) ? dx.aliases.join(" ") : "";
-      const searchableText = norm(`${dx.name} ${dx.id} ${dx.category} ${aliases}`);
-      return smartTokens.every(tokenVariations => {
-        return tokenVariations.some(variation => searchableText.includes(variation));
-      });
+  if(activeCategory !== "All"){
+    data = data.filter(d => getCategory(d) === activeCategory);
+  }
+
+  if(term){
+    data = data.filter(d => {
+      const aliases = Array.isArray(d.aliases) ? d.aliases : [];
+      return norm(d.name).includes(term) ||
+             norm(d.id).includes(term) ||
+             norm(d.category).includes(term) ||
+             aliases.some(a => norm(a).includes(term));
     });
   }
+
   renderTiles(data);
-  updateMeta(data.length, rawInput);
+  updateMeta(data.length, term);
 }
 
 function updateMeta(count, term){
@@ -517,28 +544,33 @@ function updateMeta(count, term){
 function renderTiles(data){
   const t = document.getElementById("tiles");
   t.innerHTML = "";
+
   if(!data.length){
     t.innerHTML = "<div style='color:rgba(255,255,255,.85)'>No match found.</div>";
     return;
   }
+
   data.forEach(dx=>{
     const tile = document.createElement("div");
     tile.className = "tile";
     tile.onclick = ()=>showDetails(dx);
+
     const octN = (dx.oct || []).length;
     const octaN = (dx.octa || []).length;
     const tarN = (dx.targets || []).length;
     const flagN = (dx.red_flags || []).length;
+
     tile.innerHTML = `
       <div class="tileTitle">${dx.name || dx.id || "Untitled"}</div>
       <div class="catPill">${getCategory(dx)}</div>
       <div class="countRow">
         <span>📷 OCT: ${octN}</span>
         <span>🧬 OCTA: ${octaN}</span>
-        <span>🎯 ${tarN}</span>
-        <span>⚠ ${flagN}</span>
+        <span>🎯 Targets: ${tarN}</span>
+        <span>⚠ Flags: ${flagN}</span>
       </div>
     `;
+
     t.appendChild(tile);
   });
 }
@@ -546,28 +578,75 @@ function renderTiles(data){
 function fill(id, arr){
   const ul = document.getElementById(id);
   ul.innerHTML = "";
-  (arr || []).forEach(v=>{
+  const xs = listify(arr);
+  (xs || []).forEach(v=>{
     const li = document.createElement("li");
     li.textContent = v;
     ul.appendChild(li);
   });
 }
 
-function setCount(id, n){ document.getElementById(id).textContent = n ? `(${n})` : ""; }
+
+function setCount(id, n){
+  document.getElementById(id).textContent = n ? `(${n})` : "";
+}
 
 function showDetails(dx){
   currentDx = dx;
   const panel = document.getElementById("details");
   panel.style.display = "block";
+
   document.getElementById("dxName").textContent = dx.name || dx.id || "";
-  fill("octList", dx.oct);
-  fill("octaList", dx.octa);
-  fill("targetsList", dx.targets);
-  fill("flagsList", dx.red_flags);
-  setCount("octCount", (dx.oct||[]).length);
-  setCount("octaCount", (dx.octa||[]).length);
-  setCount("tCount", (dx.targets||[]).length);
-  setCount("fCount", (dx.red_flags||[]).length);
+
+  const o = listify(dx.oct);
+  const a = listify(dx.octa);
+  const t = listify(dx.targets);
+  const f = listify(dx.red_flags);
+
+  fill("octList", o);
+  fill("octaList", a);
+  fill("targetsList", t);
+  fill("flagsList", f);
+
+  setCount("octCount", o.length);
+  setCount("octaCount", a.length);
+  setCount("tCount", t.length);
+  setCount("fCount", f.length);
+
+  // Auto-triage suggestion (still editable)
+  const ctx = _ctxFromForm();
+  const tri = defaultTriageFor(dx, ctx);
+  const triSel = document.getElementById("triageSelect");
+  if(triSel){ triSel.value = tri; }
+
+  // Decision output badge (smart)
+  const findings = getFindingsState();
+  const result = computeDecision(dx, ctx, findings);
+  const dec = decisionFromTriage(result.level);
+  const badge = document.getElementById("decisionBadge");
+  const text = document.getElementById("decisionText");
+  if(badge){
+    badge.textContent = dec.badge;
+    badge.className = dec.cls;
+  }
+  const reasonLine = (result.reasons && result.reasons.length) ? (" " + result.reasons.slice(0,2).join(" ")) : "";
+  if(text) text.textContent = dec.text + reasonLine;
+
+  // RVO comparator
+  const wrap = document.getElementById("rvoCompareWrap");
+  if(wrap){
+    const nm = (dx.name||"").toLowerCase();
+    const show = nm.includes("brvo") || nm.includes("crvo") || nm.includes("retinal vein occlusion");
+    wrap.style.display = show ? "block" : "none";
+    if(show){
+      const brvo = (dxData||[]).find(x=>String(x.name||"").toLowerCase().includes("branch retinal vein occlusion")) || null;
+      const crvo = (dxData||[]).find(x=>String(x.name||"").toLowerCase().includes("central retinal vein occlusion")) || null;
+      fill("brvoCompare", brvo ? brvo.oct : ["—"]);
+      fill("crvoCompare", crvo ? crvo.oct : ["—"]);
+    }
+  }
+
+  // On mobile, scroll to details after click
   if (window.matchMedia("(max-width: 920px)").matches) {
     panel.scrollIntoView({behavior:"smooth", block:"start"});
   }
@@ -578,31 +657,23 @@ function collapseDetails(){
   currentDx = null;
 }
 
-/* ===== TERMS OF USE LOGIC ===== */
-function checkTerms(){
-  // Check if user already agreed in this session
-  if(sessionStorage.getItem("octTermsAgreed") === "true"){
-    document.getElementById("termsModal").style.display = "none";
-    document.body.classList.add("access-granted");
-  }
+/* ===== Print Protocol Sheet (clean print view) ===== */(){
+  document.getElementById("details").style.display = "none";
+  currentDx = null;
 }
-function acceptTerms(){
-  sessionStorage.setItem("octTermsAgreed", "true");
-  document.getElementById("termsModal").style.display = "none";
-  document.body.classList.add("access-granted");
-}
-// Run check on load
-checkTerms();
 
-/* ===== PRINT & SECURITY ===== */
+/* ===== Print Protocol Sheet (clean print view) ===== */
 function printProtocol(){
   if(!currentDx) return;
+
   const dx = currentDx;
   const safe = (arr)=> (arr||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join("") || "<li>—</li>";
+
   const html = `
   <html>
   <head>
-    <meta charset="utf-8"><title>${escapeHtml(dx.name)} - Protocol</title>
+    <meta charset="utf-8">
+    <title>Protocol Sheet - ${escapeHtml(dx.name || "")}</title>
     <style>
       body{font-family:Arial,sans-serif;margin:28px;color:#111}
       h1{margin:0 0 8px 0;color:#1d4ed8}
@@ -614,38 +685,799 @@ function printProtocol(){
     </style>
   </head>
   <body>
-    <h1>${escapeHtml(dx.name)}</h1>
-    <div class="meta">Category: ${escapeHtml(getCategory(dx))} • Ratan Kalita</div>
-    <h2>Structural OCT</h2><ul>${safe(dx.oct)}</ul>
-    <h2>OCT-A Protocol</h2><ul>${safe(dx.octa)}</ul>
-    <h2>Analysis Targets</h2><ul>${safe(dx.targets)}</ul>
-    <h2>Red Flags</h2><ul class="flags">${safe(dx.red_flags)}</ul>
-    <div class="foot">CONFIDENTIAL • Ratan Kalita • Internal Use Only</div>
-    <script>window.print();<\/script>
-  </body></html>`;
-  const w = window.open("", "_blank");
-  w.document.open();w.document.write(html);w.document.close();
-}
-function escapeHtml(s){
-  return (s||"").toString().replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+    <h1>${escapeHtml(dx.name || "")}</h1>
+    <div class="meta">Category: ${escapeHtml(getCategory(dx))} • Prepared by Dr. Ratan Kalita</div>
+
+    <h2>Structural OCT</h2>
+    <ul>${safe(dx.oct)}</ul>
+
+    <h2>OCT-A Protocol</h2>
+    <ul>${safe(dx.octa)}</ul>
+
+    <h2>Analysis Targets</h2>
+    <ul>${safe(dx.targets)}</ul>
+
+    <h2>Red Flags</h2>
+    <ul class="flags">${safe(dx.red_flags)}</ul>
+
+    <div class="foot">De-identify patient data before sharing. For clinical guidance only.</div>
+    <script>window.print();
+// -----------------------------
+// Add-ons: DDx suggestions + triage defaults + offline backup
+// -----------------------------
+function _ctxFromForm(){
+  const age = parseInt((document.getElementById("p_age").value || "").trim(), 10);
+  const sex = (document.getElementById("p_sex").value || "").trim();
+  const eye = (document.getElementById("p_eye").value || "").trim();
+  const va  = (document.getElementById("p_va").value || "").trim();
+  const dm = !!document.getElementById("p_dm").checked;
+  const htn = !!document.getElementById("p_htn").checked;
+  const myopia = !!document.getElementById("p_myopia").checked;
+  const steroid = !!document.getElementById("p_steroid").checked;
+  const smoke = !!document.getElementById("p_smoke").checked;
+  const symptoms = (document.getElementById("p_symptoms").value || "").toLowerCase();
+  const sudden = /sudden|today|yesterday|since morning|hours|overnight/.test(symptoms);
+  const pain = /pain|ache|headache/.test(symptoms);
+  const metamorph = /metamorph|distortion|wavy/.test(symptoms);
+  const floaters = /floaters|black spots|cobweb/.test(symptoms);
+  const find = {
+    irf: !!document.getElementById("f_irf")?.checked,
+    srf: !!document.getElementById("f_srf")?.checked,
+    ped: !!document.getElementById("f_ped")?.checked,
+    drusen: !!document.getElementById("f_drusen")?.checked,
+    ez_loss: !!document.getElementById("f_ez_loss")?.checked,
+    dcp_drop: !!document.getElementById("f_dcp_drop")?.checked,
+    ma: !!document.getElementById("f_ma")?.checked,
+    vh: !!document.getElementById("f_vh")?.checked
+  };
+  return {age:isNaN(age)?null:age, sex, eye, va, dm, htn, myopia, steroid, smoke, symptoms, sudden, pain, metamorph, floaters, find};
 }
 
-let _toastTimer = null;
-function showToast(msg, sub){
-  const el = document.createElement("div");
-  el.className = "toast";
-  el.innerHTML = `${msg}${sub ? `<small>${sub}</small>` : ""}`;
-  document.body.appendChild(el);
-  el.style.display = "block";
-  clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(()=>{ el.remove(); }, 2400);
+
+function decisionFromTriage(level){
+  if(level==="Urgent") return {badge:"URGENT REFER", cls:"badge urgent", text:"Needs urgent referral / emergency pathway based on red flags + context."};
+  if(level==="Soon") return {badge:"TREAT / REFER SOON", cls:"badge soon", text:"Active/important condition — treat or refer soon; plan follow-up close."};
+  return {badge:"OBSERVE / ROUTINE", cls:"badge routine", text:"Routine follow-up unless symptoms/red flags change."};
 }
-document.addEventListener("contextmenu", (e)=>{ e.preventDefault(); showToast("Right-click disabled", "Copyright © 2026 Ratan Kalita"); });
-document.addEventListener("keydown", (e)=>{
-  if((e.ctrlKey||e.metaKey) && (e.key==="p"||e.key==="s"||e.key==="u")){ e.preventDefault(); showToast("Action Blocked", "Use the on-screen Print button."); }
-});
+
+function getFindingsState(){
+  // Reads any checkbox/select fields inside #findingsWrap (if present)
+  const wrap = document.getElementById("findingsWrap") || document.getElementById("findings") || document;
+  const state = {};
+  if(!wrap) return state;
+  wrap.querySelectorAll("input[type=checkbox][data-finding]").forEach(cb=>{
+    state[cb.dataset.finding] = !!cb.checked;
+  });
+  wrap.querySelectorAll("select[data-finding]").forEach(sel=>{
+    state[sel.dataset.finding] = sel.value;
+  });
+  wrap.querySelectorAll("input[type=number][data-finding], input[type=text][data-finding]").forEach(inp=>{
+    const v = inp.value;
+    state[inp.dataset.finding] = v;
+  });
+  return state;
+}
+
+function asNum(v){
+  const n = Number(String(v||"").trim());
+  return Number.isFinite(n) ? n : null;
+}
+
+function computeDecision(dx, ctx, findings){
+  // Produces a badge + explanation based on triage + context + key findings
+  const base = defaultTriageFor(dx, ctx);
+  let level = base; // "Routine" | "Soon" | "Urgent"
+  const reasons = [];
+
+  const nm = String(dx.name||"").toLowerCase();
+
+  // --- High-stakes optic nerve escalation ---
+  if(nm.includes("papilledema")){
+    if(ctx && (ctx.headache || ctx.vomiting || ctx.diplopia || ctx.pulsatile_tinnitus)){
+      level = "Urgent";
+      reasons.push("Systemic symptoms suggest raised ICP risk → urgent referral.");
+    }
+    if(ctx && (ctx.vision_drop || ctx.transient_visual_obscurations)){
+      level = "Urgent";
+      reasons.push("Visual symptoms with disc edema → urgent escalation.");
+    }
+  }
+
+  // --- Retina: DME / Wet AMD / RVO escalation rules ---
+  const cst = asNum(findings.cst || ctx.cst);
+  const va = asNum(findings.va_logmar || ctx.va_logmar); // optional
+  const hasIRF = !!(findings.irf || findings.cysts || findings.intraretinal_fluid);
+  const hasSRF = !!(findings.srf || findings.subretinal_fluid);
+  const fazLarge = !!(findings.faz_enlarged || findings.faz_large);
+  const dcpDropout = !!(findings.dcp_dropout || findings.capillary_dropout || findings.nonperfusion);
+
+  if(nm.includes("dme")){
+    if(hasIRF || hasSRF){
+      level = (ctx && ctx.vision_drop) ? "Urgent" : "Soon";
+      reasons.push("Macular edema features present (IRF/SRF) → treat/refer soon.");
+    }
+    if(cst!=null && cst>=400){
+      level = "Soon";
+      reasons.push("High central thickness (≥400µm) suggests active CI‑DME → treatment pathway.");
+    }
+    if(fazLarge || dcpDropout){
+      level = "Soon";
+      reasons.push("Ischemia markers on OCT‑A (FAZ/DCP dropout) → closer follow-up / retina opinion.");
+    }
+    if(findings.vmt_erm || findings.traction){
+      level = "Soon";
+      reasons.push("Tractional component suspected (ERM/VMT) → medical response may be limited; retina opinion.");
+    }
+  }
+
+  if(nm.includes("wet amd") || nm.includes("cnv")){
+    if(hasSRF || hasIRF || findings.shrm || findings.ped_irregular){
+      level = "Soon";
+      reasons.push("Exudation/CNV activity signs (SRF/IRF/SHRM/PED) → anti‑VEGF pathway.");
+    }
+    if(ctx && ctx.vision_drop){
+      level = "Soon";
+      reasons.push("New symptom (vision drop/distortion) with suspected CNV → early treatment benefits.");
+    }
+  }
+
+  if(nm.includes("brvo") || nm.includes("crvo")){
+    if(hasIRF || hasSRF){
+      level = (ctx && ctx.vision_drop) ? "Urgent" : "Soon";
+      reasons.push("RVO with macular edema (IRF/SRF) → treat/refer soon (often anti‑VEGF).");
+    }
+    if(cst!=null && cst>=450){
+      level = "Soon";
+      reasons.push("Very high CST suggests significant edema → early treatment pathway.");
+    }
+    if(fazLarge || dcpDropout){
+      level = "Urgent";
+      reasons.push("Ischemia markers (FAZ enlargement / capillary dropout) → high NV risk; urgent retina care.");
+    }
+  }
+
+  return {level, reasons, base};
+}
+
+function defaultTriageFor(dx, ctx){
+  const t = ((dx?.red_flags||[]).join(" ") + " " + (dx?.targets||[]).join(" ")).toLowerCase();
+  if (ctx?.pain) return "Urgent";
+  if (/nv|neovascular|nve|nvd|ischemi|detachment|tear|endophthal|papilledema|crao|crvo|severe/.test(t)) return "Urgent";
+  if (/rvo|cnv|wet|edema|dme|pre-?pdr|pdr|widespread|dropout|non[- ]perfusion/.test(t)) return "Soon";
+  return "Routine";
+}
+
+
+function evalRulePred(pred, ctx){
+  const getVal = (path)=>{
+    if(!path) return undefined;
+    if(path.startsWith("ctx.")) return ctx[path.slice(4)];
+    if(path.startsWith("find.")) return (ctx.find||{})[path.slice(5)];
+    return undefined;
+  };
+  const a = getVal(pred.field);
+  const op = pred.op || "==";
+  const b = pred.value;
+  if(op==="==") return a===b;
+  if(op==="!=") return a!==b;
+  if(op===">=") return (a??-1) >= b;
+  if(op===">") return (a??-1) > b;
+  if(op==="<=") return (a??1e9) <= b;
+  if(op==="<") return (a??1e9) < b;
+  if(op==="truthy") return !!a;
+  return false;
+}
+
+function evalRuleWhen(when, ctx){
+  if(!when || typeof when!=="object") return true;
+  const all = Array.isArray(when.all) ? when.all : [];
+  const any = Array.isArray(when.any) ? when.any : [];
+  const allOk = all.every(p=>evalRulePred(p, ctx));
+  const anyOk = any.length ? any.some(p=>evalRulePred(p, ctx)) : true;
+  return allOk && anyOk;
+}
+
+function computeDDX(primaryDx, ctx){
+  const all = allDiagnoses.map(d=>d.name);
+  const has = (n)=> all.includes(n);
+  const out = [];
+  const push = (name, reason, w=0)=>{
+    if (!has(name) || name===primaryDx.name) return;
+    const ex = out.find(x=>x.name===name);
+    if (ex) { ex.w = Math.max(ex.w||0, w||0); return; }
+    out.push({name, reason, w});
+  };
+
+  // ---------- Data-driven rules engine (preferred) ----------
+  function evalCond(cond){
+    if (!cond) return true;
+    if (cond.true) return true;
+
+    if (cond.flag){
+      const v = !!ctx?.[cond.flag];
+      return ("is" in cond) ? (v === !!cond.is) : v;
+    }
+    if (cond.field){
+      const v = ctx?.[cond.field];
+      if (v === null || v === undefined || v === "") return false;
+      const op = cond.op || "==";
+      const t = cond.value;
+      if (op === ">=") return v >= t;
+      if (op === "<=") return v <= t;
+      if (op === ">") return v > t;
+      if (op === "<") return v < t;
+      if (op === "==") return v == t;
+      if (op === "!=") return v != t;
+      return false;
+    }
+    if (cond.symptom){
+      const s = (ctx?.symptoms || "").toLowerCase();
+      return s.includes(String(cond.symptom).toLowerCase());
+    }
+    if (cond.any){
+      return Array.isArray(cond.any) && cond.any.some(evalCond);
+    }
+    if (cond.all){
+      return Array.isArray(cond.all) && cond.all.every(evalCond);
+    }
+    if (cond.not){
+      return !evalCond(cond.not);
+    }
+    return false;
+  }
+
+  if (Array.isArray(primaryDx.ddx_rules) && primaryDx.ddx_rules.length){
+    primaryDx.ddx_rules.forEach(rule=>{
+      try{
+        const ok = rule.when ? evalCond(rule.when) : true;
+        if (ok) push(rule.candidate, rule.reason || "Rule", rule.weight || 1);
+      }catch(e){}
+    });
+    out.sort((a,b)=> (b.w||0)-(a.w||0));
+    return out.slice(0, 6);
+  }
+
+  // ---------- Fallback (if no rules yet): simple list / heuristics ----------
+  if (Array.isArray(primaryDx.ddx)) {
+    primaryDx.ddx.forEach(n=>push(n, "Listed DDx", 2));
+  }
+
+  const n = (primaryDx.name||"").toLowerCase();
+
+  if (n.includes("npdr")) {
+    push("Diabetic Macular Edema (Gold Standard)", "Rule out coexisting DME", ctx.dm?6:3);
+    push("RVO Protocol", "Hemorrhage/ischemia mimic", (ctx.htn||ctx.sudden)?4:1);
+  }
+
+  if (n.includes("dme") || n.includes("macular edema") || n.includes("diabetic macular")) {
+    push("RVO Protocol", "Edema/ischemia overlap", (ctx.htn||ctx.sudden)?4:2);
+    if (ctx.age && ctx.age>=55) push("CNV / Wet AMD", "Older age raises CNV likelihood", 3);
+  }
+
+  if (n.includes("cnv") || n.includes("wet amd") || n.includes("amd")) {
+    if (ctx.sudden) push("RVO Protocol", "Sudden loss can mimic RVO", 3);
+  }
+
+  out.sort((a,b)=> (b.w||0)-(a.w||0));
+  return out.slice(0, 6);
+}
+
+
+function renderDDX(primaryDx){
+  const wrap = document.getElementById("ddxChips");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  const ctx = _ctxFromForm();
+  const ddx = computeDDX(primaryDx, ctx);
+  window.__LAST_DDX__ = ddx;
+
+  if (!ddx.length) {
+    wrap.innerHTML = '<span class="hint">No DDx suggestions yet for this item.</span>';
+    return;
+  }
+  ddx.forEach(x=>{
+    const b = document.createElement("div");
+    b.className = "ddx-chip";
+    b.textContent = x.name;
+    b.title = x.reason || "Open protocol";
+    b.onclick = ()=>{ openDxByName(x.name); };
+    wrap.appendChild(b);
+  });
+}
+
+function openDxByName(name){
+  const dx = allDiagnoses.find(d=>d.name===name);
+  if (!dx) return;
+  currentDx = dx;
+  renderDetails(dx);
+}
+
+function exportBackup(){
+  const store = _loadStore();
+  const payload = {version:1, exportedAt:new Date().toISOString(), store};
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "oct_dashboard_backup.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function importBackupFile(file){
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const payload = JSON.parse(r.result);
+      const incoming = payload?.store;
+      if(!incoming || typeof incoming !== "object") throw new Error("Invalid backup format");
+      const cur = _loadStore();
+      cur.patients = cur.patients || {};
+      const incPatients = incoming.patients || {};
+      Object.keys(incPatients).forEach(pid=>{
+        if(!cur.patients[pid]) cur.patients[pid] = incPatients[pid];
+        else{
+          const a = cur.patients[pid];
+          const b = incPatients[pid];
+          a.profile = a.profile || b.profile || {};
+          const av = a.visits || [];
+          const bv = b.visits || [];
+          const seen = new Set(av.map(v=>v.id));
+          bv.forEach(v=>{ if(v?.id && !seen.has(v.id)) av.push(v); });
+          av.sort((x,y)=>(y.at||"").localeCompare(x.at||""));
+          a.visits = av.slice(0,200);
+          cur.patients[pid] = a;
+        }
+      });
+      _saveStore(cur);
+      renderPatientList();
+      alert("Backup imported.");
+    }catch(e){
+      alert("Import failed: " + (e?.message || e));
+    }
+  };
+  r.readAsText(file);
+}
+
+function formatFindings(f){
+  const map = [
+    ["irf","IRF"],["srf","SRF"],["ped","PED"],["drusen","Drusen"],
+    ["ez_loss","EZ loss"],["dcp_drop","DCP dropout"],["ma","MA/Telang"],["vh","Traction"]
+  ];
+  const on = map.filter(([k,_])=>!!(f||{})[k]).map(([_,lab])=>lab);
+  return on.length ? on.join(", ") : "—";
+}
+
+function clearAllLocalData(){
+  if(!confirm("Clear ALL local patient data on this device? This cannot be undone.")) return;
+  localStorage.removeItem(STORE_KEY);
+  closePatients();
+  alert("Local data cleared.");
+}
+
+// Wrap renderDetails to set triage default + render DDx chips
+const __renderDetailsOrig = renderDetails;
+renderDetails = function(dx){
+  __renderDetailsOrig(dx);
+  try{
+    const ctx = _ctxFromForm();
+    const tri = document.getElementById("triageSelect");
+    if(tri) tri.value = defaultTriageFor(dx, ctx);
+    renderDDX(dx);
+  }catch(e){}
+};
+
+
+function wireDecisionRecalc(){
+  const recalc = ()=>{
+    if(!currentDx) return;
+    const ctx = _ctxFromForm();
+    const findings = getFindingsState();
+    const result = computeDecision(currentDx, ctx, findings);
+    const dec = decisionFromTriage(result.level);
+    const badge = document.getElementById("decisionBadge");
+    const text = document.getElementById("decisionText");
+    if(badge){ badge.textContent = dec.badge; badge.className = dec.cls; }
+    const reasonLine = (result.reasons && result.reasons.length) ? (" " + result.reasons.slice(0,2).join(" ")) : "";
+    if(text) text.textContent = dec.text + reasonLine;
+  };
+
+  // patient context fields
+  document.querySelectorAll("#ctxForm input, #ctxForm select, #ctxForm textarea").forEach(el=>{
+    el.addEventListener("change", recalc);
+    el.addEventListener("input", recalc);
+  });
+
+  // findings fields (if present)
+  document.querySelectorAll("[data-finding]").forEach(el=>{
+    el.addEventListener("change", recalc);
+    el.addEventListener("input", recalc);
+  });
+
+  // triage override (if user changes manually, still updates badge)
+  const triSel = document.getElementById("triageSelect");
+  if(triSel){
+    triSel.addEventListener("change", ()=>{
+      const dec = decisionFromTriage(triSel.value);
+      const badge = document.getElementById("decisionBadge");
+      const text = document.getElementById("decisionText");
+      if(badge){ badge.textContent = dec.badge; badge.className = dec.cls; }
+      if(text) text.textContent = dec.text + " (manual override)";
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{ wireDecisionRecalc(); });
+</script>
+</body>
+  </html>
+  `;
+
+  const w = window.open("", "_blank");
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
+function escapeHtml(s){
+  return (s||"").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
 loadData();
+
+function wireDecisionRecalc(){
+  const recalc = ()=>{
+    if(!currentDx) return;
+    const ctx = _ctxFromForm();
+    const findings = getFindingsState();
+    const result = computeDecision(currentDx, ctx, findings);
+    const dec = decisionFromTriage(result.level);
+    const badge = document.getElementById("decisionBadge");
+    const text = document.getElementById("decisionText");
+    if(badge){ badge.textContent = dec.badge; badge.className = dec.cls; }
+    const reasonLine = (result.reasons && result.reasons.length) ? (" " + result.reasons.slice(0,2).join(" ")) : "";
+    if(text) text.textContent = dec.text + reasonLine;
+  };
+
+  // patient context fields
+  document.querySelectorAll("#ctxForm input, #ctxForm select, #ctxForm textarea").forEach(el=>{
+    el.addEventListener("change", recalc);
+    el.addEventListener("input", recalc);
+  });
+
+  // findings fields (if present)
+  document.querySelectorAll("[data-finding]").forEach(el=>{
+    el.addEventListener("change", recalc);
+    el.addEventListener("input", recalc);
+  });
+
+  // triage override (if user changes manually, still updates badge)
+  const triSel = document.getElementById("triageSelect");
+  if(triSel){
+    triSel.addEventListener("change", ()=>{
+      const dec = decisionFromTriage(triSel.value);
+      const badge = document.getElementById("decisionBadge");
+      const text = document.getElementById("decisionText");
+      if(badge){ badge.textContent = dec.badge; badge.className = dec.cls; }
+      if(text) text.textContent = dec.text + " (manual override)";
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{ wireDecisionRecalc(); });
 </script>
 </body>
 </html>
+// --- PATIENT STATE (Local-only) ---
+let currentDx = null;
+let autoSaveVisitOnPatientSave = false;
+const LS_KEY = "octengine_patients_v1";
+
+function _loadStore(){
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || '{"patients":{}}'); } catch(e){ return {"patients":{}}; }
+}
+function _saveStore(store){ localStorage.setItem(LS_KEY, JSON.stringify(store)); }
+
+function openPatients(fromDx=false){
+  autoSaveVisitOnPatientSave = !!fromDx;
+  document.getElementById("drawerOverlay").classList.add("open");
+  document.getElementById("patientDrawer").classList.add("open");
+  document.getElementById("patientDrawer").setAttribute("aria-hidden","false");
+  renderPatientList();
+  renderVisitList();
+  if(fromDx && currentDx){
+    const hint = document.getElementById("activeDxHint");
+    hint.style.display="block";
+    hint.textContent = `Ready to save a visit for: ${currentDx.name}`;
+  } else {
+    document.getElementById("activeDxHint").style.display="none";
+  }
+}
+function closePatients(ev){
+  if(ev && ev.target && ev.target.id !== "drawerOverlay") return;
+  document.getElementById("drawerOverlay").classList.remove("open");
+  document.getElementById("patientDrawer").classList.remove("open");
+  document.getElementById("patientDrawer").setAttribute("aria-hidden","true");
+}
+
+function clearPatientForm(){
+  ["p_id","p_age","p_va","p_symptoms"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("p_sex").value="";
+  document.getElementById("p_eye").value="OD";
+  ["p_dm","p_htn","p_myopia","p_steroid","p_smoke"].forEach(id=>document.getElementById(id).checked=false);
+}
+
+function savePatientAndMaybeVisit(){
+  const pid = (document.getElementById("p_id").value || "").trim();
+  if(!pid){ alert("Please enter Patient ID / OPD No."); return; }
+
+  const store = _loadStore();
+  const patients = store.patients || {};
+  const now = new Date();
+
+  const profile = {
+    id: pid,
+    age: (document.getElementById("p_age").value || "").trim(),
+    sex: document.getElementById("p_sex").value,
+    eye: document.getElementById("p_eye").value,
+    va: (document.getElementById("p_va").value || "").trim(),
+    dm: document.getElementById("p_dm").checked,
+    htn: document.getElementById("p_htn").checked,
+    myopia: document.getElementById("p_myopia").checked,
+    steroid: document.getElementById("p_steroid").checked,
+    smoke: document.getElementById("p_smoke").checked,
+    symptoms: (document.getElementById("p_symptoms").value || "").trim(),
+    updated_at: now.toISOString()
+  };
+
+  if(!patients[pid]){
+    patients[pid] = { profile, visits: [] };
+  } else {
+    patients[pid].profile = profile;
+  }
+
+  store.patients = patients;
+  _saveStore(store);
+
+  // If opened from Dx modal, auto-save a visit
+  if(autoSaveVisitOnPatientSave && currentDx){
+    addVisit(pid, currentDx);
+    autoSaveVisitOnPatientSave = false;
+  }
+
+  renderPatientList();
+  renderVisitList(pid);
+  alert("Saved.");
+}
+
+function addVisit(pid, dx){
+  const store = _loadStore();
+  if(!store.patients || !store.patients[pid]) return;
+
+  const p = store.patients[pid];
+  const now = new Date();
+
+  const visit = {
+    id: "v_" + now.getTime(),
+    at: now.toISOString(),
+    eye: document.getElementById("p_eye").value,
+    va: (document.getElementById("p_va").value || "").trim(),
+    diagnosis: dx.name,
+    diagnosis_id: dx.id,
+    notes: (document.getElementById("p_symptoms").value || "").trim(),
+    triage: (document.getElementById("triageSelect")?.value || "Routine"),
+    ddx: (window.__LAST_DDX__ || []).map(x=>x.name),
+    context: {
+      age: (document.getElementById("p_age").value || "").trim(),
+      sex: (document.getElementById("p_sex").value || "").trim(),
+      eye: (document.getElementById("p_eye").value || "").trim(),
+      va: (document.getElementById("p_va").value || "").trim(),
+      dm: !!document.getElementById("p_dm").checked,
+      htn: !!document.getElementById("p_htn").checked,
+      myopia: !!document.getElementById("p_myopia").checked,
+      steroid: !!document.getElementById("p_steroid").checked,
+      smoke: !!document.getElementById("p_smoke").checked,
+      symptoms: (document.getElementById("p_symptoms").value || "").trim(),
+      find: {
+        irf: !!document.getElementById("f_irf")?.checked,
+        srf: !!document.getElementById("f_srf")?.checked,
+        ped: !!document.getElementById("f_ped")?.checked,
+        drusen: !!document.getElementById("f_drusen")?.checked,
+        ez_loss: !!document.getElementById("f_ez_loss")?.checked,
+        dcp_drop: !!document.getElementById("f_dcp_drop")?.checked,
+        ma: !!document.getElementById("f_ma")?.checked,
+        vh: !!document.getElementById("f_vh")?.checked
+      }
+    }
+  };
+
+  p.visits = [visit, ...(p.visits || [])].slice(0, 200); // keep last 200
+  store.patients[pid] = p;
+  _saveStore(store);
+}
+
+function renderPatientList(){
+  const store = _loadStore();
+  const q = (document.getElementById("patientSearch")?.value || "").trim().toLowerCase();
+  const list = document.getElementById("patientList");
+  if(!list) return;
+
+  const patients = store.patients || {};
+  const ids = Object.keys(patients).sort((a,b)=>{
+    const da = patients[a].profile?.updated_at || "";
+    const db = patients[b].profile?.updated_at || "";
+    return db.localeCompare(da);
+  }).filter(id => !q || id.toLowerCase().includes(q));
+
+  if(ids.length===0){
+    list.innerHTML = `<div style="color:var(--text-muted); font-size:12px; padding:6px;">No patients saved yet.</div>`;
+    return;
+  }
+
+  list.innerHTML = "";
+  ids.forEach(id=>{
+    const prof = patients[id].profile || {};
+    const visits = patients[id].visits || [];
+    const el = document.createElement("div");
+    el.className="item";
+    el.innerHTML = `
+      <div>
+        <strong>${escapeHtml(id)}</strong><br/>
+        <small>${prof.age ? prof.age+"y" : ""} ${prof.sex||""} • ${visits.length} visit(s)</small>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-secondary" onclick="loadPatient('${escapeAttr(id)}')">Open</button>
+      </div>
+    `;
+    list.appendChild(el);
+  });
+}
+
+function loadPatient(pid){
+  const store = _loadStore();
+  const p = store.patients?.[pid];
+  if(!p) return;
+  const prof = p.profile || {};
+
+  document.getElementById("p_id").value = prof.id || pid;
+  document.getElementById("p_age").value = prof.age || "";
+  document.getElementById("p_sex").value = prof.sex || "";
+  document.getElementById("p_eye").value = prof.eye || "OD";
+  document.getElementById("p_va").value = prof.va || "";
+  document.getElementById("p_dm").checked = !!prof.dm;
+  document.getElementById("p_htn").checked = !!prof.htn;
+  document.getElementById("p_myopia").checked = !!prof.myopia;
+  document.getElementById("p_steroid").checked = !!prof.steroid;
+  document.getElementById("p_smoke").checked = !!prof.smoke;
+  document.getElementById("p_symptoms").value = prof.symptoms || "";
+
+  renderVisitList(pid);
+}
+
+function renderVisitList(pid){
+  const store = _loadStore();
+  const list = document.getElementById("visitList");
+  if(!list) return;
+
+  const patients = store.patients || {};
+  const activePid = pid || (document.getElementById("p_id").value || "").trim();
+  if(!activePid || !patients[activePid]){
+    list.innerHTML = `<div style="color:var(--text-muted); font-size:12px; padding:6px;">Open a patient to see visit history.</div>`;
+    return;
+  }
+  const visits = patients[activePid].visits || [];
+  if(visits.length===0){
+    list.innerHTML = `<div style="color:var(--text-muted); font-size:12px; padding:6px;">No visits saved yet for ${escapeHtml(activePid)}.</div>`;
+    return;
+  }
+  list.innerHTML="";
+  visits.slice(0,30).forEach(v=>{
+    const d = new Date(v.at);
+    const el = document.createElement("div");
+    el.className="item";
+    el.innerHTML = `
+      <div>
+        <strong>${escapeHtml(v.diagnosis)}</strong><br/>
+        <small>${d.toLocaleString()} • ${escapeHtml(v.eye||"")} • VA ${escapeHtml(v.va||"")}</small>
+      </div>
+      <div>
+        <button class="btn btn-secondary" onclick="generateReportFor('${escapeAttr(activePid)}','${escapeAttr(v.id)}')">Report</button>
+      </div>
+    `;
+    list.appendChild(el);
+  });
+}
+
+// --- REPORTING ---
+function generateReportFromCurrent(){
+  if(!currentDx){ alert("Open a diagnosis first."); return; }
+  const pid = (document.getElementById("p_id").value || "").trim();
+  if(!pid){ openPatients(true); return; } // prompt to link/save
+  // Save visit then generate
+  addVisit(pid, currentDx);
+  const store = _loadStore();
+  const v = store.patients?.[pid]?.visits?.[0];
+  if(v) generateReport(pid, v, currentDx);
+  renderVisitList(pid);
+}
+
+function generateReportFor(pid, visitId){
+  const store = _loadStore();
+  const p = store.patients?.[pid];
+  if(!p) return;
+  const v = (p.visits || []).find(x=>x.id===visitId);
+  if(!v) return;
+  const dx = allDiagnoses.find(d=>d.id===v.diagnosis_id) || {name:v.diagnosis, targets:[], oct:[], octa:[], red_flags:[]};
+  generateReport(pid, v, dx);
+}
+
+function generateReport(pid, visit, dx){
+  const store = _loadStore();
+  const prof = store.patients?.[pid]?.profile || {};
+  const when = new Date(visit.at);
+
+  const bullets = (arr)=> (arr && arr.length) ? `<ul>${arr.map(x=>`<li>${escapeHtml(x)}</li>`).join("")}</ul>` : "<p>—</p>";
+
+  const risk = [
+    prof.dm ? "Diabetes" : null,
+    prof.htn ? "Hypertension" : null,
+    prof.myopia ? "High myopia" : null,
+    prof.steroid ? "Steroid use" : null,
+    prof.smoke ? "Smoker" : null
+  ].filter(Boolean).join(", ") || "—";
+
+  const html = `
+  <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OCT Report - ${escapeHtml(pid)}</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; padding:20px; color:#0f172a}
+    h1{margin:0 0 6px 0; font-size:18px}
+    .muted{color:#475569; font-size:12px}
+    .box{border:1px solid #cbd5e1; border-radius:12px; padding:14px; margin:12px 0}
+    h2{font-size:14px; margin:0 0 8px 0}
+    ul{margin:6px 0 0 18px}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media print{button{display:none}}
+  </style></head><body>
+    <h1>OCT Protocol Summary</h1>
+    <div class="muted">Generated by OCT Engine • Educational guidance • Not a substitute for clinical judgment</div>
+
+    <div class="box">
+      <div class="grid">
+        <div><strong>Patient:</strong> ${escapeHtml(pid)}<br/><span class="muted">Age/Sex:</span> ${escapeHtml(prof.age||"—")}/${escapeHtml(prof.sex||"—")}</div>
+        <div><strong>Visit:</strong> ${when.toLocaleString()}<br/><span class="muted">Eye/VA:</span> ${escapeHtml(visit.eye||"—")} / ${escapeHtml(visit.va||"—")}</div>
+        <div><strong>Triage:</strong> <span class="pill" style="border:1px solid rgba(255,255,255,.14); padding:2px 8px; border-radius:999px; background:rgba(255,255,255,.06);">${escapeHtml(visit.triage||"Routine")}</span></div>
+        <div style="margin-top:6px;"><strong>Findings:</strong> <span class="muted">${escapeHtml(formatFindings(visit.context?.find || {}))}</span></div>
+      </div>
+      <div style="margin-top:8px"><span class="muted">Risks:</span> ${escapeHtml(risk)}</div>
+      ${prof.symptoms ? `<div style="margin-top:6px"><span class="muted">Symptoms:</span> ${escapeHtml(prof.symptoms)}</div>` : ""}
+    </div>
+
+    <div class="box"><h2>Provisional Diagnosis</h2><div><strong>${escapeHtml(dx.name || visit.diagnosis)}</strong></div></div>
+
+    <div class="box"><h2>Analysis Protocol</h2>${bullets(dx.targets)}</div>
+    <div class="box"><h2>OCT Structural</h2>${bullets(dx.oct)}</div>
+    <div class="box"><h2>OCT-A Structural</h2>${bullets(dx.octa)}</div>
+    <div class="box"><h2>Red Flags / Urgent</h2>${bullets(dx.red_flags)}</div>
+
+    <button onclick="window.print()">Print / Save PDF</button>
+  </body></html>`;
+
+  const w = window.open("", "_blank");
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
+// --- small helpers for safety ---
+function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m])); }
+function escapeAttr(s){ return escapeHtml(s).replace(/"/g,"&quot;"); }
+
+
+
