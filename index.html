@@ -32,23 +32,26 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
 .filterBtn{ padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.40); background:rgba(255,255,255,.14); color:white; font-weight:900; cursor:pointer; font-size:12px; }
 .filterBtn.active{ background:white; color:#1457ff; box-shadow:0 10px 20px rgba(0,0,0,.18); }
 .metaLine{ margin-top:8px; font-size:12px; opacity:.95; }
-.main{ display:grid; grid-template-columns: 1.15fr 0.85fr; gap:14px; margin-top:16px; align-items:start; }
-.grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
+
+/* REBALANCED LAYOUT: Left sidebar narrower, right panel wider */
+.main{ display:grid; grid-template-columns: 0.85fr 1.3fr; gap:20px; margin-top:16px; align-items:start; }
+.grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; }
+
 .tile{ background:var(--card); border:1px solid var(--border); padding:14px; border-radius:14px; box-shadow:0 6px 16px rgba(0,0,0,.08); cursor:pointer; transition:.12s; }
 .tile:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(29,78,216,.14); border-color: rgba(29,78,216,.25); }
 .tileTitle{font-weight:950;font-size:15px;line-height:1.25}
 .catPill{ display:inline-flex; margin-top:8px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); font-size:12px; font-weight:900; color:#374151; background:#f1f5f9;}
 .countRow{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; font-size:12px; color:#374151; font-weight:800; }
 .countRow span{ display:inline-flex; gap:6px; align-items:center; padding:4px 10px; border-radius:999px; background:#f9fafb; border:1px solid var(--border); }
-.panel{ background:var(--card); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); padding:18px; position: sticky; top: 150px; display:none; }
+.panel{ background:var(--card); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); padding:24px; position: sticky; top: 150px; display:none; }
 .panel h2{margin:0 0 10px 0;color:var(--accent)}
-.panel h3{ margin:14px 0 6px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; }
+.panel h3{ margin:18px 0 6px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; font-size:15px;}
 ul{margin:6px 0 0 0;padding-left:20px}
-li{margin-bottom:4px;line-height:1.45}
-#flagsList li{color:var(--danger);font-weight:900}
-.actionRow{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
-.pBtn{ padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:900; }
-.pBtn:hover{border-color: rgba(29,78,216,.35); box-shadow:0 10px 20px rgba(29,78,216,.10);}
+li{margin-bottom:6px;line-height:1.5}
+#flagsList li{color:var(--danger);font-weight:700}
+.actionRow{ display:flex; gap:8px; flex-wrap:wrap; }
+.pBtn{ padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; font-size:13px; color:#334155;}
+.pBtn:hover{border-color: rgba(29,78,216,.35); background:#f8fafc; color:#1d4ed8; }
 @media (max-width: 920px){ .main{grid-template-columns:1fr;} .panel{position:relative; top:auto;} }
 .footer{ text-align:center; margin:22px 0 26px 0; color:rgba(255,255,255,.70); font-size:12px; }
 
@@ -128,48 +131,53 @@ li{margin-bottom:4px;line-height:1.45}
   </div>
 
   <div id="details" class="panel">
-    <h2 id="dxName"></h2>
-    
-    <div id="printPatientLine" style="display:none; font-size:12px; color:#111;"></div>
-    
-    <div class="actionRow">
-      <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print Protocol</button>
-      <button class="pBtn" type="button" onclick="collapseDetails()">✖ Close</button>
-      <button class="pBtn" type="button" onclick="openPatients(true)">💾 Save to Patient</button>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+      <div style="flex:1; padding-right:12px;">
+        <h2 id="dxName" style="margin:0 0 6px 0;"></h2>
+        <div id="printPatientLine" style="display:none; font-size:12px; color:#111;"></div>
+      </div>
+      <div class="actionRow">
+        <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print</button>
+        <button class="pBtn" type="button" onclick="openPatients(true)">💾 Save</button>
+        <button class="pBtn" type="button" onclick="collapseDetails()">✖ Close</button>
+      </div>
     </div>
     
-    <div class="d-panel" style="margin:12px 0 14px 0; background:#f8fafc; border:1px solid #e2e8f0;">
-      <div class="row2" style="gap:14px;">
+    <h3>📷 Structural OCT <span id="octCount"></span></h3>
+    <ul id="octList"></ul>
+
+    <h3>🧬 OCT-A Protocol <span id="octaCount"></span></h3>
+    <ul id="octaList"></ul>
+
+    <h3>🎯 Analysis Targets <span id="tCount"></span></h3>
+    <ul id="targetsList"></ul>
+
+    <h3>⚠ Red Flags <span id="fCount"></span></h3>
+    <ul id="flagsList"></ul>
+
+    <hr style="border:0; border-top:1px solid #e2e8f0; margin:24px 0 16px 0;">
+
+    <div class="d-panel" style="background:#f8fafc; border:1px solid #e2e8f0;">
+      <div class="row2" style="gap:20px;">
         <div class="row">
-          <label style="font-weight:600; color:#334155;">Triage</label>
-          <select id="triageSelect" style="color:#000; background:#fff; border-color:#cbd5e1;">
+          <label style="font-weight:700; color:#1d4ed8; font-size:13px; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.5px;">1. Clinical Triage</label>
+          <select id="triageSelect" style="color:#000; background:#fff; border-color:#cbd5e1; font-weight:600; cursor:pointer;">
             <option value="Routine">Routine</option>
             <option value="Soon">Refer soon</option>
             <option value="Urgent">Urgent</option>
           </select>
-          <div class="hint" style="margin-top:8px; display:flex; align-items:center; gap:10px; color:#64748b;">
+          <div class="hint" style="margin-top:8px; display:flex; align-items:center; gap:8px; color:#64748b;">
             <span style="font-weight:700;">Decision:</span>
             <span id="decisionBadge" class="badge" style="font-weight:bold;">—</span>
           </div>
         </div>
         <div class="row">
-          <label style="font-weight:600; color:#334155;">DDx suggestions</label>
+          <label style="font-weight:700; color:#1d4ed8; font-size:13px; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.5px;">2. DDx Suggestions</label>
           <div id="ddxChips" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
         </div>
       </div>
     </div>
 
-    <h3>Structural OCT <span id="octCount"></span></h3>
-    <ul id="octList"></ul>
-
-    <h3>OCT-A Protocol <span id="octaCount"></span></h3>
-    <ul id="octaList"></ul>
-
-    <h3>Analysis Targets <span id="tCount"></span></h3>
-    <ul id="targetsList"></ul>
-
-    <h3>⚠ Red Flags <span id="fCount"></span></h3>
-    <ul id="flagsList"></ul>
   </div>
 </div>
 
@@ -370,7 +378,7 @@ function updateDecisionBadgeFromSelect(){
 // --- INITIALIZATION ---
 async function loadData(){
   try {
-    const res = await fetch('./diagnoses.json');
+    const res = await fetch('./diagnoses.json?v=3');
     allDiagnoses = await res.json();
     buildCategoryFilters();
     applyFilters();
@@ -741,7 +749,6 @@ function clearPatientForm(){
     if(el.type === 'checkbox') el.checked = false;
     else el.value = "";
   });
-  // Default eye back to OD
   document.getElementById("p_eye").value = "OD";
   document.getElementById("visitTimelinePanel").style.display = "none";
   if(currentDx) showDetails(currentDx);
