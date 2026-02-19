@@ -22,63 +22,64 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
 
 .toolsRow{ display:flex;flex-wrap:wrap;gap:10px;align-items:center; margin-top:14px; }
 .searchWrap{ flex:1; min-width:240px; position:relative; }
-#search{ width:100%; padding:12px 42px 12px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.16); color:#fff; font-size:16px; outline:none; }
+#search{ width:100%; padding:10px 42px 10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.16); color:#fff; font-size:15px; outline:none; }
 #search::placeholder{color:rgba(255,255,255,.75)}
-.clearX{ position:absolute; right:10px; top:50%; transform:translateY(-50%); width:28px;height:28px; border-radius:10px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.12); color:#fff; cursor:pointer; display:flex;align-items:center;justify-content:center; font-weight:900; }
+.clearX{ position:absolute; right:8px; top:50%; transform:translateY(-50%); width:24px;height:24px; border-radius:8px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.12); color:#fff; cursor:pointer; display:flex;align-items:center;justify-content:center; font-weight:900; font-size:12px;}
 .clearX:hover{filter:brightness(1.12)}
-.btn{ padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.16); color:#fff; font-weight:900; cursor:pointer; }
+.btn{ padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.16); color:#fff; font-weight:900; cursor:pointer; }
 .btn:hover{filter:brightness(1.10)}
-.filterBar{ margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; }
-.filterBtn{ padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.40); background:rgba(255,255,255,.14); color:white; font-weight:900; cursor:pointer; font-size:12px; }
+.filterBar{ margin-top:12px; display:flex; flex-wrap:wrap; gap:6px; }
+.filterBtn{ padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.40); background:rgba(255,255,255,.14); color:white; font-weight:800; cursor:pointer; font-size:11px; }
 .filterBtn.active{ background:white; color:#1457ff; box-shadow:0 10px 20px rgba(0,0,0,.18); }
-.metaLine{ margin-top:8px; font-size:12px; opacity:.95; }
+.metaLine{ margin-top:8px; font-size:11px; opacity:.95; }
 
-/* REBALANCED LAYOUT: Left sidebar narrower, right panel wider */
-.main{ display:grid; grid-template-columns: 0.85fr 1.3fr; gap:20px; margin-top:16px; align-items:start; }
-.grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; }
+/* REBALANCED & COMPACT LAYOUT */
+.main{ display:grid; grid-template-columns: 0.85fr 1.3fr; gap:16px; margin-top:16px; align-items:start; }
+.grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; }
 
-.tile{ background:var(--card); border:1px solid var(--border); padding:14px; border-radius:14px; box-shadow:0 6px 16px rgba(0,0,0,.08); cursor:pointer; transition:.12s; }
-.tile:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(29,78,216,.14); border-color: rgba(29,78,216,.25); }
-.tileTitle{font-weight:950;font-size:15px;line-height:1.25}
-.catPill{ display:inline-flex; margin-top:8px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); font-size:12px; font-weight:900; color:#374151; background:#f1f5f9;}
-.countRow{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; font-size:12px; color:#374151; font-weight:800; }
-.countRow span{ display:inline-flex; gap:6px; align-items:center; padding:4px 10px; border-radius:999px; background:#f9fafb; border:1px solid var(--border); }
-.panel{ background:var(--card); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); padding:24px; position: sticky; top: 150px; display:none; }
-.panel h2{margin:0 0 10px 0;color:var(--accent)}
-.panel h3{ margin:18px 0 6px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; font-size:15px;}
-ul{margin:6px 0 0 0;padding-left:20px}
-li{margin-bottom:6px;line-height:1.5}
+.tile{ background:var(--card); border:1px solid var(--border); padding:10px 12px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,.06); cursor:pointer; transition:.12s; }
+.tile:hover{ transform:translateY(-2px); box-shadow:0 10px 20px rgba(29,78,216,.12); border-color: rgba(29,78,216,.3); }
+.tileTitle{font-weight:800;font-size:13px;line-height:1.25}
+.catPill{ display:inline-flex; margin-top:6px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:10px; font-weight:800; color:#374151; background:#f1f5f9;}
+.countRow{ margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; font-size:11px; color:#475569; font-weight:700; }
+.countRow span{ display:inline-flex; gap:4px; align-items:center; padding:2px 8px; border-radius:999px; background:#f8fafc; border:1px solid var(--border); }
+
+.panel{ background:var(--card); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:20px; position: sticky; top: 150px; display:none; }
+.panel h2{margin:0 0 8px 0;color:var(--accent); font-size:18px;}
+.panel h3{ margin:16px 0 6px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; font-size:14px;}
+ul{margin:4px 0 0 0;padding-left:20px; font-size:14px;}
+li{margin-bottom:5px;line-height:1.4}
 #flagsList li{color:var(--danger);font-weight:700}
 .actionRow{ display:flex; gap:8px; flex-wrap:wrap; }
-.pBtn{ padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; font-size:13px; color:#334155;}
+.pBtn{ padding:6px 10px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; font-size:12px; color:#334155;}
 .pBtn:hover{border-color: rgba(29,78,216,.35); background:#f8fafc; color:#1d4ed8; }
 @media (max-width: 920px){ .main{grid-template-columns:1fr;} .panel{position:relative; top:auto;} }
-.footer{ text-align:center; margin:22px 0 26px 0; color:rgba(255,255,255,.70); font-size:12px; }
+.footer{ text-align:center; margin:22px 0 26px 0; color:rgba(255,255,255,.60); font-size:11px; }
 
 /* DRAWER CSS */
 .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.2s;z-index:60}
 .drawer-overlay.open{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:-420px;width:420px;max-width:92vw;height:100vh;background:#0f172a;border-left:1px solid rgba(148,163,184,.2);z-index:70;transition:.25s;display:flex;flex-direction:column; color:white;}
 .drawer.open{right:0}
-.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid rgba(148,163,184,.15);background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(139,92,246,.06))}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(148,163,184,.15);background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(139,92,246,.06))}
 .drawer-body{padding:14px;overflow:auto;display:flex;flex-direction:column;gap:12px}
-.d-panel{background:rgba(51,65,85,.55);border:1px solid rgba(148,163,184,.12);border-radius:16px;padding:12px}
-.panel-title{font-size:12px;color:#94a3b8;margin-bottom:8px;letter-spacing:.02em;text-transform:uppercase}
-.row{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
-.row label{font-size:12px;color:#94a3b8}
-.row input,.row select{background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.18);color:#fff;border-radius:12px;padding:10px 12px;outline:none}
+.d-panel{background:rgba(51,65,85,.55);border:1px solid rgba(148,163,184,.12);border-radius:12px;padding:12px}
+.panel-title{font-size:11px;color:#94a3b8;margin-bottom:8px;letter-spacing:.02em;text-transform:uppercase; font-weight:800;}
+.row{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.row label{font-size:11px;color:#94a3b8; font-weight:600;}
+.row input,.row select{background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.18);color:#fff;border-radius:8px;padding:8px 10px;outline:none; font-size:13px;}
 .row input:focus,.row select:focus{border-color:rgba(59,130,246,.6);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
-.chk{display:flex;align-items:center;gap:8px;font-size:12px;color:#fff;background:rgba(15,23,42,.35);padding:8px 10px;border-radius:999px;border:1px solid rgba(148,163,184,.12); cursor:pointer; user-select:none;}
-.actions{display:flex;gap:10px;justify-content:flex-end}
-.list{display:flex;flex-direction:column;gap:8px}
-.item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(15,23,42,.35);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:10px 12px}
-.item strong{color:white;font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.chk{display:flex;align-items:center;gap:6px;font-size:11px;color:#fff;background:rgba(15,23,42,.35);padding:6px 10px;border-radius:999px;border:1px solid rgba(148,163,184,.12); cursor:pointer; user-select:none;}
+.actions{display:flex;gap:8px;justify-content:flex-end; margin-top:4px;}
+.list{display:flex;flex-direction:column;gap:6px}
+.item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(15,23,42,.35);border:1px solid rgba(148,163,184,.12);border-radius:10px;padding:10px}
+.item strong{color:white;font-size:12px}
 .item small{color:#94a3b8;font-size:11px}
-.item button{padding:6px 10px;font-size:12px; border-radius:8px; border:none; cursor:pointer;}
-.hint{margin-top:8px;color:#94a3b8;font-size:12px}
-.close-btn{background:transparent; border:none; color:white; font-size:24px; cursor:pointer;}
+.item button{padding:6px 10px;font-size:11px; border-radius:6px; border:none; cursor:pointer;}
+.hint{margin-top:6px;color:#94a3b8;font-size:11px}
+.close-btn{background:transparent; border:none; color:white; font-size:22px; cursor:pointer; padding:0; line-height:1;}
 
 /* PRINT STYLES */
 @media print {
@@ -90,7 +91,7 @@ li{margin-bottom:6px;line-height:1.5}
   .actionRow { display:none !important; }
   h2, h3, li, p, span { color:#000 !important; }
   .d-panel { border: 1px solid #ccc !important; }
-  #printPatientLine { display:block !important; }
+  #printPatientLine { display:block !important; border-bottom: 1px dashed #ccc !important; padding-bottom: 8px !important; margin-bottom: 12px !important; }
 }
 </style>
 </head>
@@ -131,7 +132,7 @@ li{margin-bottom:6px;line-height:1.5}
   </div>
 
   <div id="details" class="panel">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
       <div style="flex:1; padding-right:12px;">
         <h2 id="dxName" style="margin:0 0 6px 0;"></h2>
         <div id="printPatientLine" style="display:none; font-size:12px; color:#111;"></div>
@@ -157,23 +158,23 @@ li{margin-bottom:6px;line-height:1.5}
 
     <hr style="border:0; border-top:1px solid #e2e8f0; margin:24px 0 16px 0;">
 
-    <div class="d-panel" style="background:#f8fafc; border:1px solid #e2e8f0;">
+    <div class="d-panel" style="background:#f8fafc; border:1px solid #cbd5e1; padding:16px;">
       <div class="row2" style="gap:20px;">
         <div class="row">
-          <label style="font-weight:700; color:#1d4ed8; font-size:13px; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.5px;">1. Clinical Triage</label>
-          <select id="triageSelect" style="color:#000; background:#fff; border-color:#cbd5e1; font-weight:600; cursor:pointer;">
+          <label style="font-weight:800; color:#1d4ed8; font-size:12px; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">1. Clinical Triage</label>
+          <select id="triageSelect" style="color:#000; background:#fff; border-color:#cbd5e1; font-weight:700; cursor:pointer; font-size:14px; padding:8px;">
             <option value="Routine">Routine</option>
             <option value="Soon">Refer soon</option>
             <option value="Urgent">Urgent</option>
           </select>
-          <div class="hint" style="margin-top:8px; display:flex; align-items:center; gap:8px; color:#64748b;">
+          <div class="hint" style="margin-top:8px; display:flex; align-items:center; gap:8px; color:#475569;">
             <span style="font-weight:700;">Decision:</span>
-            <span id="decisionBadge" class="badge" style="font-weight:bold;">—</span>
+            <span id="decisionBadge" style="font-weight:800; padding:2px 6px; border-radius:4px; background:#f1f5f9;">—</span>
           </div>
         </div>
         <div class="row">
-          <label style="font-weight:700; color:#1d4ed8; font-size:13px; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.5px;">2. DDx Suggestions</label>
-          <div id="ddxChips" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+          <label style="font-weight:800; color:#1d4ed8; font-size:12px; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">2. DDx Suggestions</label>
+          <div id="ddxChips" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
         </div>
       </div>
     </div>
@@ -189,8 +190,8 @@ li{margin-bottom:6px;line-height:1.5}
 <aside class="drawer" id="patientDrawer" aria-hidden="true">
   <div class="drawer-header">
     <div>
-      <div style="font-weight:700; font-size:16px;">Patients</div>
-      <div style="font-size:12px; color:#cbd5e1;">Local follow-ups (offline).</div>
+      <div style="font-weight:800; font-size:15px;">Patients</div>
+      <div style="font-size:11px; color:#cbd5e1;">Local follow-ups (offline).</div>
     </div>
     <button class="close-btn" onclick="closePatients()">×</button>
   </div>
@@ -220,26 +221,22 @@ li{margin-bottom:6px;line-height:1.5}
       
       <div class="row2">
         <div class="row">
-          <label>Eye</label>
-          <select id="p_eye">
-            <option value="OD">OD</option>
-            <option value="OS">OS</option>
-            <option value="OU">OU</option>
-          </select>
+          <label style="color:#60a5fa;">VA OD (Right)</label>
+          <input id="p_va_od" placeholder="e.g. 6/12" />
         </div>
         <div class="row">
-          <label>VA (LogMAR/Snellen)</label>
-          <input id="p_va" placeholder="e.g. 6/12" />
+          <label style="color:#60a5fa;">VA OS (Left)</label>
+          <input id="p_va_os" placeholder="e.g. 6/12" />
         </div>
       </div>
       <div class="row2">
         <div class="row">
-          <label>IOP (mmHg)</label>
-          <input id="p_iop" inputmode="numeric" placeholder="e.g. 18" />
+          <label style="color:#34d399;">IOP OD (mmHg)</label>
+          <input id="p_iop_od" inputmode="numeric" placeholder="e.g. 18" />
         </div>
         <div class="row">
-          <label>Symptoms / Onset</label>
-          <input id="p_symptoms" placeholder="e.g. sudden blur 3 days" />
+          <label style="color:#34d399;">IOP OS (mmHg)</label>
+          <input id="p_iop_os" inputmode="numeric" placeholder="e.g. 18" />
         </div>
       </div>
       
@@ -253,15 +250,19 @@ li{margin-bottom:6px;line-height:1.5}
       </div>
 
       <div class="row">
+        <label>Symptoms / Onset</label>
+        <input id="p_symptoms" placeholder="e.g. sudden blur 3 days" />
+      </div>
+      <div class="row">
         <label>Visit Note</label>
         <input id="p_note" placeholder="Quick clinical note (e.g. baseline, post-injection...)" />
       </div>
       
-      <div class="actions" style="margin-top:8px;">
-        <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer;" onclick="clearPatientForm()">Clear Form</button>
-        <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer; background:#2563eb; color:white; border:none;" onclick="savePatientAndMaybeVisit()">Save Context</button>
+      <div class="actions">
+        <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:none;" onclick="clearPatientForm()">Clear Form</button>
+        <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer; background:#2563eb; color:white; border:none; font-weight:700;" onclick="savePatientAndMaybeVisit()">Save Context</button>
       </div>
-      <div id="activeDxHint" class="hint" style="display:none; color:#fbbf24; font-weight:bold; margin-top:10px;"></div>
+      <div id="activeDxHint" class="hint" style="display:none; color:#fbbf24; font-weight:bold;"></div>
     </div>
 
     <div class="d-panel" id="visitTimelinePanel" style="display:none;">
@@ -273,11 +274,11 @@ li{margin-bottom:6px;line-height:1.5}
       <div class="panel-title">Saved Patients</div>
       
       <div style="display:flex; gap:8px; margin-bottom:10px;">
-        <button type="button" style="flex:1; padding:8px 10px; border-radius:10px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="exportPatients()">Export</button>
-        <button type="button" style="flex:1; padding:8px 10px; border-radius:10px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="importPatients()">Import</button>
+        <button type="button" style="flex:1; padding:8px; font-size:11px; border-radius:8px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="exportPatients()">Export</button>
+        <button type="button" style="flex:1; padding:8px; font-size:11px; border-radius:8px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="importPatients()">Import</button>
       </div>
 
-      <input id="patientSearch" placeholder="Search patient ID..." oninput="renderPatientList()" style="width:100%; box-sizing:border-box; background:rgba(15,23,42,.6); border:1px solid rgba(148,163,184,.18); color:#fff; border-radius:12px; padding:10px 12px; margin-bottom:10px;" />
+      <input id="patientSearch" placeholder="Search patient ID..." oninput="renderPatientList()" style="width:100%; box-sizing:border-box; background:rgba(15,23,42,.6); border:1px solid rgba(148,163,184,.18); color:#fff; border-radius:8px; padding:8px 10px; margin-bottom:10px; font-size:12px;" />
       <div id="patientList" class="list"></div>
     </div>
     
@@ -371,8 +372,8 @@ function updateDecisionBadgeFromSelect(){
   if(!badge) return;
   badge.textContent = dec.badge;
   badge.style.color =
-    dec.badge.includes("URGENT") ? "red" :
-    dec.badge.includes("SOON") ? "#eab308" : "green";
+    dec.badge.includes("URGENT") ? "#ef4444" :
+    dec.badge.includes("SOON") ? "#eab308" : "#10b981";
 }
 
 // --- INITIALIZATION ---
@@ -557,15 +558,15 @@ function showDetails(dx){
   const pLine = document.getElementById("printPatientLine");
   if(pLine){
     const pid = (document.getElementById("p_id")?.value || "").trim();
-    const eye = (document.getElementById("p_eye")?.value || "").trim();
-    const va  = (document.getElementById("p_va")?.value || "").trim();
-    const iop = (document.getElementById("p_iop")?.value || "").trim();
+    const va_od = (document.getElementById("p_va_od")?.value || "").trim();
+    const va_os = (document.getElementById("p_va_os")?.value || "").trim();
+    const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
+    const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
     
     const bits = [];
     if(pid) bits.push(`Patient: ${pid}`);
-    if(eye) bits.push(`Eye: ${eye}`);
-    if(va)  bits.push(`VA: ${va}`);
-    if(iop) bits.push(`IOP: ${iop}`);
+    if(va_od || va_os) bits.push(`VA (OD/OS): ${va_od||'-'} / ${va_os||'-'}`);
+    if(iop_od || iop_os) bits.push(`IOP (OD/OS): ${iop_od||'-'} / ${iop_os||'-'}`);
     
     const txt = bits.join("  |  ");
     pLine.textContent = txt;
@@ -706,9 +707,10 @@ function _getPatientForm(){
     id: (document.getElementById("p_id")?.value || "").trim(),
     age: (document.getElementById("p_age")?.value || "").trim(),
     sex: (document.getElementById("p_sex")?.value || "").trim(),
-    eye: (document.getElementById("p_eye")?.value || "OD").trim(),
-    va: (document.getElementById("p_va")?.value || "").trim(),
-    iop: (document.getElementById("p_iop")?.value || "").trim(),
+    va_od: (document.getElementById("p_va_od")?.value || "").trim(),
+    va_os: (document.getElementById("p_va_os")?.value || "").trim(),
+    iop_od: (document.getElementById("p_iop_od")?.value || "").trim(),
+    iop_os: (document.getElementById("p_iop_os")?.value || "").trim(),
     note: (document.getElementById("p_note")?.value || "").trim(),
     symptoms: (document.getElementById("p_symptoms")?.value || "").trim(),
     flags
@@ -749,7 +751,6 @@ function clearPatientForm(){
     if(el.type === 'checkbox') el.checked = false;
     else el.value = "";
   });
-  document.getElementById("p_eye").value = "OD";
   document.getElementById("visitTimelinePanel").style.display = "none";
   if(currentDx) showDetails(currentDx);
 }
@@ -765,9 +766,10 @@ function savePatientAndMaybeVisit(){
 
   existing.age = form.age;
   existing.sex = form.sex;
-  existing.eye = form.eye;
-  existing.va = form.va;
-  existing.iop = form.iop;
+  existing.va_od = form.va_od;
+  existing.va_os = form.va_os;
+  existing.iop_od = form.iop_od;
+  existing.iop_os = form.iop_os;
   existing.note = form.note;
   existing.symptoms = form.symptoms;
   existing.flags = form.flags;
@@ -791,9 +793,10 @@ function savePatientAndMaybeVisit(){
         category: getCategory(currentDx),
         triage,
         decision: decisionFromTriage(triage).badge,
-        eye: form.eye,
-        va: form.va,
-        iop: form.iop,
+        va_od: form.va_od,
+        va_os: form.va_os,
+        iop_od: form.iop_od,
+        iop_os: form.iop_os,
         note: form.note
       });
       existing.visits = existing.visits.slice(0, 30);
@@ -874,9 +877,10 @@ function loadPatient(pid){
   document.getElementById("p_id").value = p.id || pid;
   document.getElementById("p_age").value = p.age || "";
   document.getElementById("p_sex").value = p.sex || "";
-  document.getElementById("p_eye").value = p.eye || "OD";
-  document.getElementById("p_va").value = p.va || "";
-  document.getElementById("p_iop").value = p.iop || "";
+  document.getElementById("p_va_od").value = p.va_od || "";
+  document.getElementById("p_va_os").value = p.va_os || "";
+  document.getElementById("p_iop_od").value = p.iop_od || "";
+  document.getElementById("p_iop_os").value = p.iop_os || "";
   document.getElementById("p_note").value = p.note || "";
   document.getElementById("p_symptoms").value = p.symptoms || "";
 
@@ -938,9 +942,8 @@ function renderVisitTimeline(p) {
     const ds = isNaN(d) ? String(v.at||"").slice(0,10) : d.toLocaleDateString();
 
     let metrics = [];
-    if(v.eye) metrics.push(v.eye);
-    if(v.va) metrics.push(`VA: ${v.va}`);
-    if(v.iop) metrics.push(`IOP: ${v.iop}`);
+    if(v.va_od || v.va_os) metrics.push(`VA: ${v.va_od||'-'}/${v.va_os||'-'}`);
+    if(v.iop_od || v.iop_os) metrics.push(`IOP: ${v.iop_od||'-'}/${v.iop_os||'-'}`);
     
     const metricStr = metrics.length ? `<div style="margin-top:4px; font-size:11px; color:#cbd5e1;">${escapeHtml(metrics.join(" | "))}</div>` : "";
     const noteStr = v.note ? `<div style="margin-top:2px; font-size:11px; color:#94a3b8; font-style:italic;">"${escapeHtml(v.note)}"</div>` : "";
