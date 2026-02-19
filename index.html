@@ -50,7 +50,6 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 .countRow{ margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; font-size:10px; color:#64748b; font-weight:700; }
 .countRow span{ display:inline-flex; gap:4px; align-items:center; padding:2px 6px; border-radius:4px; background:#f8fafc; border:1px solid #e2e8f0; }
 
-/* VISUAL TRIAGE BORDER APPLIED HERE */
 .panel{ background:var(--card); border:1px solid var(--border); border-left:6px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:16px 20px; position: sticky; top: 110px; display:none; transition: border-left-color 0.3s; }
 .panel h2{margin:0 0 6px 0;color:var(--accent); font-size:18px;}
 .panel h3{ margin:14px 0 6px 0; border-bottom:1px solid #f1f5f9; padding-bottom:4px; color:#334155; display:flex; justify-content:space-between; align-items:center; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; font-weight:800;}
@@ -159,6 +158,12 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
       </div>
     </div>
     
+    <div id="scanBanner" style="display:none; background:#e0f2fe; border:1px solid #bae6fd; padding:12px 16px; border-radius:8px; margin-bottom:16px;">
+      <div style="font-size:11px; font-weight:900; color:#0284c7; text-transform:uppercase; margin-bottom:6px; letter-spacing:0.5px;">📋 Recommended Scan Protocol</div>
+      <div id="scanOctTxt" style="font-size:12px; color:#0f172a; font-weight:600; margin-bottom:4px;"></div>
+      <div id="scanOctaTxt" style="font-size:12px; color:#0f172a; font-weight:600;"></div>
+    </div>
+
     <h3>📷 Structural OCT <span id="octCount" style="font-size:11px; opacity:0.6;"></span></h3>
     <div id="octList" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
 
@@ -300,12 +305,10 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 
     <div class="d-panel">
       <div class="panel-title">Saved Patients</div>
-      
       <div style="display:flex; gap:6px; margin-bottom:8px;">
         <button type="button" style="flex:1; padding:6px; font-size:10px; border-radius:6px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="exportPatients()">Export Data</button>
         <button type="button" style="flex:1; padding:6px; font-size:10px; border-radius:6px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="importPatients()">Import Data</button>
       </div>
-
       <input id="patientSearch" placeholder="Search patient ID..." oninput="renderPatientList()" style="width:100%; box-sizing:border-box; background:rgba(15,23,42,.6); border:1px solid rgba(148,163,184,.18); color:#fff; border-radius:6px; padding:6px 8px; margin-bottom:8px; font-size:11px;" />
       <div id="patientList" class="list"></div>
     </div>
@@ -314,7 +317,6 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 </aside>
 
 <script>
-// --- GLOBALS & MIGRATION ---
 let allDiagnoses = [];
 let activeDomain = "All";
 let activeCategory = "All";
@@ -322,7 +324,6 @@ let currentDx = null;
 let triageWasManuallySet = false;
 let autoSaveVisitOnPatientSave = false;
 
-// OBSERVATION STATE
 let currentObs = { oct:{}, octa:{}, targets:{}, flags:{} };
 function _resetObs(){ currentObs = { oct:{}, octa:{}, targets:{}, flags:{} }; }
 
@@ -331,12 +332,9 @@ const LS_KEY = "octengine_patients_v2";
 (function migrateV1toV2(){
   const v1 = localStorage.getItem("octengine_patients_v1");
   const v2 = localStorage.getItem("octengine_patients_v2");
-  if(v1 && !v2){
-    localStorage.setItem("octengine_patients_v2", v1);
-  }
+  if(v1 && !v2){ localStorage.setItem("octengine_patients_v2", v1); }
 })();
 
-// --- HELPERS ---
 function getCategory(dx){ return (dx && dx.category) ? dx.category.toString().trim() : "Other"; }
 function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m])); }
 function escapeAttr(s){ return escapeHtml(s).replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
@@ -346,13 +344,7 @@ function listify(v){
   return String(v).split(/\r?\n/).map(x=>x.replace(/^\s*[•\-*]+\s*/,"").trim()).filter(x=>x.length);
 }
 
-// Check for text selection (prevent accidental clicks)
-function _hasSelection(){
-  const s = window.getSelection?.();
-  return s && String(s).length > 0;
-}
-
-// XSS-Safe Highlighting
+function _hasSelection(){ const s = window.getSelection?.(); return s && String(s).length > 0; }
 function _reEscape(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 function highlightTerm(text, term) {
   if(!term) return escapeHtml(text);
@@ -363,7 +355,6 @@ function highlightTerm(text, term) {
   return safeText.replace(regex, `<mark style="background:rgba(29,78,216,0.2); color:#1d4ed8; padding:0 2px; border-radius:3px;">$1</mark>`);
 }
 
-// Safe Checkbox Toggle Behavior
 document.addEventListener("click", (e)=>{
   const lab = e.target.closest(".chk");
   if(!lab) return;
@@ -374,7 +365,6 @@ document.addEventListener("click", (e)=>{
   cb.dispatchEvent(new Event("change", {bubbles:true}));
 });
 
-// ESC Key Listener
 document.addEventListener("keydown", (e)=>{
   if(e.key !== "Escape") return;
   const tag = (document.activeElement?.tagName || "").toLowerCase();
@@ -387,7 +377,6 @@ document.addEventListener("keydown", (e)=>{
   }
 });
 
-// Update Decision Badge Helper & Visual Triage Panel Border
 function updateDecisionBadgeFromSelect(){
   const tri = document.getElementById("triageSelect")?.value || "Routine";
   const dec = decisionFromTriage(tri);
@@ -405,7 +394,6 @@ function updateDecisionBadgeFromSelect(){
   }
 }
 
-// --- NEW: CLINICAL TRIAGE ENGINE ---
 function computeTriage(dx, ctx, obs) {
   let tri = "Routine";
   let reason = "Baseline monitoring (no high-risk findings selected)";
@@ -455,7 +443,6 @@ function autoTriageFromObservations(){
   if(badge) badge.title = result.reason;
 }
 
-// Render Findings Chips
 function renderChips(containerId, items, bucket, isFlag=false){
   const el = document.getElementById(containerId);
   el.innerHTML = "";
@@ -495,14 +482,10 @@ function getReportList(items, bucket) {
     });
 }
 
-// --- REPORTING LOGIC (COPY & PRINT) ---
 function _copyTextFallback(txt){
   const ta = document.createElement("textarea");
-  ta.value = txt;
-  ta.style.position = "fixed";
-  ta.style.left = "-9999px";
-  document.body.appendChild(ta);
-  ta.focus(); ta.select();
+  ta.value = txt; ta.style.position = "fixed"; ta.style.left = "-9999px";
+  document.body.appendChild(ta); ta.focus(); ta.select();
   try { document.execCommand("copy"); } catch(e){}
   document.body.removeChild(ta);
 }
@@ -517,11 +500,11 @@ function copyReport(){
   const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
   const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
   const sx = (document.getElementById("p_symptoms")?.value || "").trim();
-  
   const noteEl = document.getElementById("doctorNotes");
   const note = noteEl ? noteEl.value.trim() : (document.getElementById("p_note")?.value || "").trim();
   const triage = document.getElementById("triageSelect")?.value || "Routine";
   const decision = decisionFromTriage(triage).badge;
+
   const oct = getReportList(listify(currentDx.oct), 'oct');
   const octa = getReportList(listify(currentDx.octa), 'octa');
   const targets = getReportList(listify(currentDx.targets), 'targets');
@@ -538,6 +521,13 @@ function copyReport(){
   lines.push(``);
   lines.push(`Provisional Dx: ${currentDx.name || currentDx.id || "-"}`);
   lines.push(`Domain/Category: ${currentDx.domain || "-"} / ${getCategory(currentDx)}`);
+  
+  if(currentDx.scan_oct || currentDx.scan_octa) {
+      lines.push(`Recommended Scans Executed:`);
+      if(currentDx.scan_oct) lines.push(`OCT: ${currentDx.scan_oct}`);
+      if(currentDx.scan_octa) lines.push(`OCTA: ${currentDx.scan_octa}`);
+  }
+  
   lines.push(`Triage: ${triage} | Decision: ${decision}`);
   lines.push(``);
   lines.push(`Structural OCT:`);
@@ -554,17 +544,12 @@ function copyReport(){
     flags.forEach(x=>lines.push(`${x}`));
     lines.push(``);
   }
-  if(note) {
-    lines.push(`Clinical Impression / Plan:`);
-    lines.push(note);
-  }
+  if(note) { lines.push(`Clinical Impression / Plan:`); lines.push(note); }
+
   const txt = lines.join("\n");
   if(navigator.clipboard && window.isSecureContext){
     navigator.clipboard.writeText(txt).then(()=>alert("Report copied ✅")).catch(()=>{ _copyTextFallback(txt); alert("Report copied ✅"); });
-  } else {
-    _copyTextFallback(txt);
-    alert("Report copied ✅");
-  }
+  } else { _copyTextFallback(txt); alert("Report copied ✅"); }
 }
 
 function printProtocol(){
@@ -611,6 +596,15 @@ function printProtocol(){
           ${escapeHtml(currentDx.domain||"—")} • ${escapeHtml(getCategory(currentDx))}
         </div>
       </div>
+      
+      ${currentDx.scan_oct || currentDx.scan_octa ? `
+        <div style="margin-top:12px; background:#f8fafc; padding:8px; border:1px solid #e2e8f0;">
+          <div style="font-size:11px; font-weight:bold; color:#64748b; text-transform:uppercase;">Protocol Executed</div>
+          ${currentDx.scan_oct ? `<div style="font-size:12px; margin-top:4px;"><b>OCT:</b> ${escapeHtml(currentDx.scan_oct)}</div>` : ''}
+          ${currentDx.scan_octa ? `<div style="font-size:12px; margin-top:2px;"><b>OCT-A:</b> ${escapeHtml(currentDx.scan_octa)}</div>` : ''}
+        </div>
+      ` : ""}
+
       ${section("Structural OCT", oct)}
       ${section("OCT-A Protocol", octa)}
       ${section("Analysis Targets", targets)}
@@ -642,7 +636,7 @@ function section(title, items, danger=false){
 // --- INITIALIZATION ---
 async function loadData(){
   try {
-    const res = await fetch('./diagnoses.json?v=7'); // Busted cache for the new layout
+    const res = await fetch('./diagnoses.json?v=8'); 
     allDiagnoses = await res.json();
     buildCategoryFilters();
     applyFilters();
@@ -776,6 +770,20 @@ function showDetails(dx){
   const pNote = document.getElementById("p_note");
   if(docNotes && pNote) docNotes.value = pNote.value || "";
   
+  // SCAN INSTRUCTIONS DISPLAY
+  const scanBanner = document.getElementById("scanBanner");
+  const scanOctTxt = document.getElementById("scanOctTxt");
+  const scanOctaTxt = document.getElementById("scanOctaTxt");
+  if (dx.scan_oct || dx.scan_octa) {
+      scanBanner.style.display = "block";
+      scanOctTxt.innerHTML = dx.scan_oct ? `📷 <b>OCT:</b> <span style="font-weight:600; color:#334155;">${escapeHtml(dx.scan_oct)}</span>` : "";
+      scanOctaTxt.innerHTML = dx.scan_octa ? `🧬 <b>OCT-A:</b> <span style="font-weight:600; color:#334155;">${escapeHtml(dx.scan_octa)}</span>` : "";
+      scanOctTxt.style.display = dx.scan_oct ? "block" : "none";
+      scanOctaTxt.style.display = dx.scan_octa ? "block" : "none";
+  } else {
+      scanBanner.style.display = "none";
+  }
+
   const o = listify(dx.oct); const a = listify(dx.octa); const t = listify(dx.targets); const f = listify(dx.red_flags);
   renderChips("octList", o, "oct");
   renderChips("octaList", a, "octa");
@@ -1151,7 +1159,6 @@ function reopenDx(key, findings) {
   }
 }
 
-// --- EXPORT & IMPORT BACKUPS ---
 function exportPatients(){
   const store = _loadStore(); const blob = new Blob([JSON.stringify(store, null, 2)], {type:"application/json"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);

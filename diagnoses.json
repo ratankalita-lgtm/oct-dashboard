@@ -5,6 +5,8 @@
     "aliases": ["ci-dme", "csme", "diabetic edema"],
     "domain": "Retina",
     "category": "Vascular",
+    "scan_oct": "Macula Cube (6x6mm) + High-Res Line (Fovea)",
+    "scan_octa": "3x3mm or 6x6mm Macula (Focus: SCP & DCP)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -23,27 +25,27 @@
       }
     ],
     "oct": [
-      "Center involvement: foveal IRF and/or central thickening.",
-      "Pattern: focal vs diffuse; note SRF if present.",
-      "Prognosis markers: DRIL, EZ/ELM disruption, hyperreflective foci, exudate shadowing.",
-      "Check traction (ERM/VMT): if present, medical response may be limited.",
+      "Center involvement: foveal IRF and/or central thickening",
+      "Pattern: focal vs diffuse; note SRF if present",
+      "Prognosis markers: DRIL, EZ/ELM disruption, hyperreflective foci, exudate shadowing",
+      "Check traction (ERM/VMT): if present, medical response may be limited",
       "Minimum documentation: CST trend, IRF/SRF presence, EZ status"
     ],
     "octa": [
-      "FAZ enlargement/irregularity → ischemic maculopathy risk.",
-      "SCP/DCP dropout (DCP often earlier).",
-      "Artifact checks: motion, projection, segmentation errors."
+      "FAZ enlargement/irregularity → ischemic maculopathy risk",
+      "SCP/DCP dropout (DCP often earlier)",
+      "Artifact checks: motion, projection, segmentation errors"
     ],
     "targets": [
-      "Center-involving DME + vision impact → Anti-VEGF pathway.",
-      "Tractional component (ERM/VMT) → retina opinion.",
-      "Inadequate response to Anti-VEGF → consider steroid pathway.",
-      "Optimize systemic factors: HbA1c, BP, lipids, renal status."
+      "Center-involving DME + vision impact → Anti-VEGF pathway",
+      "Tractional component (ERM/VMT) → retina opinion",
+      "Inadequate response to Anti-VEGF → consider steroid pathway",
+      "Optimize systemic factors: HbA1c, BP, lipids, renal status"
     ],
     "red_flags": [
-      "Large FAZ enlargement/marked DCP dropout with poor vision (ischemic maculopathy).",
-      "Tractional DME (ERM/VMT) with distortion.",
-      "New NVE/NVD suspicion; vitreous hemorrhage symptoms."
+      "Large FAZ enlargement/marked DCP dropout with poor vision (ischemic maculopathy)",
+      "Tractional DME (ERM/VMT) with distortion",
+      "New NVE/NVD suspicion; vitreous hemorrhage symptoms"
     ],
     "follow_up": "Active treatment: 4-6 weeks. Stable: 6-10 weeks.",
     "triage": "Treat now: CI-DME with ↓vision. Refer early if tractional signs.",
@@ -63,6 +65,8 @@
     "aliases": ["proliferative dr", "nve", "nvd"],
     "domain": "Retina",
     "category": "Vascular",
+    "scan_oct": "Macula Cube + Widefield / Periphery sweeps",
+    "scan_octa": "Widefield (12x12 or montages)",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -80,8 +84,8 @@
       "Hyperreflective pre-retinal loops"
     ],
     "octa": [
-      "Scan: Widefield (12x12 or montages)",
-      "Slab: Vitreoretinal Interface (VRI)"
+      "Identify neovascular networks above ILM",
+      "Assess capillary non-perfusion areas"
     ],
     "targets": [
       "Flow above the ILM (NVE/NVD)",
@@ -102,6 +106,8 @@
     "aliases": ["neovascular amd", "exudative amd", "wet amd"],
     "domain": "Retina",
     "category": "AMD CNV",
+    "scan_oct": "Macula Cube + High-Res Raster (Focus on fluid)",
+    "scan_octa": "3x3mm or 6x6mm Macula (Focus: Outer Retina/CC)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -115,22 +121,22 @@
       }
     ],
     "oct": [
-      "SRF and/or IRF.",
-      "PED (serous or fibrovascular; irregular elevation suggests activity).",
-      "SHRM suggests active CNV.",
-      "EZ disruption = prognosis marker."
+      "SRF and/or IRF",
+      "PED (serous or fibrovascular; irregular elevation suggests activity)",
+      "SHRM suggests active CNV",
+      "EZ disruption = prognosis marker"
     ],
     "octa": [
-      "Identify CNV network; confirm correct slabs/segmentation.",
-      "Helps confirm CNV when OCT subtle and track persistence."
+      "Identify CNV network; confirm correct slabs/segmentation",
+      "Helps confirm CNV when OCT subtle and track persistence"
     ],
     "targets": [
-      "Any convincing exudation (SRF/IRF/SHRM/PED with symptoms) → anti-VEGF pathway.",
-      "Consider masqueraders in atypical cases: CSC/vitelliform/myopic CNV."
+      "Any convincing exudation (SRF/IRF/SHRM/PED with symptoms) → anti-VEGF pathway",
+      "Consider masqueraders in atypical cases: CSC/vitelliform/myopic CNV"
     ],
     "red_flags": [
-      "Increasing SRF/IRF/SHRM or rising PED height.",
-      "New symptoms: distortion, central scotoma, rapid acuity drop."
+      "Increasing SRF/IRF/SHRM or rising PED height",
+      "New symptoms: distortion, central scotoma, rapid acuity drop"
     ],
     "follow_up": "Induction: 4-6 weeks (monthly loading) then treat-and-extend.",
     "triage": "Treat/Refer urgently if SRF/IRF/SHRM or suspicious PED with symptoms.",
@@ -143,6 +149,8 @@
     "aliases": ["non-exudative amd", "atrophic amd"],
     "domain": "Retina",
     "category": "AMD CNV",
+    "scan_oct": "Macula Cube",
+    "scan_octa": "6x6mm Macula (Focus: Choriocapillaris)",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -155,8 +163,7 @@
       "Retinal thinning"
     ],
     "octa": [
-      "Scan: 6x6 mm",
-      "Slab: Choriocapillaris"
+      "Assess underlying choriocapillaris flow"
     ],
     "targets": [
       "Flow voids in Choriocapillaris (beneath atrophy)",
@@ -177,6 +184,8 @@
     "aliases": ["branch vein occlusion"],
     "domain": "Retina",
     "category": "Vascular",
+    "scan_oct": "Macula Cube + High-Res Line",
+    "scan_octa": "6x6mm or Widefield (Focus: SCP/DCP Dropout)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -190,20 +199,20 @@
       }
     ],
     "oct": [
-      "Sectoral macular edema/thickening; cystoid IRF often in INL/OPL.",
-      "Exudates/hemorrhage may cause shadowing.",
-      "Check vitreomacular interface (ERM/VMT) - can sustain edema."
+      "Sectoral macular edema/thickening; cystoid IRF often in INL/OPL",
+      "Exudates/hemorrhage may cause shadowing",
+      "Check vitreomacular interface (ERM/VMT) - can sustain edema"
     ],
     "octa": [
-      "FAZ enlargement/irregularity.",
-      "Capillary dropout/non-perfusion (DCP often most affected)."
+      "FAZ enlargement/irregularity",
+      "Capillary dropout/non-perfusion (DCP often most affected)"
     ],
     "targets": [
-      "Treat edema, assess ischemia risk, monitor for neovascular complications."
+      "Treat edema, assess ischemia risk, monitor for neovascular complications"
     ],
     "red_flags": [
-      "Rapid vision loss, massive edema/SRF (think ischemic CRVO).",
-      "Extensive OCT-A dropout / large FAZ; suspected NVE/NVD."
+      "Rapid vision loss, massive edema/SRF (think ischemic CRVO)",
+      "Extensive OCT-A dropout / large FAZ; suspected NVE/NVD"
     ],
     "follow_up": "Acute phase: 4-6 weeks.",
     "triage": "Vision-limiting macular edema → retina/anti-VEGF pathway.",
@@ -216,6 +225,8 @@
     "aliases": ["central vein occlusion"],
     "domain": "Retina",
     "category": "Vascular",
+    "scan_oct": "Macula Cube + High-Res Line",
+    "scan_octa": "6x6mm or Widefield (Focus: SCP/DCP Dropout)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -229,21 +240,21 @@
       }
     ],
     "oct": [
-      "Diffuse macular edema; very high CST common.",
-      "SRF is common; IRF often extensive.",
-      "EZ disruption/DRIL can appear early.",
-      "Check VMI (ERM/VMT)."
+      "Diffuse macular edema; very high CST common",
+      "SRF is common; IRF often extensive",
+      "EZ disruption/DRIL can appear early",
+      "Check VMI (ERM/VMT)"
     ],
     "octa": [
-      "FAZ enlargement/irregularity.",
-      "Capillary dropout/non-perfusion (DCP often most affected)."
+      "FAZ enlargement/irregularity",
+      "Capillary dropout/non-perfusion (DCP often most affected)"
     ],
     "targets": [
-      "Treat edema, identify ischemic CRVO, monitor for NV complications."
+      "Treat edema, identify ischemic CRVO, monitor for NV complications"
     ],
     "red_flags": [
-      "Rapid vision loss, massive edema/SRF (think ischemic CRVO).",
-      "Extensive OCT-A dropout / large FAZ; suspected NVE/NVD."
+      "Rapid vision loss, massive edema/SRF (think ischemic CRVO)",
+      "Extensive OCT-A dropout / large FAZ; suspected NVE/NVD"
     ],
     "follow_up": "Acute phase: 4-6 weeks.",
     "triage": "Vision-limiting macular edema → retina/anti-VEGF pathway.",
@@ -256,6 +267,8 @@
     "aliases": ["csr", "csc", "central serous"],
     "domain": "Retina",
     "category": "Macula",
+    "scan_oct": "Macula Cube (EDI/Swept Source if avail) + High-Res Line",
+    "scan_octa": "3x3mm or 6x6mm (Focus: Choriocapillaris)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -273,8 +286,7 @@
       "Thickened choroid (pachy-choroid)"
     ],
     "octa": [
-      "Scan: 3x3 mm",
-      "Slab: Choriocapillaris / Outer Retina"
+      "Assess for neovascularization in outer retina/CC slab"
     ],
     "targets": [
       "Rule out CNV (dark spot usually)",
@@ -295,6 +307,8 @@
     "aliases": ["macular pucker", "cellophane maculopathy"],
     "domain": "Retina",
     "category": "Interface Traction",
+    "scan_oct": "High-Res Macula Radial/Cross + Macula Cube",
+    "scan_octa": "3x3mm Macula (Focus: VRI, SCP)",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -307,8 +321,7 @@
       "Retinal wrinkling / loss of foveal pit"
     ],
     "octa": [
-      "Scan: 3x3 mm",
-      "Slab: SCP"
+      "Evaluate vessel tortuosity in SCP"
     ],
     "targets": [
       "Vessel tortuosity in SCP",
@@ -329,6 +342,8 @@
     "aliases": ["vts"],
     "domain": "Retina",
     "category": "Interface Traction",
+    "scan_oct": "High-Res Macula Radial/Cross + Macula Cube",
+    "scan_octa": "3x3mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -341,8 +356,7 @@
       "Foveal distortion/tenting"
     ],
     "octa": [
-      "Scan: 3x3 mm",
-      "Slab: VRI"
+      "Rule out secondary vascular complications"
     ],
     "targets": [
       "Assess foveal structural integrity",
@@ -363,6 +377,8 @@
     "aliases": ["ftmh", "mac hole"],
     "domain": "Retina",
     "category": "Interface Traction",
+    "scan_oct": "High-Res Macula Radial/Cross + Macula Cube",
+    "scan_octa": "3x3mm Macula (SCP/DCP)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -380,8 +396,7 @@
       "Cystic edges, operculum presence"
     ],
     "octa": [
-      "Scan: 3x3 mm",
-      "Slab: SCP/DCP"
+      "Evaluate surrounding capillary plexuses"
     ],
     "targets": [
       "Measure hole minimum diameter",
@@ -402,6 +417,8 @@
     "aliases": ["mac tel", "mactel", "telangiectasia type 2"],
     "domain": "Retina",
     "category": "Macula",
+    "scan_oct": "High-Res Line + Macula Cube",
+    "scan_octa": "3x3mm Macula (Focus: DCP)",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -416,9 +433,8 @@
       "EZ disruption temporal"
     ],
     "octa": [
-      "Scan: 3x3 mm",
-      "Slabs: SCP + DCP (telangiectatic changes often in DCP)",
-      "Check right-left asymmetry and parafoveal vascular changes"
+      "Check right-left asymmetry",
+      "Parafoveal vascular changes"
     ],
     "targets": [
       "Right-angle venules",
@@ -441,6 +457,8 @@
     "aliases": ["rnfl", "gcc", "oct nerve", "open angle glaucoma"],
     "domain": "Optic Nerve",
     "category": "Glaucoma",
+    "scan_oct": "Optic Disc Cube (200x200) + Macula GCC",
+    "scan_octa": "4.5x4.5mm Disc (Focus: RPC)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -456,11 +474,9 @@
     "oct": [
       "RNFL Circle Scan (thinning) / Compare symmetry and progression",
       "Ganglion Cell Complex (GCC/GCIPL) loss pattern (early detection)",
-      "Optic disc cube"
+      "Optic disc cube parameter review"
     ],
     "octa": [
-      "Scan: 4.5x4.5 mm Disc",
-      "Slab: Radial Peripapillary Capillaries (RPC)",
       "Document radial peripapillary capillary density"
     ],
     "targets": [
@@ -484,6 +500,8 @@
     "aliases": ["aneurysmal type 1 nv", "asia amd variant", "polypoidal"],
     "domain": "Retina",
     "category": "AMD CNV",
+    "scan_oct": "Macula Cube + High-Res Raster (EDI if available)",
+    "scan_octa": "3x3mm or 6x6mm Macula (Focus: CC/Outer Retina)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -502,8 +520,6 @@
       "Double-layer sign"
     ],
     "octa": [
-      "Scan: 3x3 mm or 6x6 mm",
-      "Slab: Choriocapillaris + Outer Retina",
       "Look for branching vascular network; polyps may be hypoflow"
     ],
     "targets": [
@@ -528,6 +544,8 @@
     "aliases": ["pathologic myopia", "myopic foveoschisis"],
     "domain": "Retina",
     "category": "Myopia",
+    "scan_oct": "Macula Cube (Wide) + High-Res Cross",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -541,8 +559,7 @@
       "Staphyloma"
     ],
     "octa": [
-      "Scan: 6x6 mm",
-      "Slab: Choriocapillaris"
+      "Assess for secondary myopic CNV"
     ],
     "targets": [
       "Patchy choriocapillaris atrophy",
@@ -563,6 +580,8 @@
     "aliases": ["plaquenil toxicity", "bulls eye maculopathy"],
     "domain": "Retina",
     "category": "Toxicity",
+    "scan_oct": "Macula Cube (Wide 9x9mm) + High-Res Line",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Soon",
@@ -580,8 +599,7 @@
       "Parafoveal thinning"
     ],
     "octa": [
-      "Scan: 6x6 mm",
-      "Slab: Choriocapillaris"
+      "Assess choriocapillaris integrity"
     ],
     "targets": [
       "Choriocapillaris flow voids (late)",
@@ -602,6 +620,8 @@
     "aliases": ["eclipse retinopathy", "photic maculopathy"],
     "domain": "Retina",
     "category": "Toxicity",
+    "scan_oct": "High-Res Line (Fovea)",
+    "scan_octa": "3x3mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -614,8 +634,7 @@
       "RPE disruption"
     ],
     "octa": [
-      "Scan: 3x3 mm",
-      "Slab: Choriocapillaris"
+      "Confirm normal choriocapillaris flow"
     ],
     "targets": [
       "Usually normal flow",
@@ -636,6 +655,8 @@
     "aliases": ["freckle", "benign nevus"],
     "domain": "Retina",
     "category": "Tumor Lesion",
+    "scan_oct": "Macula Cube (EDI) + High-Res Line over lesion",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -649,8 +670,7 @@
       "Flat RPE usually"
     ],
     "octa": [
-      "Scan: 6x6 mm",
-      "Slab: Choriocapillaris"
+      "Check for intrinsic flow indicating melanoma risk"
     ],
     "targets": [
       "No intrinsic flow (hypointense)",
@@ -671,6 +691,8 @@
     "aliases": ["pxe streaks"],
     "domain": "Retina",
     "category": "Macula",
+    "scan_oct": "Macula Cube (EDI)",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -683,8 +705,7 @@
       "RPE irregularity"
     ],
     "octa": [
-      "Scan: 6x6 mm",
-      "Slab: Outer Retina"
+      "Assess outer retina slab for neovascularization"
     ],
     "targets": [
       "Watch for CNV growth through breaks"
@@ -704,6 +725,8 @@
     "aliases": ["carotid occlusive disease"],
     "domain": "Retina",
     "category": "Ischemia",
+    "scan_oct": "Macula Cube + Inner retina thickness map",
+    "scan_octa": "Widefield 9x9mm or 12x12mm",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -716,8 +739,7 @@
       "Diffusely thickened choroid sometimes"
     ],
     "octa": [
-      "Scan: 6x6 mm",
-      "Slab: All"
+      "Assess global macular perfusion"
     ],
     "targets": [
       "Global flow reduction",
@@ -738,6 +760,8 @@
     "aliases": ["aion", "ischemic optic neuropathy", "nag"],
     "domain": "Optic Nerve",
     "category": "Ischemic ON",
+    "scan_oct": "Optic Disc Cube + Macula GCC",
+    "scan_octa": "4.5x4.5mm Disc (Focus: RPC)",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -750,8 +774,6 @@
       "Later follow-up shows sectoral RNFL thinning"
     ],
     "octa": [
-      "Scan: 4.5x4.5 mm Disc",
-      "Slab: RPC",
       "Optional: ONH OCT-A to document perfusion reduction"
     ],
     "targets": [
@@ -776,6 +798,8 @@
     "aliases": ["tb", "serpiginous", "serpiginous-like", "tubercular choroiditis"],
     "domain": "Retina",
     "category": "Inflammation Infection",
+    "scan_oct": "Macula Cube + High-Res Line through lesions",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Soon",
@@ -789,12 +813,10 @@
       }
     ],
     "oct": [
-      "Macula cube + lesion-centered line scans",
       "Look for outer retinal/RPE disruption and sub-RPE changes"
     ],
     "octa": [
-      "6x6 mm (or 3x3 for focal lesion)",
-      "Slabs: Choriocapillaris (key) + Outer retina (exclude CNV)"
+      "Assess Choriocapillaris (key) + Outer retina (exclude CNV)"
     ],
     "targets": [
       "Choriocapillaris flow voids (extent/activity)",
@@ -816,6 +838,8 @@
     "aliases": ["vogt", "koyanagi", "harada"],
     "domain": "Retina",
     "category": "Inflammation Infection",
+    "scan_oct": "Macula Cube + High-Res Line through lesions",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -824,13 +848,10 @@
       }
     ],
     "oct": [
-      "Macula cube",
       "Look for multilobular SRF, septae, RPE folds",
       "Check choroidal thickening"
     ],
     "octa": [
-      "6x6 mm",
-      "Slabs: Choriocapillaris (key) + SCP/DCP",
       "Look for diffuse CC hypoperfusion/flow voids"
     ],
     "targets": [
@@ -853,6 +874,8 @@
     "aliases": ["cmv", "retinitis", "hiv retinitis"],
     "domain": "Retina",
     "category": "Inflammation Infection",
+    "scan_oct": "Macula Cube + High-Res Line through lesions",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -861,12 +884,10 @@
       }
     ],
     "oct": [
-      "Lesion-centered line scan",
       "Look for full-thickness retinal hyperreflectivity and disruption"
     ],
     "octa": [
-      "6x6 mm if possible",
-      "Slabs: SCP/DCP (capillary dropout can be extensive)"
+      "Evaluate capillary dropout (can be extensive)"
     ],
     "targets": [
       "Structural involvement depth",
@@ -888,6 +909,8 @@
     "aliases": ["toxoplasma", "retinochoroiditis"],
     "domain": "Retina",
     "category": "Inflammation Infection",
+    "scan_oct": "Macula Cube + High-Res Line through lesions",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -896,13 +919,10 @@
       }
     ],
     "oct": [
-      "Lesion-centered line scan",
       "Look for focal full-thickness hyperreflectivity, vitreous cells shadowing"
     ],
     "octa": [
-      "3x3 or 6x6",
-      "Slabs: CC + Outer retina",
-      "Document perfusion impact"
+      "Document perfusion impact at active edge"
     ],
     "targets": [
       "Differentiate active edge vs scar (structural)",
@@ -923,6 +943,8 @@
     "aliases": ["peripheral vasculitis", "retinal vasculitis"],
     "domain": "Retina",
     "category": "Vascular",
+    "scan_oct": "Macula Cube + High-Res Line through lesions",
+    "scan_octa": "6x6mm Macula",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -931,12 +953,11 @@
       }
     ],
     "oct": [
-      "Macula cube (often normal unless edema/ERM present)",
+      "Often normal unless edema/ERM present",
       "If VA drop → look for CME or vitreomacular traction"
     ],
     "octa": [
-      "If using: 6x6 mm SCP/DCP to document ischemia signs",
-      "Use mainly for macular ischemia/CME correlation"
+      "Document ischemia signs (SCP/DCP)"
     ],
     "targets": [
       "Any CME/ERM component explaining VA",
@@ -958,6 +979,8 @@
     "aliases": ["pamm", "amn", "paracentral scotoma"],
     "domain": "Retina",
     "category": "Ischemia",
+    "scan_oct": "High-Res Line",
+    "scan_octa": "3x3mm Macula (Focus: DCP)",
     "triage_rules": [
       {
         "level": "Soon",
@@ -971,13 +994,10 @@
       }
     ],
     "oct": [
-      "High-res line scan through symptomatic area",
       "PAMM: hyperreflective band at INL",
       "AMN: outer plexiform/outer retina focal lesions"
     ],
     "octa": [
-      "3x3 mm preferred",
-      "Slabs: DCP (key) + SCP",
       "Look for focal DCP flow deficits"
     ],
     "targets": [
@@ -999,6 +1019,8 @@
     "aliases": ["disc edema", "raised icp"],
     "domain": "Optic Nerve",
     "category": "Disc Edema",
+    "scan_oct": "Optic Disc Cube + RNFL Circle",
+    "scan_octa": "4.5x4.5mm Disc",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -1007,22 +1029,22 @@
       }
     ],
     "oct": [
-      "RNFL thickness: diffuse swelling typical; note asymmetry/quadrants.",
-      "ONH contour: elevated disc; peripapillary subretinal hyporeflective space may be present.",
-      "Beware segmentation errors in high swelling."
+      "RNFL thickness: diffuse swelling typical; note asymmetry/quadrants",
+      "ONH contour: elevated disc; peripapillary subretinal hyporeflective space may be present",
+      "Beware segmentation errors in high swelling"
     ],
     "octa": [
-      "Peripapillary perfusion changes are variable and not primary for diagnosis.",
-      "Clinical pathway + systemic workup remain decisive."
+      "Peripapillary perfusion changes are variable and not primary for diagnosis",
+      "Clinical pathway + systemic workup remain decisive"
     ],
     "targets": [
-      "Suspected papilledema clinically → urgent neuro-ophthalmology/neurology pathway.",
-      "Use OCT to document baseline RNFL/ONH and monitor response."
+      "Suspected papilledema clinically → urgent neuro-ophthalmology/neurology pathway",
+      "Use OCT to document baseline RNFL/ONH and monitor response"
     ],
     "red_flags": [
-      "Rapid symptom progression or vision drop.",
-      "Marked asymmetry (consider alternate diagnoses).",
-      "Pseudopapilledema possibility (disc drusen) if chronic/asymptomatic."
+      "Rapid symptom progression or vision drop",
+      "Marked asymmetry (consider alternate diagnoses)",
+      "Pseudopapilledema possibility (disc drusen) if chronic/asymptomatic"
     ],
     "follow_up": "Arrange urgent systemic evaluation first.",
     "triage": "Urgent escalation if headache + vomiting, transient visual obscurations, diplopia.",
@@ -1035,6 +1057,8 @@
     "aliases": ["pacg", "pacs", "plateau iris", "narrow angle"],
     "domain": "Anterior Segment",
     "category": "Angle Glaucoma",
+    "scan_oct": "High-Res Angle Scans (Nasal/Temporal, Dark/Light)",
+    "scan_octa": "N/A",
     "triage_rules": [
       {
         "level": "Soon",
@@ -1048,8 +1072,6 @@
       }
     ],
     "oct": [
-      "High-res angle scans (nasal and temporal)",
-      "Scan in both ambient light and dark room conditions",
       "Measure AOD500/750 (Angle Opening Distance) and TISA",
       "Assess lens vault and iris contour (pupillary block vs. plateau iris)"
     ],
@@ -1077,6 +1099,8 @@
     "aliases": ["icl", "ipcl", "phakic iol", "vault"],
     "domain": "Anterior Segment",
     "category": "IOL ICL",
+    "scan_oct": "Anterior Segment Cross-Line (Pupil Centered)",
+    "scan_octa": "N/A",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -1085,7 +1109,6 @@
       }
     ],
     "oct": [
-      "Anterior segment cross-line scan centered on pupil",
       "Measure distance from posterior ICL surface to anterior crystalline lens",
       "Check angle clearance in the periphery"
     ],
@@ -1112,6 +1135,8 @@
     "aliases": ["kc", "ectasia", "corneal thinning"],
     "domain": "Anterior Segment",
     "category": "Cornea Ectasia",
+    "scan_oct": "9mm/16mm Anterior Radial (Global Pachymetry)",
+    "scan_octa": "N/A",
     "triage_rules": [
       {
         "level": "Urgent",
@@ -1120,7 +1145,6 @@
       }
     ],
     "oct": [
-      "9mm or 16mm anterior segment radial scans",
       "Global corneal thickness map",
       "Epithelial thickness mapping (if software allows)"
     ],
