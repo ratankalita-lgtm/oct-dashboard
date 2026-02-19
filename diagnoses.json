@@ -637,4 +637,229 @@
     "id": "cmv_retinitis",
     "name": "CMV Retinitis (immunocompromised)",
     "aliases": ["cmv", "retinitis", "hiv retinitis"],
-    "domain": "
+    "domain": "Retina",
+    "category": "Inflammation Infection",
+    "oct": [
+      "Lesion-centered line scan",
+      "Look for full-thickness retinal hyperreflectivity and disruption"
+    ],
+    "octa": [
+      "6x6 mm if possible",
+      "Slabs: SCP/DCP (capillary dropout can be extensive)"
+    ],
+    "targets": [
+      "Structural involvement depth",
+      "Perfusion loss documentation"
+    ],
+    "red_flags": [
+      "Macular involvement",
+      "Rapid progression / new lesions",
+      "Vitreous haze increasing"
+    ],
+    "follow_up": "",
+    "triage": "",
+    "ddx": [],
+    "ddx_rules": []
+  },
+  {
+    "id": "toxo",
+    "name": "Toxoplasma Retinochoroiditis (active vs scar)",
+    "aliases": ["toxoplasma", "retinochoroiditis"],
+    "domain": "Retina",
+    "category": "Inflammation Infection",
+    "oct": [
+      "Lesion-centered line scan",
+      "Look for focal full-thickness hyperreflectivity, vitreous cells shadowing"
+    ],
+    "octa": [
+      "3x3 or 6x6",
+      "Slabs: CC + Outer retina",
+      "Document perfusion impact"
+    ],
+    "targets": [
+      "Differentiate active edge vs scar (structural)",
+      "Exclude CNV in old scar if new symptoms"
+    ],
+    "red_flags": [
+      "Lesion near fovea/ONH",
+      "New SRF/bleed near scar (CNV)"
+    ],
+    "follow_up": "",
+    "triage": "",
+    "ddx": [],
+    "ddx_rules": []
+  },
+  {
+    "id": "eales",
+    "name": "Eales Disease / Peripheral Vasculitis (screen)",
+    "aliases": ["peripheral vasculitis", "retinal vasculitis"],
+    "domain": "Retina",
+    "category": "Vascular",
+    "oct": [
+      "Macula cube (often normal unless edema/ERM present)",
+      "If VA drop → look for CME or vitreomacular traction"
+    ],
+    "octa": [
+      "If using: 6x6 mm SCP/DCP to document ischemia signs",
+      "Use mainly for macular ischemia/CME correlation"
+    ],
+    "targets": [
+      "Any CME/ERM component explaining VA",
+      "Macular ischemia signs if present"
+    ],
+    "red_flags": [
+      "New VH symptoms",
+      "Macular ischemia or CME",
+      "Disc/arcade neovascular suspicion"
+    ],
+    "follow_up": "",
+    "triage": "",
+    "ddx": [],
+    "ddx_rules": []
+  },
+  {
+    "id": "pamm_amn",
+    "name": "PAMM / AMN (acute ischemic maculopathy patterns)",
+    "aliases": ["pamm", "amn", "paracentral scotoma"],
+    "domain": "Retina",
+    "category": "Ischemia",
+    "oct": [
+      "High-res line scan through symptomatic area",
+      "PAMM: hyperreflective band at INL",
+      "AMN: outer plexiform/outer retina focal lesions"
+    ],
+    "octa": [
+      "3x3 mm preferred",
+      "Slabs: DCP (key) + SCP",
+      "Look for focal DCP flow deficits"
+    ],
+    "targets": [
+      "DCP perfusion defect",
+      "INL/outer retina structural correlate"
+    ],
+    "red_flags": [
+      "Associated systemic risk (BP/vascular event suspicion)",
+      "Progressive scotomas"
+    ],
+    "follow_up": "",
+    "triage": "",
+    "ddx": [],
+    "ddx_rules": []
+  },
+  {
+    "id": "papilledema",
+    "name": "Papilledema / Disc Edema (screen + follow-up)",
+    "aliases": ["disc edema", "raised icp"],
+    "domain": "Optic Nerve",
+    "category": "Disc Edema",
+    "oct": [
+      "RNFL thickness: diffuse swelling typical; note asymmetry/quadrants.",
+      "ONH contour: elevated disc; peripapillary subretinal hyporeflective space may be present.",
+      "Beware segmentation errors in high swelling."
+    ],
+    "octa": [
+      "Peripapillary perfusion changes are variable and not primary for diagnosis.",
+      "Clinical pathway + systemic workup remain decisive."
+    ],
+    "targets": [
+      "Suspected papilledema clinically → urgent neuro-ophthalmology/neurology pathway.",
+      "Use OCT to document baseline RNFL/ONH and monitor response."
+    ],
+    "red_flags": [
+      "Rapid symptom progression or vision drop.",
+      "Marked asymmetry (consider alternate diagnoses).",
+      "Pseudopapilledema possibility (disc drusen) if chronic/asymptomatic."
+    ],
+    "follow_up": "Arrange urgent systemic evaluation first.",
+    "triage": "Urgent escalation if headache + vomiting, transient visual obscurations, diplopia.",
+    "ddx": ["Pseudopapilledema (disc drusen)", "Optic neuritis", "NAION", "Hypertensive optic neuropathy"],
+    "ddx_rules": []
+  },
+  {
+    "id": "angle_closure",
+    "name": "Narrow Angles / Angle Closure Suspect",
+    "aliases": ["pacg", "pacs", "plateau iris", "narrow angle"],
+    "domain": "Anterior Segment",
+    "category": "Angle Glaucoma",
+    "oct": [
+      "High-res angle scans (nasal and temporal)",
+      "Scan in both ambient light and dark room conditions",
+      "Measure AOD500/750 (Angle Opening Distance) and TISA",
+      "Assess lens vault and iris contour (pupillary block vs. plateau iris)"
+    ],
+    "octa": [
+      "N/A for AS-OCT angle assessment"
+    ],
+    "targets": [
+      "Determine primary mechanism of closure (lens-driven, pupillary block, etc.)",
+      "Document irido-trabecular contact (ITC)",
+      "Baseline anterior chamber depth (ACD)"
+    ],
+    "red_flags": [
+      "Iridocorneal contact > 180 degrees",
+      "Peripheral anterior synechiae (PAS) suspected",
+      "Acute IOP spikes with fixed/mid-dilated pupil"
+    ],
+    "follow_up": "Post-LPI evaluation in 2-4 weeks to reassess angle opening.",
+    "triage": "Refer for LPI or clear lens extraction if appositional closure is confirmed.",
+    "ddx": ["Plateau Iris Syndrome", "Phacomorphic Glaucoma", "Malignant Glaucoma"],
+    "ddx_rules": []
+  },
+  {
+    "id": "icl_vault",
+    "name": "Phakic IOL (ICL) Vault Assessment",
+    "aliases": ["icl", "ipcl", "phakic iol", "vault"],
+    "domain": "Anterior Segment",
+    "category": "IOL ICL",
+    "oct": [
+      "Anterior segment cross-line scan centered on pupil",
+      "Measure distance from posterior ICL surface to anterior crystalline lens",
+      "Check angle clearance in the periphery"
+    ],
+    "octa": [
+      "N/A"
+    ],
+    "targets": [
+      "Ideal vault: 250µm to 750µm (roughly 0.5 to 1.5 corneal thicknesses)",
+      "Monitor for progressive vault decrease over years"
+    ],
+    "red_flags": [
+      "Vault < 100µm (high risk for anterior subcapsular cataract)",
+      "Vault > 1000µm (risk for angle closure and pigment dispersion)",
+      "Asymmetric vaulting (indicates potential sizing/rotation issues)"
+    ],
+    "follow_up": "1 month, 6 months, then annually if vault remains stable.",
+    "triage": "Urgent removal/exchange if vault is dangerously high causing closure.",
+    "ddx": [],
+    "ddx_rules": []
+  },
+  {
+    "id": "keratoconus_pachymetry",
+    "name": "Keratoconus / Global Pachymetry Map",
+    "aliases": ["kc", "ectasia", "corneal thinning"],
+    "domain": "Anterior Segment",
+    "category": "Cornea Ectasia",
+    "oct": [
+      "9mm or 16mm anterior segment radial scans",
+      "Global corneal thickness map",
+      "Epithelial thickness mapping (if software allows)"
+    ],
+    "octa": [
+      "N/A"
+    ],
+    "targets": [
+      "Identify thinnest point vs. apical thickness",
+      "Look for localized epithelial thinning over the cone",
+      "Assess stromal thickness for CXL suitability (min 400µm target)"
+    ],
+    "red_flags": [
+      "Thinnest pachymetry < 400µm (requires modified CXL protocol)",
+      "Progressive thinning > 10-15µm between visits",
+      "Descemet's membrane breaks (acute hydrops)"
+    ],
+    "follow_up": "Every 3-6 months for active progression; annually if stable post-CXL.",
+    "triage": "Routine monitoring unless acute hydrops is present.",
+    "ddx": ["Pellucid Marginal Degeneration (PMD)", "Post-LASIK Ectasia"],
+    "ddx_rules": []
+  }
+]
