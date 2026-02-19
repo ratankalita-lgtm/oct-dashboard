@@ -44,7 +44,8 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
 .countRow{ margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; font-size:11px; color:#475569; font-weight:700; }
 .countRow span{ display:inline-flex; gap:4px; align-items:center; padding:2px 8px; border-radius:999px; background:#f8fafc; border:1px solid var(--border); }
 
-.panel{ background:var(--card); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:20px; position: sticky; top: 150px; display:none; }
+/* VISUAL TRIAGE BORDER APPLIED HERE */
+.panel{ background:var(--card); border:1px solid var(--border); border-left:6px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:20px; position: sticky; top: 150px; display:none; transition: border-left-color 0.3s; }
 .panel h2{margin:0 0 8px 0;color:var(--accent); font-size:18px;}
 .panel h3{ margin:16px 0 6px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; font-size:14px;}
 ul{margin:4px 0 0 0;padding-left:20px; font-size:14px;}
@@ -54,7 +55,7 @@ li{margin-bottom:5px;line-height:1.4}
 .pBtn{ padding:6px 10px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; font-size:12px; color:#334155;}
 .pBtn:hover{border-color: rgba(29,78,216,.35); background:#f8fafc; color:#1d4ed8; }
 @media (max-width: 920px){ .main{grid-template-columns:1fr;} .panel{position:relative; top:auto;} }
-.footer{ text-align:center; margin:22px 0 26px 0; color:rgba(255,255,255,.60); font-size:11px; }
+.footer{ text-align:center; margin:22px 0 26px 0; color:rgba(255,255,255,.50); font-size:11px; line-height: 1.5; }
 
 /* DRAWER CSS */
 .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.2s;z-index:60}
@@ -82,16 +83,14 @@ li{margin-bottom:5px;line-height:1.4}
 .close-btn{background:transparent; border:none; color:white; font-size:22px; cursor:pointer; padding:0; line-height:1;}
 
 /* PRINT STYLES */
+#reportPrint { display:none; }
 @media print {
   body { background:#fff !important; color:#000 !important; margin:0 !important; }
   header, .filterBar, .toolsRow, .metaLine, .domain-tabs, .drawer, .drawer-overlay, .footer { display:none !important; }
   .main { display:block !important; margin:0 !important; }
   #tiles { display:none !important; }
-  #details { display:block !important; position:static !important; border:none !important; box-shadow:none !important; color:#000 !important; padding:0 !important; }
-  .actionRow { display:none !important; }
-  h2, h3, li, p, span { color:#000 !important; }
-  .d-panel { border: 1px solid #ccc !important; }
-  #printPatientLine { display:block !important; border-bottom: 1px dashed #ccc !important; padding-bottom: 8px !important; margin-bottom: 12px !important; }
+  #details { display:none !important; }
+  #reportPrint { display:block !important; }
 }
 </style>
 </head>
@@ -117,7 +116,7 @@ li{margin-bottom:5px;line-height:1.4}
 
   <div class="toolsRow">
     <div class="searchWrap">
-      <input id="search" placeholder="Search by name, alias, or acronym (e.g., BRVO, DME)..." onkeyup="applyFilters()">
+      <input id="search" placeholder="Search by name, alias, or acronym (e.g., BRVO, DME)..." onkeyup="debouncedSearch()">
       <div class="clearX" title="Clear" onclick="clearSearch()">×</div>
     </div>
   </div>
@@ -132,13 +131,14 @@ li{margin-bottom:5px;line-height:1.4}
   </div>
 
   <div id="details" class="panel">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
       <div style="flex:1; padding-right:12px;">
         <h2 id="dxName" style="margin:0 0 6px 0;"></h2>
-        <div id="printPatientLine" style="display:none; font-size:12px; color:#111;"></div>
+        <div id="activePatientBanner" style="display:none; font-size:12px; color:#334155; background:#f1f5f9; padding:6px 10px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:8px;"></div>
       </div>
       <div class="actionRow">
-        <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print</button>
+        <button class="pBtn" type="button" onclick="copyReport()">📋 Copy Report</button>
+        <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print (rare)</button>
         <button class="pBtn" type="button" onclick="openPatients(true)">💾 Save</button>
         <button class="pBtn" type="button" onclick="collapseDetails()">✖ Close</button>
       </div>
@@ -182,7 +182,13 @@ li{margin-bottom:5px;line-height:1.4}
   </div>
 </div>
 
-<div class="footer">© Ratan Kalita (Optometry) • De-identify all images before adding • Private clinical tool</div>
+<div id="reportPrint"></div>
+
+<div class="footer">
+  ⚠ <strong>Clinical Decision Support Only:</strong> This tool is not a substitute for clinical judgment.<br>
+  📸 <strong>Data Privacy:</strong> All images and patient names must be fully de-identified before external upload or sharing.<br>
+  © Ratan Kalita (Optometry) • Private clinical tool
+</div>
 
 </div>
 
@@ -258,11 +264,12 @@ li{margin-bottom:5px;line-height:1.4}
         <input id="p_note" placeholder="Quick clinical note (e.g. baseline, post-injection...)" />
       </div>
       
-      <div class="actions">
+      <div class="actions" style="margin-top:8px;">
         <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:none;" onclick="clearPatientForm()">Clear Form</button>
         <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer; background:#2563eb; color:white; border:none; font-weight:700;" onclick="savePatientAndMaybeVisit()">Save Context</button>
       </div>
-      <div id="activeDxHint" class="hint" style="display:none; color:#fbbf24; font-weight:bold;"></div>
+      <div id="activeDxHint" class="hint" style="display:none; color:#fbbf24; font-weight:bold; margin-top:10px;"></div>
+      <div id="overdueAlert" class="hint" style="display:none; color:#ef4444; font-weight:bold; margin-top:4px;"></div>
     </div>
 
     <div class="d-panel" id="visitTimelinePanel" style="display:none;">
@@ -341,10 +348,6 @@ document.addEventListener("click", (e)=>{
   cb.dispatchEvent(new Event("change", {bubbles:true}));
 });
 
-function printProtocol() {
-  window.print();
-}
-
 // ESC Key Listener (Closes drawer or details panel safely)
 document.addEventListener("keydown", (e)=>{
   if(e.key !== "Escape") return;
@@ -364,16 +367,172 @@ document.addEventListener("keydown", (e)=>{
   }
 });
 
-// Update Decision Badge Helper
+// Update Decision Badge Helper & Visual Triage Panel Border
 function updateDecisionBadgeFromSelect(){
   const tri = document.getElementById("triageSelect")?.value || "Routine";
   const dec = decisionFromTriage(tri);
   const badge = document.getElementById("decisionBadge");
-  if(!badge) return;
-  badge.textContent = dec.badge;
-  badge.style.color =
-    dec.badge.includes("URGENT") ? "#ef4444" :
-    dec.badge.includes("SOON") ? "#eab308" : "#10b981";
+  const panel = document.getElementById("details");
+  
+  if(badge) {
+    badge.textContent = dec.badge;
+    badge.style.color =
+      dec.badge.includes("URGENT") ? "#ef4444" :
+      dec.badge.includes("SOON") ? "#eab308" : "#10b981";
+  }
+  
+  if (panel) {
+      if(tri === "Urgent") panel.style.borderLeftColor = "#ef4444";
+      else if(tri === "Soon") panel.style.borderLeftColor = "#eab308";
+      else panel.style.borderLeftColor = "#10b981";
+  }
+}
+
+// --- REPORTING LOGIC (COPY & PRINT) ---
+function _copyTextFallback(txt){
+  const ta = document.createElement("textarea");
+  ta.value = txt;
+  ta.style.position = "fixed";
+  ta.style.left = "-9999px";
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand("copy"); } catch(e){}
+  document.body.removeChild(ta);
+}
+
+function copyReport(){
+  if(!currentDx){ alert("Open a protocol first."); return; }
+
+  const pid = (document.getElementById("p_id")?.value || "").trim();
+  const age = (document.getElementById("p_age")?.value || "").trim();
+  const sex = (document.getElementById("p_sex")?.value || "").trim();
+  const va_od = (document.getElementById("p_va_od")?.value || "").trim();
+  const va_os = (document.getElementById("p_va_os")?.value || "").trim();
+  const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
+  const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
+  const sx = (document.getElementById("p_symptoms")?.value || "").trim();
+  const note = (document.getElementById("p_note")?.value || "").trim();
+
+  const triage = document.getElementById("triageSelect")?.value || "Routine";
+  const decision = decisionFromTriage(triage).badge;
+
+  const lines = [];
+  lines.push(`OCT/OCTA REPORT`);
+  lines.push(`Date: ${new Date().toLocaleString()}`);
+  if(pid) lines.push(`Patient: ${pid}`);
+  if(age || sex) lines.push(`Age/Sex: ${age||"-"} / ${sex||"-"}`);
+  if(va_od || va_os) lines.push(`VA (OD/OS): ${va_od||"-"} / ${va_os||"-"}`);
+  if(iop_od || iop_os) lines.push(`IOP (OD/OS): ${iop_od||"-"} / ${iop_os||"-"}`);
+  if(sx) lines.push(`Symptoms: ${sx}`);
+  lines.push(``);
+  lines.push(`Provisional Dx: ${currentDx.name || currentDx.id || "-"}`);
+  lines.push(`Domain/Category: ${currentDx.domain || "-"} / ${getCategory(currentDx)}`);
+  lines.push(`Triage: ${triage} | Decision: ${decision}`);
+  lines.push(``);
+  lines.push(`Structural OCT:`);
+  listify(currentDx.oct).forEach(x=>lines.push(`- ${x}`));
+  lines.push(``);
+  lines.push(`OCT-A Protocol:`);
+  listify(currentDx.octa).forEach(x=>lines.push(`- ${x}`));
+  lines.push(``);
+  lines.push(`Analysis Targets:`);
+  listify(currentDx.targets).forEach(x=>lines.push(`- ${x}`));
+  lines.push(``);
+  const rf = listify(currentDx.red_flags);
+  if(rf.length){
+    lines.push(`Red Flags:`);
+    rf.forEach(x=>lines.push(`- ${x}`));
+    lines.push(``);
+  }
+  if(note) lines.push(`Note: ${note}`);
+
+  const txt = lines.join("\n");
+  
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(()=>alert("Report copied ✅"))
+      .catch(()=>{ _copyTextFallback(txt); alert("Report copied ✅"); });
+  } else {
+    _copyTextFallback(txt);
+    alert("Report copied ✅");
+  }
+}
+
+function printProtocol(){
+  if(!currentDx){ alert("Open a protocol first."); return; }
+
+  const triage = document.getElementById("triageSelect")?.value || "Routine";
+  const decision = decisionFromTriage(triage).badge;
+
+  const pid = (document.getElementById("p_id")?.value || "").trim();
+  const age = (document.getElementById("p_age")?.value || "").trim();
+  const sex = (document.getElementById("p_sex")?.value || "").trim();
+  const va_od = (document.getElementById("p_va_od")?.value || "").trim();
+  const va_os = (document.getElementById("p_va_os")?.value || "").trim();
+  const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
+  const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
+  const sx = (document.getElementById("p_symptoms")?.value || "").trim();
+  const note = (document.getElementById("p_note")?.value || "").trim();
+
+  const oct = listify(currentDx.oct);
+  const octa = listify(currentDx.octa);
+  const targets = listify(currentDx.targets);
+  const flags = listify(currentDx.red_flags);
+
+  const report = document.getElementById("reportPrint");
+  report.innerHTML = `
+    <div style="font-family:Arial, sans-serif; color:#000; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <div style="font-size:18px; font-weight:800;">OCT / OCTA Report</div>
+          <div style="font-size:12px; margin-top:2px;">Dr. Ratan Kalita • ${new Date().toLocaleString()}</div>
+        </div>
+        <div style="font-size:12px; font-weight:800; padding:6px 10px; border:1px solid #ccc; border-radius:6px;">
+          ${escapeHtml(triage)} • ${escapeHtml(decision)}
+        </div>
+      </div>
+
+      <div style="margin-top:12px; border-top:1px solid #ddd; padding-top:10px; font-size:12px; line-height:1.5;">
+        <b>Patient:</b> ${escapeHtml(pid||"—")} &nbsp; | &nbsp;
+        <b>Age/Sex:</b> ${escapeHtml(age||"—")}/${escapeHtml(sex||"—")} <br>
+        <b>VA (OD/OS):</b> ${escapeHtml(va_od||"—")} / ${escapeHtml(va_os||"—")} &nbsp; | &nbsp;
+        <b>IOP (OD/OS):</b> ${escapeHtml(iop_od||"—")} / ${escapeHtml(iop_os||"—")} <br>
+        <b>Symptoms:</b> ${escapeHtml(sx||"—")}
+      </div>
+
+      <div style="margin-top:12px;">
+        <div style="font-size:14px; font-weight:800;">Provisional Dx: ${escapeHtml(currentDx.name||currentDx.id||"—")}</div>
+        <div style="font-size:12px; color:#444; margin-top:2px;">
+          ${escapeHtml(currentDx.domain||"—")} • ${escapeHtml(getCategory(currentDx))}
+        </div>
+      </div>
+
+      ${section("Structural OCT", oct)}
+      ${section("OCT-A Protocol", octa)}
+      ${section("Analysis Targets", targets)}
+      ${flags.length ? section("Red Flags", flags, true) : ""}
+
+      ${note ? `<div style="margin-top:10px; font-size:12px;"><b>Note:</b> ${escapeHtml(note)}</div>` : ""}
+
+      <div style="margin-top:14px; font-size:10px; color:#444; border-top:1px dashed #bbb; padding-top:8px;">
+        Decision support tool only. Clinical correlation required. De-identify images before sharing.
+      </div>
+    </div>
+  `;
+
+  // Cross-browser reliable printing wrapper
+  requestAnimationFrame(()=> {
+    requestAnimationFrame(()=> window.print());
+  });
+}
+
+function section(title, items, danger=false){
+  const li = items.map(x=>`<li style="margin:4px 0;">${escapeHtml(x)}</li>`).join("");
+  return `
+    <div style="margin-top:12px;">
+      <div style="font-size:13px; font-weight:800; ${danger ? "color:#b91c1c;" : ""}">${escapeHtml(title)}</div>
+      <ul style="margin:6px 0 0 18px; padding:0; font-size:12px;">${li || "<li>—</li>"}</ul>
+    </div>
+  `;
 }
 
 // --- INITIALIZATION ---
@@ -429,7 +588,13 @@ function clearSearch(){
   applyFilters();
 }
 
-// --- SMART SEARCH ALGORITHM ---
+// --- SMART SEARCH ALGORITHM WITH DEBOUNCE ---
+let searchTimer;
+function debouncedSearch() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { applyFilters(); }, 150);
+}
+
 function norm(s){
   return (s || "").toString().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
@@ -551,33 +716,8 @@ function showDetails(dx){
     if(triSel) triSel.value = tri;
   }
   updateDecisionBadgeFromSelect();
-
   renderDDX(dx);
-  
-  // Populate print-only patient context header
-  const pLine = document.getElementById("printPatientLine");
-  if(pLine){
-    const pid = (document.getElementById("p_id")?.value || "").trim();
-    const va_od = (document.getElementById("p_va_od")?.value || "").trim();
-    const va_os = (document.getElementById("p_va_os")?.value || "").trim();
-    const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
-    const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
-    
-    const bits = [];
-    if(pid) bits.push(`Patient: ${pid}`);
-    if(va_od || va_os) bits.push(`VA (OD/OS): ${va_od||'-'} / ${va_os||'-'}`);
-    if(iop_od || iop_os) bits.push(`IOP (OD/OS): ${iop_od||'-'} / ${iop_os||'-'}`);
-    
-    const txt = bits.join("  |  ");
-    pLine.textContent = txt;
-    
-    const has = !!txt;
-    pLine.style.opacity = has ? "1" : "0";
-    pLine.style.height = has ? "auto" : "0";
-    pLine.style.margin = has ? "6px 0 10px 0" : "0";
-    pLine.style.paddingBottom = has ? "8px" : "0";
-    pLine.style.borderBottom = has ? "1px dashed #ccc" : "none";
-  }
+  updateActivePatientBanner();
 
   if (window.matchMedia("(max-width: 920px)").matches) { panel.scrollIntoView({behavior:"smooth", block:"start"}); }
 }
@@ -586,6 +726,30 @@ function collapseDetails(){
   document.getElementById("details").style.display = "none";
   currentDx = null;
   triageWasManuallySet = false;
+}
+
+// --- LIVE PATIENT BANNER ON MAIN DASHBOARD ---
+function updateActivePatientBanner() {
+  const banner = document.getElementById("activePatientBanner");
+  if(!banner) return;
+  const pid = (document.getElementById("p_id")?.value || "").trim();
+  const va_od = (document.getElementById("p_va_od")?.value || "").trim();
+  const va_os = (document.getElementById("p_va_os")?.value || "").trim();
+  const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
+  const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
+
+  if(!pid) {
+     banner.style.display = "none";
+     return;
+  }
+
+  const bits = [];
+  bits.push(`<strong>${escapeHtml(pid)}</strong>`);
+  if(va_od || va_os) bits.push(`VA: ${escapeHtml(va_od||'-')}/${escapeHtml(va_os||'-')}`);
+  if(iop_od || iop_os) bits.push(`IOP: ${escapeHtml(iop_od||'-')}/${escapeHtml(iop_os||'-')}`);
+
+  banner.innerHTML = `<span style="color:#64748b; margin-right:8px;">Active Patient:</span> ` + bits.join(' <span style="color:#cbd5e1; margin:0 6px;">|</span> ');
+  banner.style.display = "block";
 }
 
 // --- DDX RULES & CLINICAL CONTEXT ---
@@ -752,6 +916,8 @@ function clearPatientForm(){
     else el.value = "";
   });
   document.getElementById("visitTimelinePanel").style.display = "none";
+  document.getElementById("overdueAlert").style.display = "none";
+  updateActivePatientBanner();
   if(currentDx) showDetails(currentDx);
 }
 
@@ -808,6 +974,7 @@ function savePatientAndMaybeVisit(){
 
   store.patients[form.id] = existing;
   _saveStore(store);
+  updateActivePatientBanner();
 
   const hint = document.getElementById("activeDxHint");
   hint.style.display = "block";
@@ -815,6 +982,9 @@ function savePatientAndMaybeVisit(){
     ? `Saved + Visit logged for: ${currentDx.name || currentDx.id}` 
     : "Patient context saved.";
 
+  // Re-eval overdue logic on save
+  document.getElementById("overdueAlert").style.display = "none";
+  
   renderPatientList();
   renderVisitTimeline(existing);
   document.getElementById("visitTimelinePanel")?.scrollIntoView({behavior:"smooth", block:"start"});
@@ -896,6 +1066,35 @@ function loadPatient(pid){
     cb.checked = !!flags[cb.dataset.finding];
   });
 
+  updateActivePatientBanner();
+
+  // SMART ALERT: Follow-up Overdue Logic by Dx
+  const overdueAlert = document.getElementById("overdueAlert");
+  overdueAlert.style.display = "none";
+  if (p.visits && p.visits.length > 0) {
+      const lastV = p.visits[0];
+      if (lastV && lastV.at) {
+          const daysSince = Math.floor((Date.now() - new Date(lastV.at).getTime()) / (1000 * 60 * 60 * 24));
+          let overdue = false;
+          const dxLower = (lastV.dx || "").toLowerCase();
+
+          if (dxLower.match(/brvo|crvo|dme|cnv|wet amd|macular edema/)) {
+              if (daysSince > 45) overdue = true;
+          } else if (dxLower.match(/glaucoma|suspect/)) {
+              if (daysSince > 90) overdue = true;
+          } else {
+              if (lastV.triage === "Urgent" && daysSince > 3) overdue = true;
+              if (lastV.triage === "Soon" && daysSince > 45) overdue = true;
+              if (lastV.triage === "Routine" && daysSince > 180) overdue = true;
+          }
+
+          if (overdue) {
+              overdueAlert.style.display = "block";
+              overdueAlert.innerHTML = `⚠️ Follow-up Overdue (${daysSince} days since last visit)`;
+          }
+      }
+  }
+
   renderVisitTimeline(p);
 
   if(currentDx) showDetails(currentDx);
@@ -905,7 +1104,13 @@ function loadPatient(pid){
 }
 
 function deletePatient(pid){
-  if(!confirm(`Delete patient "${pid}" from this browser?`)) return;
+  // CLINICAL SAFETY LOCK
+  const confirmation = prompt(`To delete patient "${pid}", type the exact ID below:`);
+  if(confirmation !== pid) {
+      if (confirmation !== null) alert("ID did not match. Deletion cancelled.");
+      return;
+  }
+  
   const store = _loadStore();
   if(store.patients && store.patients[pid]){
     delete store.patients[pid];
@@ -1024,8 +1229,18 @@ document.addEventListener("DOMContentLoaded", ()=>{
     el.addEventListener("change", () => {
       if(currentDx) showDetails(currentDx);
     });
+    // Live update the Active Patient Banner as you type
+    el.addEventListener("input", () => {
+      updateActivePatientBanner();
+      if(currentDx) showDetails(currentDx);
+    });
   });
   
+  // Enter key in search bar bypasses debounce
+  document.getElementById("search")?.addEventListener("keydown", (e)=>{
+    if(e.key==="Enter"){ clearTimeout(searchTimer); applyFilters(); }
+  });
+
   // Triage manual override listener
   document.getElementById("triageSelect")?.addEventListener("change", ()=>{
     triageWasManuallySet = true;
