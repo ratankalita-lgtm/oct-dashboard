@@ -145,7 +145,7 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
       <div class="actionRow">
         <button class="pBtn" type="button" onclick="clearFindings()">🧽 Clear Findings</button>
         <button class="pBtn" type="button" onclick="copyReport()">📋 Copy Report</button>
-        <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print (rare)</button>
+        <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print</button>
         <button class="pBtn" type="button" onclick="openPatients(true)">💾 Save</button>
         <button class="pBtn" type="button" onclick="collapseDetails()">✖ Close</button>
       </div>
@@ -183,6 +183,11 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
           <label style="font-weight:800; color:#1d4ed8; font-size:12px; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">2. DDx Suggestions</label>
           <div id="ddxChips" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
         </div>
+      </div>
+      
+      <div style="margin-top:16px;">
+        <label style="font-weight:800; color:#1d4ed8; font-size:12px; margin-bottom:6px; display:block; text-transform:uppercase; letter-spacing:0.5px;">3. Clinical Impression / Plan</label>
+        <textarea id="doctorNotes" placeholder="Type final impression, specific treatment plan, or follow-up instructions here..." style="width:100%; box-sizing:border-box; background:#fff; border:1px solid #cbd5e1; color:#000; border-radius:8px; padding:10px; font-family:inherit; font-size:13px; resize:vertical; min-height:65px;" oninput="document.getElementById('p_note').value = this.value"></textarea>
       </div>
     </div>
 
@@ -266,9 +271,10 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
         <label>Symptoms / Onset</label>
         <input id="p_symptoms" placeholder="e.g. sudden blur 3 days" />
       </div>
+      
       <div class="row">
-        <label>Visit Note</label>
-        <input id="p_note" placeholder="Quick clinical note (e.g. baseline, post-injection...)" />
+        <label>Visit Note / Plan</label>
+        <input id="p_note" placeholder="Quick clinical note..." oninput="document.getElementById('doctorNotes').value = this.value" />
       </div>
       
       <div class="actions" style="margin-top:8px;">
@@ -400,39 +406,73 @@ function updateDecisionBadgeFromSelect(){
   }
 }
 
+// --- NEW: CLINICAL TRIAGE ENGINE ---
+function computeTriage(dx, ctx, obs) {
+  let tri = "Routine";
+  let reason = "Baseline monitoring (no high-risk findings selected)";
+  let score = 0;
+  const scores = { "Routine": 0, "Soon": 1, "Urgent": 2 };
+
+  const setTri = (level, r) => {
+    if(scores[level] > score) { tri = level; reason = r; score = scores[level]; }
+  };
+
+  // 1. Context Baseline (General flags)
+  if (ctx.pain) setTri("Urgent", "Context: Patient reports pain");
+  if (ctx.sudden) setTri("Soon", "Context: Sudden onset symptoms");
+
+  // 2. Custom JSON Protocol Rules
+  if (Array.isArray(dx.triage_rules) && dx.triage_rules.length > 0) {
+    dx.triage_rules.forEach(rule => {
+       let match = false;
+       if (rule.when) {
+         if (rule.when.any_flag_selected) {
+             match = Object.values(obs.flags || {}).some(Boolean);
+         } else if (rule.when.any_target_selected) {
+             match = Object.values(obs.targets || {}).some(Boolean);
+         } else if (rule.when.chip_contains) {
+             const bucketName = rule.when.bucket || "targets";
+             const bucket = obs[bucketName] || {};
+             match = Object.entries(bucket).some(([k,v]) => v && k.includes(norm(rule.when.chip_contains)));
+         } else if (rule.when.flag) {
+             match = evalCond(rule.when, ctx);
+         }
+       }
+       if (match) setTri(rule.level, rule.reason || `Protocol rule: ${rule.level}`);
+    });
+  } else {
+    // 3. Universal Fallback
+    const anyFlag = Object.values(obs.flags || {}).some(Boolean);
+    if (anyFlag) setTri("Urgent", "Auto fallback: Red flag selected");
+
+    const anyTarget = Object.entries(obs.targets || {}).some(([k,v]) => v && _isSoonTargetKey(k));
+    if (anyTarget && score < 1) setTri("Soon", "Auto fallback: High-risk finding selected");
+  }
+
+  return { level: tri, reason: reason };
+}
+
 // Clinical logic helper: identify high-risk targets
 function _isSoonTargetKey(key){
   return /(fluid|sr?f|irf|edema|dme|cnv|nv|ischemi|dropout|non perfusion|hemorrhage|traction|detachment)/.test(key);
 }
 
-// Auto-triage based on interactive finding clicks
+// Auto-triage based on interactive finding clicks using the engine
 function autoTriageFromObservations(){
   if(triageWasManuallySet) return;
   
-  const anyFlag = Object.entries(currentObs.flags || {}).find(([k,v])=>v);
-  const anyTarget = Object.entries(currentObs.targets || {}).find(([k,v])=>v && _isSoonTargetKey(k));
-  
   const ctx = _ctxFromForm();
-  let tri = defaultTriageFor(currentDx, ctx); 
-  let reason = "";
-  
-  if(anyFlag) { 
-      tri = "Urgent"; 
-      reason = "Auto: red flag selected"; 
-  } else if(anyTarget && tri !== "Urgent") { 
-      tri = "Soon"; 
-      reason = "Auto: target selected"; 
-  }
+  const result = computeTriage(currentDx, ctx, currentObs); 
 
   const triSel = document.getElementById("triageSelect");
-  if(triSel && triSel.value !== tri) {
-    triSel.value = tri;
+  if(triSel && triSel.value !== result.level) {
+    triSel.value = result.level;
   }
   
   updateDecisionBadgeFromSelect();
   
   const badge = document.getElementById("decisionBadge");
-  if(badge && reason) badge.title = reason;
+  if(badge) badge.title = result.reason;
 }
 
 // Render Findings Chips
@@ -460,7 +500,14 @@ function renderChips(containerId, items, bucket, isFlag=false){
 
 function clearFindings(){
   _resetObs();
-  if(currentDx) showDetails(currentDx);
+  if(currentDx) {
+    const o = listify(currentDx.oct), a = listify(currentDx.octa), t = listify(currentDx.targets), f = listify(currentDx.red_flags);
+    renderChips("octList", o, "oct");
+    renderChips("octaList", a, "octa");
+    renderChips("targetsList", t, "targets");
+    renderChips("flagsList", f, "flags", true);
+    autoTriageFromObservations();
+  }
 }
 
 // Helper to format checked lists for reports
@@ -495,7 +542,10 @@ function copyReport(){
   const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
   const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
   const sx = (document.getElementById("p_symptoms")?.value || "").trim();
-  const note = (document.getElementById("p_note")?.value || "").trim();
+  
+  // Use the Doctor Notes box directly for the report if present
+  const noteEl = document.getElementById("doctorNotes");
+  const note = noteEl ? noteEl.value.trim() : (document.getElementById("p_note")?.value || "").trim();
 
   const triage = document.getElementById("triageSelect")?.value || "Routine";
   const decision = decisionFromTriage(triage).badge;
@@ -532,7 +582,10 @@ function copyReport(){
     flags.forEach(x=>lines.push(`${x}`));
     lines.push(``);
   }
-  if(note) lines.push(`Note: ${note}`);
+  if(note) {
+    lines.push(`Clinical Impression / Plan:`);
+    lines.push(note);
+  }
 
   const txt = lines.join("\n");
   
@@ -559,7 +612,9 @@ function printProtocol(){
   const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
   const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
   const sx = (document.getElementById("p_symptoms")?.value || "").trim();
-  const note = (document.getElementById("p_note")?.value || "").trim();
+  
+  const noteEl = document.getElementById("doctorNotes");
+  const note = noteEl ? noteEl.value.trim() : (document.getElementById("p_note")?.value || "").trim();
 
   const oct = getReportList(listify(currentDx.oct), 'oct');
   const octa = getReportList(listify(currentDx.octa), 'octa');
@@ -599,7 +654,12 @@ function printProtocol(){
       ${section("Analysis Targets", targets)}
       ${flags.length ? section("Red Flags", flags, true) : ""}
 
-      ${note ? `<div style="margin-top:10px; font-size:12px;"><b>Note:</b> ${escapeHtml(note)}</div>` : ""}
+      ${note ? `
+        <div style="margin-top:16px;">
+          <div style="font-size:13px; font-weight:800; color:#1d4ed8;">Clinical Impression / Plan</div>
+          <div style="margin-top:4px; font-size:12px; border-left:3px solid #1d4ed8; padding-left:8px; white-space:pre-wrap;">${escapeHtml(note)}</div>
+        </div>
+      ` : ""}
 
       <div style="margin-top:14px; font-size:10px; color:#444; border-top:1px dashed #bbb; padding-top:8px;">
         Decision support tool only. Clinical correlation required. De-identify images before sharing.
@@ -625,7 +685,7 @@ function section(title, items, danger=false){
 // --- INITIALIZATION ---
 async function loadData(){
   try {
-    const res = await fetch('./diagnoses.json?v=3');
+    const res = await fetch('./diagnoses.json?v=6'); // Busted cache for the new rule engine JSON
     allDiagnoses = await res.json();
     buildCategoryFilters();
     applyFilters();
@@ -784,6 +844,11 @@ function showDetails(dx){
   panel.style.display = "block";
   document.getElementById("dxName").textContent = dx.name || dx.id || "";
   
+  // Sync the Doctor Notes box from the Patient Drawer
+  const docNotes = document.getElementById("doctorNotes");
+  const pNote = document.getElementById("p_note");
+  if(docNotes && pNote) docNotes.value = pNote.value || "";
+  
   const o = listify(dx.oct); const a = listify(dx.octa); const t = listify(dx.targets); const f = listify(dx.red_flags);
   
   // Render Interactive Chips
@@ -795,16 +860,20 @@ function showDetails(dx){
   setCount("octCount", o.length); setCount("octaCount", a.length); setCount("tCount", t.length); setCount("fCount", f.length);
 
   const ctx = _ctxFromForm();
+  const initialTriage = computeTriage(dx, ctx, currentObs);
   
   const triSel = document.getElementById("triageSelect");
-  let tri;
-  if(triageWasManuallySet){
-    tri = triSel?.value || "Routine";
-  } else {
-    tri = defaultTriageFor(dx, ctx);
-    if(triSel) triSel.value = tri;
+  
+  if(!triageWasManuallySet){
+    if(triSel) triSel.value = initialTriage.level;
   }
   updateDecisionBadgeFromSelect();
+  
+  if(!triageWasManuallySet) {
+     const badge = document.getElementById("decisionBadge");
+     if(badge) badge.title = initialTriage.reason;
+  }
+
   renderDDX(dx);
   updateActivePatientBanner();
 
@@ -847,14 +916,6 @@ function getFindingsState(){
   const state = {};
   wrap.querySelectorAll("input[type=checkbox][data-finding]").forEach(cb=>{ state[cb.dataset.finding] = !!cb.checked; });
   return state;
-}
-
-function defaultTriageFor(dx, ctx){
-  const t = (listify(dx?.red_flags).join(" ") + " " + listify(dx?.targets).join(" ")).toLowerCase();
-  if (ctx?.pain) return "Urgent";
-  if (/nv|neovascular|nve|nvd|ischemi|detachment|tear|endophthal|papilledema|crao|crvo|severe/.test(t)) return "Urgent";
-  if (/rvo|cnv|wet|edema|dme|pre-?pdr|pdr|widespread|dropout|non[- ]perfusion/.test(t)) return "Soon";
-  return "Routine";
 }
 
 function decisionFromTriage(level){
@@ -1006,13 +1067,18 @@ function clearPatientForm(){
   });
   document.getElementById("visitTimelinePanel").style.display = "none";
   document.getElementById("overdueAlert").style.display = "none";
+  
+  // Clear doctor notes too
+  const docNotes = document.getElementById("doctorNotes");
+  if(docNotes) docNotes.value = "";
+
   updateActivePatientBanner();
   
   if(currentDx) {
     if(!triageWasManuallySet) {
-       const tri = defaultTriageFor(currentDx, _ctxFromForm());
+       const initialTriage = computeTriage(currentDx, _ctxFromForm(), currentObs);
        const triSel = document.getElementById("triageSelect");
-       if(triSel) triSel.value = tri;
+       if(triSel) triSel.value = initialTriage.level;
     }
     updateDecisionBadgeFromSelect();
   }
@@ -1150,6 +1216,11 @@ function loadPatient(pid){
   document.getElementById("p_iop_od").value = p.iop_od || "";
   document.getElementById("p_iop_os").value = p.iop_os || "";
   document.getElementById("p_note").value = p.note || "";
+  
+  // Sync to doctor panel immediately
+  const docNotes = document.getElementById("doctorNotes");
+  if(docNotes) docNotes.value = p.note || "";
+
   document.getElementById("p_symptoms").value = p.symptoms || "";
 
   const flags = p.flags || {};
@@ -1197,9 +1268,9 @@ function loadPatient(pid){
 
   if(currentDx) {
     if(!triageWasManuallySet) {
-       const tri = defaultTriageFor(currentDx, _ctxFromForm());
+       const initialTriage = computeTriage(currentDx, _ctxFromForm(), currentObs);
        const triSel = document.getElementById("triageSelect");
-       if(triSel) triSel.value = tri;
+       if(triSel) triSel.value = initialTriage.level;
     }
     updateDecisionBadgeFromSelect();
   }
@@ -1375,9 +1446,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
     el.addEventListener("change", () => {
       if(currentDx){
         if(!triageWasManuallySet) {
-          const tri = defaultTriageFor(currentDx, _ctxFromForm());
+          const initialTriage = computeTriage(currentDx, _ctxFromForm(), currentObs);
           const triSel = document.getElementById("triageSelect");
-          if(triSel) triSel.value = tri;
+          if(triSel) triSel.value = initialTriage.level;
         }
         updateDecisionBadgeFromSelect();
       }
