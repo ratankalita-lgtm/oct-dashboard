@@ -2,54 +2,50 @@
   {
     "id": "dme",
     "name": "Diabetic Macular Edema (DME)",
-    "oct": "Core OCT assessment (DME):\n• Center involvement: foveal IRF and/or central thickening.\n• Pattern: focal vs diffuse; note SRF if present.\n• Prognosis markers: DRIL, EZ/ELM disruption, hyperreflective foci, exudate shadowing.\n• Check traction (ERM/VMT): if present, medical response may be limited.\n\nMinimum documentation:\n• CST/central thickness trend\n• IRF/SRF present? (Yes/No)\n• EZ status (intact/patchy/broken)",
-    "octa": "OCT-A (helpful when available):\n• FAZ enlargement/irregularity → ischemic maculopathy risk.\n• SCP/DCP dropout (DCP often earlier).\nArtifact checks: motion, projection, segmentation errors.\n\nUse OCT‑A especially when vision is worse than OCT edema suggests or response is poor.",
-    "targets": "Decision outputs:\n1) Center‑involving DME + vision impact/significant IRF/SRF → Anti‑VEGF pathway (often monthly x3 then extend/PRN).\n2) Tractional component (ERM/VMT) → retina opinion.\n3) Inadequate response after adequate anti‑VEGF trial → consider steroid pathway (esp pseudophakic), per retina plan.\n4) Optimize systemic factors: HbA1c, BP, lipids, renal status.",
-    "red_flags": "Red flags:\n• Large FAZ enlargement/marked DCP dropout with poor vision (ischemic maculopathy).\n• Tractional DME (ERM/VMT) with distortion.\n• New NVE/NVD suspicion; vitreous hemorrhage symptoms.\n• Mimics: recent surgery (CME), uveitis, RVO, CSC (SRF‑dominant).",
+    "aliases": ["ci-dme", "csme", "diabetic edema"],
     "domain": "Retina",
-    "category": "Retina",
-    "follow_up": "Follow-up:\n• Active treatment/induction: 4–6 weeks.\n• After stability: 6–10 weeks (treat‑and‑extend/PRN per retina protocol).\nTrack each visit: CST trend + IRF/SRF + DRIL/EZ; monitor IOP if steroids used.",
-    "triage": "Triage:\n• Treat now: CI‑DME with ↓vision or clearly significant IRF/SRF.\n• Refer retina early if tractional signs or suspected ischemic maculopathy.\nUrgent if: rapid vision drop, new hemorrhage symptoms, suspected NVE/NVD.",
-    "ddx": [
-      "Post‑operative CME",
-      "Uveitic macular edema",
-      "RVO-related macular edema",
-      "Tractional macular edema (ERM/VMT)",
-      "CSC (SRF‑dominant)"
+    "category": "Vascular",
+    "oct": [
+      "Center involvement: foveal IRF and/or central thickening.",
+      "Pattern: focal vs diffuse; note SRF if present.",
+      "Prognosis markers: DRIL, EZ/ELM disruption, hyperreflective foci, exudate shadowing.",
+      "Check traction (ERM/VMT): if present, medical response may be limited.",
+      "Minimum documentation: CST trend, IRF/SRF presence, EZ status"
     ],
+    "octa": [
+      "FAZ enlargement/irregularity → ischemic maculopathy risk.",
+      "SCP/DCP dropout (DCP often earlier).",
+      "Artifact checks: motion, projection, segmentation errors."
+    ],
+    "targets": [
+      "Center-involving DME + vision impact → Anti-VEGF pathway.",
+      "Tractional component (ERM/VMT) → retina opinion.",
+      "Inadequate response to Anti-VEGF → consider steroid pathway.",
+      "Optimize systemic factors: HbA1c, BP, lipids, renal status."
+    ],
+    "red_flags": [
+      "Large FAZ enlargement/marked DCP dropout with poor vision (ischemic maculopathy).",
+      "Tractional DME (ERM/VMT) with distortion.",
+      "New NVE/NVD suspicion; vitreous hemorrhage symptoms."
+    ],
+    "follow_up": "Active treatment: 4-6 weeks. Stable: 6-10 weeks.",
+    "triage": "Treat now: CI-DME with ↓vision. Refer early if tractional signs.",
+    "ddx": ["Post-operative CME", "Uveitic macular edema", "RVO-related macular edema", "Tractional macular edema (ERM/VMT)", "CSC (SRF-dominant)"],
     "ddx_rules": [
       {
-        "candidate": "Post‑operative CME",
+        "candidate": "Post-operative CME",
         "reason": "Recent surgery + CME pattern",
         "weight": 3,
-        "when": {
-          "flag": "recent_surgery",
-          "is": true
-        }
-      },
-      {
-        "candidate": "RVO-related macular edema",
-        "reason": "Sectoral edema/sudden onset",
-        "weight": 2,
-        "when": {
-          "finding": "sectoral_edema",
-          "is": true
-        }
-      },
-      {
-        "candidate": "Tractional macular edema (ERM/VMT)",
-        "reason": "Foveal distortion/traction signs",
-        "weight": 2,
-        "when": {
-          "finding": "vmt_erm",
-          "is": true
-        }
+        "when": { "flag": "recent_surgery", "is": true }
       }
     ]
   },
   {
     "id": "pdr",
     "name": "Proliferative Diabetic Retinopathy (PDR)",
+    "aliases": ["proliferative dr", "nve", "nvd"],
+    "domain": "Retina",
+    "category": "Vascular",
     "oct": [
       "Check vitreous interface for traction",
       "Hyperreflective pre-retinal loops"
@@ -66,8 +62,6 @@
       "High-flow NVE loops",
       "Tractional Retinal Detachment risk"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -76,35 +70,38 @@
   {
     "id": "cnv",
     "name": "Wet AMD / CNV (Active)",
-    "oct": "OCT essentials (active CNV / wet AMD):\n• SRF and/or IRF.\n• PED (serous or fibrovascular; irregular elevation suggests activity).\n• SHRM suggests active CNV.\n• EZ disruption = prognosis marker.\n\nDocument: SRF/IRF (Y/N), PED type, SHRM (Y/N), EZ status.",
-    "octa": "OCT-A (recommended when available):\n• Identify CNV network; confirm correct slabs/segmentation.\n• Helps confirm CNV when OCT subtle and track persistence when fluid is minimal.",
-    "targets": "Decision outputs:\n• Any convincing exudation (SRF/IRF/SHRM/PED with symptoms) → anti‑VEGF pathway (retina).\n• Consider masqueraders in atypical cases: CSC/vitelliform/myopic CNV (use history + OCT patterns).",
-    "red_flags": "Red flags:\n• Increasing SRF/IRF/SHRM or rising PED height.\n• New symptoms: distortion, central scotoma, rapid acuity drop.\n• Masqueraders: CSC/vitelliform—recheck history and OCT features.",
+    "aliases": ["neovascular amd", "exudative amd", "wet amd"],
     "domain": "Retina",
-    "category": "Retina",
-    "follow_up": "Follow-up:\n• Induction: 4–6 weeks (monthly loading) then treat‑and‑extend based on OCT dryness.\n• Sudden distortion/vision drop/new scotoma → urgent review.",
-    "triage": "Triage:\n• Treat/Refer urgently if SRF/IRF/SHRM or suspicious PED with symptoms.\n• If SRF‑dominant + CSC context → consider CSC DDx before labeling wet AMD.",
-    "ddx": [
-      "CSC",
-      "Vitelliform lesion",
-      "Myopic CNV",
-      "Inflammatory CNV"
+    "category": "AMD CNV",
+    "oct": [
+      "SRF and/or IRF.",
+      "PED (serous or fibrovascular; irregular elevation suggests activity).",
+      "SHRM suggests active CNV.",
+      "EZ disruption = prognosis marker."
     ],
-    "ddx_rules": [
-      {
-        "candidate": "CSC",
-        "reason": "SRF-dominant + pachychoroid/youngish history",
-        "weight": 2,
-        "when": {
-          "flag": "csc_context",
-          "is": true
-        }
-      }
-    ]
+    "octa": [
+      "Identify CNV network; confirm correct slabs/segmentation.",
+      "Helps confirm CNV when OCT subtle and track persistence."
+    ],
+    "targets": [
+      "Any convincing exudation (SRF/IRF/SHRM/PED with symptoms) → anti-VEGF pathway.",
+      "Consider masqueraders in atypical cases: CSC/vitelliform/myopic CNV."
+    ],
+    "red_flags": [
+      "Increasing SRF/IRF/SHRM or rising PED height.",
+      "New symptoms: distortion, central scotoma, rapid acuity drop."
+    ],
+    "follow_up": "Induction: 4-6 weeks (monthly loading) then treat-and-extend.",
+    "triage": "Treat/Refer urgently if SRF/IRF/SHRM or suspicious PED with symptoms.",
+    "ddx": ["CSC", "Vitelliform lesion", "Myopic CNV", "Inflammatory CNV"],
+    "ddx_rules": []
   },
   {
     "id": "ga",
     "name": "Dry AMD / Geographic Atrophy",
+    "aliases": ["non-exudative amd", "atrophic amd"],
+    "domain": "Retina",
+    "category": "AMD CNV",
     "oct": [
       "RPE and Outer Retina loss (Hyper-transmission)",
       "Retinal thinning"
@@ -121,8 +118,6 @@
       "Rapid expansion of atrophy",
       "Conversion to Wet AMD (check edges)"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -131,62 +126,64 @@
   {
     "id": "brvo",
     "name": "Branch Retinal Vein Occlusion (BRVO)",
-    "oct": "OCT pattern (BRVO):\n• Sectoral macular edema/thickening; cystoid IRF often in INL/OPL.\n• Exudates/hemorrhage may cause shadowing; outer retina often relatively preserved early.\n• Check vitreomacular interface (ERM/VMT) – can sustain edema.\n\nDocument: IRF/SRF (Y/N), CST trend, EZ integrity, VMI traction (Y/N).",
-    "octa": "OCT-A (ischemia support):\n• FAZ enlargement/irregularity.\n• Capillary dropout/non-perfusion (DCP often most affected).\nBefore calling ischemia, exclude artifacts: motion lines, projection, segmentation errors.",
-    "targets": "Key goals: treat edema, assess ischemia risk, monitor for neovascular complications.",
-    "red_flags": "Red flags:\n• Rapid vision loss, massive edema/SRF (think ischemic CRVO).\n• Extensive OCT‑A dropout / large FAZ; suspected NVE/NVD.\n• Poor/atypical response → reconsider diagnosis (DME/uveitis/CME).",
+    "aliases": ["branch vein occlusion"],
     "domain": "Retina",
-    "category": "Retina",
-    "follow_up": "Follow-up:\n• Acute phase: 4–6 weeks (or per injection schedule).\n• If ischemic features/large dropout: 2–4 weeks per retina plan.\n• Stable chronic: 8–12 weeks.",
-    "triage": "Triage:\n• Vision‑limiting macular edema → retina/anti‑VEGF pathway (early treatment improves outcomes).\n• Suspected ischemic event (large dropout/very poor vision) → urgent retina referral (high NV risk).\n• Mild edema + good vision → observe with close follow‑up (still counsel red flags).",
-    "ddx": [
-      "DME",
-      "Uveitic macular edema",
-      "Post‑operative CME"
+    "category": "Vascular",
+    "oct": [
+      "Sectoral macular edema/thickening; cystoid IRF often in INL/OPL.",
+      "Exudates/hemorrhage may cause shadowing.",
+      "Check vitreomacular interface (ERM/VMT) - can sustain edema."
     ],
-    "ddx_rules": [
-      {
-        "candidate": "DME",
-        "reason": "Bilateral/diabetic context; diffuse edema",
-        "weight": 2,
-        "when": {
-          "flag": "diabetes",
-          "is": true
-        }
-      }
-    ]
+    "octa": [
+      "FAZ enlargement/irregularity.",
+      "Capillary dropout/non-perfusion (DCP often most affected)."
+    ],
+    "targets": [
+      "Treat edema, assess ischemia risk, monitor for neovascular complications."
+    ],
+    "red_flags": [
+      "Rapid vision loss, massive edema/SRF (think ischemic CRVO).",
+      "Extensive OCT-A dropout / large FAZ; suspected NVE/NVD."
+    ],
+    "follow_up": "Acute phase: 4-6 weeks.",
+    "triage": "Vision-limiting macular edema → retina/anti-VEGF pathway.",
+    "ddx": ["DME", "Uveitic macular edema", "Post-operative CME"],
+    "ddx_rules": []
   },
   {
     "id": "crvo",
     "name": "Central Retinal Vein Occlusion (CRVO)",
-    "oct": "OCT pattern (CRVO):\n• Diffuse macular edema; very high CST common.\n• SRF is common; IRF often extensive.\n• EZ disruption/DRIL can appear early → prognosis marker.\n• Check VMI (ERM/VMT).\n\nDocument: IRF/SRF, CST trend, EZ status, VMI traction.",
-    "octa": "OCT-A (ischemia support):\n• FAZ enlargement/irregularity.\n• Capillary dropout/non-perfusion (DCP often most affected).\nBefore calling ischemia, exclude artifacts: motion lines, projection, segmentation errors.",
-    "targets": "Key goals: treat edema, identify ischemic CRVO, monitor for NV complications.",
-    "red_flags": "Red flags:\n• Rapid vision loss, massive edema/SRF (think ischemic CRVO).\n• Extensive OCT‑A dropout / large FAZ; suspected NVE/NVD.\n• Poor/atypical response → reconsider diagnosis (DME/uveitis/CME).",
+    "aliases": ["central vein occlusion"],
     "domain": "Retina",
-    "category": "Retina",
-    "follow_up": "Follow-up:\n• Acute phase: 4–6 weeks (or per injection schedule).\n• If ischemic features/large dropout: 2–4 weeks per retina plan.\n• Stable chronic: 8–12 weeks.",
-    "triage": "Triage:\n• Vision‑limiting macular edema → retina/anti‑VEGF pathway (early treatment improves outcomes).\n• Suspected ischemic event (large dropout/very poor vision) → urgent retina referral (high NV risk).\n• Mild edema + good vision → observe with close follow‑up (still counsel red flags).",
-    "ddx": [
-      "DME",
-      "Uveitic macular edema",
-      "Ocular ischemic syndrome"
+    "category": "Vascular",
+    "oct": [
+      "Diffuse macular edema; very high CST common.",
+      "SRF is common; IRF often extensive.",
+      "EZ disruption/DRIL can appear early.",
+      "Check VMI (ERM/VMT)."
     ],
-    "ddx_rules": [
-      {
-        "candidate": "Ocular ischemic syndrome",
-        "reason": "Severe ischemia with carotid/vascular risk context",
-        "weight": 2,
-        "when": {
-          "flag": "vascular_risk",
-          "is": true
-        }
-      }
-    ]
+    "octa": [
+      "FAZ enlargement/irregularity.",
+      "Capillary dropout/non-perfusion (DCP often most affected)."
+    ],
+    "targets": [
+      "Treat edema, identify ischemic CRVO, monitor for NV complications."
+    ],
+    "red_flags": [
+      "Rapid vision loss, massive edema/SRF (think ischemic CRVO).",
+      "Extensive OCT-A dropout / large FAZ; suspected NVE/NVD."
+    ],
+    "follow_up": "Acute phase: 4-6 weeks.",
+    "triage": "Vision-limiting macular edema → retina/anti-VEGF pathway.",
+    "ddx": ["DME", "Uveitic macular edema", "Ocular ischemic syndrome"],
+    "ddx_rules": []
   },
   {
     "id": "csr",
-    "name": "Central Serous Chorioretinopathy (CSR)",
+    "name": "Central Serous Chorioretinopathy (CSC)",
+    "aliases": ["csr", "csc", "central serous"],
+    "domain": "Retina",
+    "category": "Macula",
     "oct": [
       "Subretinal fluid (neurosensory detachment)",
       "Thickened choroid (pachy-choroid)"
@@ -200,11 +197,9 @@
       "Irregular choriocapillaris flow"
     ],
     "red_flags": [
-      "Presence of CNV (complex CSR)",
+      "Presence of CNV (complex CSC)",
       "Fibrin accumulation"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -213,6 +208,9 @@
   {
     "id": "erm",
     "name": "Epiretinal Membrane (ERM)",
+    "aliases": ["macular pucker", "cellophane maculopathy"],
+    "domain": "Retina",
+    "category": "Interface Traction",
     "oct": [
       "Hyperreflective line over ILM",
       "Retinal wrinkling / loss of foveal pit"
@@ -229,8 +227,6 @@
       "Significant traction / edema",
       "Pseudohole formation"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -239,6 +235,9 @@
   {
     "id": "vmt",
     "name": "Vitreomacular Traction (VMT)",
+    "aliases": ["vts"],
+    "domain": "Retina",
+    "category": "Interface Traction",
     "oct": [
       "Posterior hyaloid face attached to fovea",
       "Foveal distortion/tenting"
@@ -255,8 +254,6 @@
       "Progression to Macular Hole",
       "Cystoid changes"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -265,6 +262,9 @@
   {
     "id": "mh",
     "name": "Macular Hole (Full Thickness)",
+    "aliases": ["ftmh", "mac hole"],
+    "domain": "Retina",
+    "category": "Interface Traction",
     "oct": [
       "Full thickness defect in fovea",
       "Cystic edges, operculum presence"
@@ -281,87 +281,101 @@
       "Hole size > 400 microns",
       "Associated retinal detachment"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
     "ddx_rules": []
   },
   {
-    "id": "mactel",
-    "name": "MacTel Type 2",
+    "id": "mactel2",
+    "name": "Macular Telangiectasia Type 2",
+    "aliases": ["mac tel", "mactel", "telangiectasia type 2"],
+    "domain": "Retina",
+    "category": "Macula",
     "oct": [
       "ILM Draping",
       "Hyporeflective cavities in inner/outer retina",
-      "Temporal thinning"
+      "Temporal thinning",
+      "EZ disruption temporal"
     ],
     "octa": [
       "Scan: 3x3 mm",
-      "Slabs: SCP + DCP"
+      "Slabs: SCP + DCP (telangiectatic changes often in DCP)",
+      "Check right-left asymmetry and parafoveal vascular changes"
     ],
     "targets": [
       "Right-angle venules",
-      "DCP telangiectasia temporal to fovea"
+      "DCP telangiectasia temporal to fovea",
+      "EZ integrity for prognosis"
     ],
     "red_flags": [
-      "Subretinal Neovascularization (SRNV)",
-      "Pigment migration"
+      "Subretinal Neovascularization (SRNV) / secondary CNV suspicion",
+      "Pigment migration",
+      "Rapid VA decline"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
     "ddx_rules": []
   },
   {
-    "id": "glaucoma",
-    "name": "Glaucoma (POAG/NTG)",
+    "id": "glaucoma_suspect",
+    "name": "Glaucoma (POAG/NTG/Suspect)",
+    "aliases": ["rnfl", "gcc", "oct nerve", "open angle glaucoma"],
+    "domain": "Optic Nerve",
+    "category": "Glaucoma",
     "oct": [
-      "RNFL Circle Scan (thinning)",
-      "Ganglion Cell Complex (GCC) loss"
+      "RNFL Circle Scan (thinning) / Compare symmetry and progression",
+      "Ganglion Cell Complex (GCC/GCIPL) loss pattern (early detection)",
+      "Optic disc cube"
     ],
     "octa": [
       "Scan: 4.5x4.5 mm Disc",
-      "Slab: Radial Peripapillary Capillaries (RPC)"
+      "Slab: Radial Peripapillary Capillaries (RPC)",
+      "Document radial peripapillary capillary density"
     ],
     "targets": [
       "RPC dropout (correlates with VF)",
-      "Disc perfusion density reduction"
+      "Disc perfusion density reduction",
+      "RNFL thinning sectors (superior/inferior)",
+      "Disc hemorrhage correlation clinically"
     ],
     "red_flags": [
-      "Progression on serial scans",
-      "Disc hemorrhage"
+      "Rapid progression on serial scans",
+      "Disc hemorrhage with structural loss"
     ],
-    "domain": "Optic Nerve",
-    "category": "ON",
     "follow_up": "",
     "triage": "",
     "ddx": [],
     "ddx_rules": []
   },
   {
-    "id": "pcv",
+    "id": "pcv_aneurysmal",
     "name": "Polypoidal Choroidal Vasculopathy (PCV)",
+    "aliases": ["aneurysmal type 1 nv", "asia amd variant", "polypoidal"],
+    "domain": "Retina",
+    "category": "AMD CNV",
     "oct": [
-      "Thumb-like PED peaks",
+      "Thumb-like PED peaks / sharp-peaked PED",
+      "Notches, sub-RPE changes, SRF",
       "Double-layer sign"
     ],
     "octa": [
       "Scan: 3x3 mm or 6x6 mm",
-      "Slab: Choriocapillaris (custom segmentation)"
+      "Slab: Choriocapillaris + Outer Retina",
+      "Look for branching vascular network; polyps may be hypoflow"
     ],
     "targets": [
-      "Branching Vascular Network (BVN)",
-      "Polyps (often hypoflow on OCTA)"
+      "Branching Vascular Network (BVN) / Type 1 neovascular complex under RPE",
+      "Segmentation around PED",
+      "Polyps"
     ],
     "red_flags": [
       "Massive subretinal hemorrhage",
-      "Breakthrough bleeding"
+      "Breakthrough bleeding",
+      "New SRF/bleed suspicion",
+      "Rapid VA loss/metamorphopsia"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -370,6 +384,9 @@
   {
     "id": "myopic_traction",
     "name": "Myopic Traction Maculopathy",
+    "aliases": ["pathologic myopia", "myopic foveoschisis"],
+    "domain": "Retina",
+    "category": "Myopia",
     "oct": [
       "Retinoschisis (splitting of layers)",
       "Foveal detachment",
@@ -387,8 +404,6 @@
       "Macular Hole Retinal Detachment",
       "CNV (Myopic)"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -397,6 +412,9 @@
   {
     "id": "hcq",
     "name": "Hydroxychloroquine Toxicity",
+    "aliases": ["plaquenil toxicity", "bulls eye maculopathy"],
+    "domain": "Retina",
+    "category": "Toxicity",
     "oct": [
       "Flying Saucer Sign (loss of ellipsoid zone)",
       "Parafoveal thinning"
@@ -413,8 +431,6 @@
       "Bull's eye maculopathy (irreversible)",
       "Any parafoveal disruption"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -423,6 +439,9 @@
   {
     "id": "solar",
     "name": "Solar Retinopathy",
+    "aliases": ["eclipse retinopathy", "photic maculopathy"],
+    "domain": "Retina",
+    "category": "Toxicity",
     "oct": [
       "Outer retinal hole/defect (rectangular)",
       "RPE disruption"
@@ -439,8 +458,6 @@
       "Bilateral foveal defects",
       "History of eclipse viewing"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -449,6 +466,9 @@
   {
     "id": "choroidal_nevus",
     "name": "Choroidal Nevus",
+    "aliases": ["freckle", "benign nevus"],
+    "domain": "Retina",
+    "category": "Tumor Lesion",
     "oct": [
       "Hyperreflective anterior surface",
       "Shadowing below",
@@ -460,14 +480,12 @@
     ],
     "targets": [
       "No intrinsic flow (hypointense)",
-      " overlying RPE changes"
+      "Overlying RPE changes"
     ],
     "red_flags": [
       "Subretinal fluid (leakage)",
       "Orange pigment (lipofuscin)"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -476,6 +494,9 @@
   {
     "id": "angioid",
     "name": "Angioid Streaks",
+    "aliases": ["pxe streaks"],
+    "domain": "Retina",
+    "category": "Macula",
     "oct": [
       "Breaks in Bruch's membrane",
       "RPE irregularity"
@@ -491,8 +512,6 @@
       "Choroidal Neovascularization",
       "Macular hemorrhage"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -501,6 +520,9 @@
   {
     "id": "ois",
     "name": "Ocular Ischemic Syndrome",
+    "aliases": ["carotid occlusive disease"],
+    "domain": "Retina",
+    "category": "Ischemia",
     "oct": [
       "Inner retinal thinning/atrophy",
       "Diffusely thickened choroid sometimes"
@@ -517,34 +539,37 @@
       "Neovascularization of Iris",
       "Carotid blockage referral"
     ],
-    "domain": "Retina",
-    "category": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
     "ddx_rules": []
   },
   {
-    "id": "nag",
+    "id": "naion",
     "name": "Non-Arteritic Ischemic Optic Neuropathy (NAION)",
+    "aliases": ["aion", "ischemic optic neuropathy", "nag"],
+    "domain": "Optic Nerve",
+    "category": "Ischemic ON",
     "oct": [
-      "RNFL thickening (acute)",
-      "RNFL thinning (chronic)"
+      "ONH scan + RNFL (acute thickening)",
+      "Later follow-up shows sectoral RNFL thinning"
     ],
     "octa": [
       "Scan: 4.5x4.5 mm Disc",
-      "Slab: RPC"
+      "Slab: RPC",
+      "Optional: ONH OCT-A to document perfusion reduction"
     ],
     "targets": [
       "Sectoral peripapillary dropout",
-      "Altitudinal defect correlation"
+      "Altitudinal defect correlation",
+      "RNFL evolution (thickening → thinning)",
+      "Macular GCC loss over time"
     ],
     "red_flags": [
-      "Bilateral involvement (rule out GCA)",
-      "Pale disc"
+      "Bilateral involvement / GCA suspicion symptoms (older patients) → rule out arteritic form",
+      "Pale disc",
+      "Progressive loss"
     ],
-    "domain": "Optic Nerve",
-    "category": "ON",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -553,45 +578,26 @@
   {
     "id": "tb_serpiginous",
     "name": "TB-Associated Serpiginous-like Choroiditis",
-    "aliases": [
-      "tb",
-      "serpiginous",
-      "serpiginous-like",
-      "tubercular choroiditis"
-    ],
-    "category": "Uveitis / Infection (India)",
-    "urgency": "urgent",
+    "aliases": ["tb", "serpiginous", "serpiginous-like", "tubercular choroiditis"],
+    "domain": "Retina",
+    "category": "Inflammation Infection",
     "oct": [
       "Macula cube + lesion-centered line scans",
-      "Look for outer retinal/RPE disruption and sub-RPE changes",
-      "Document activity edges if visible"
+      "Look for outer retinal/RPE disruption and sub-RPE changes"
     ],
     "octa": [
-      "6×6 mm (or 3×3 for focal lesion)",
-      "Slabs: Choriocapillaris (key) + Outer retina (exclude CNV)",
-      "Look for CC flow void corresponding to active lesion"
+      "6x6 mm (or 3x3 for focal lesion)",
+      "Slabs: Choriocapillaris (key) + Outer retina (exclude CNV)"
     ],
     "targets": [
       "Choriocapillaris flow voids (extent/activity)",
-      "Outer retina slab for secondary CNV",
-      "RPE/outer retina integrity on structural OCT"
+      "Outer retina slab for secondary CNV"
     ],
     "red_flags": [
       "Lesion approaching fovea",
       "New SRF/hemorrhage suspicion",
       "Outer retina flow network (secondary CNV)"
     ],
-    "images": [
-      {
-        "label": "CC normal",
-        "path": ""
-      },
-      {
-        "label": "CC flow void example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -600,22 +606,17 @@
   {
     "id": "vkh",
     "name": "VKH (Acute serous detachments / choroiditis)",
-    "aliases": [
-      "vkh",
-      "vogt",
-      "koyanagi",
-      "harada"
-    ],
-    "category": "Uveitis / Inflammation (India)",
-    "urgency": "urgent",
+    "aliases": ["vogt", "koyanagi", "harada"],
+    "domain": "Retina",
+    "category": "Inflammation Infection",
     "oct": [
       "Macula cube",
       "Look for multilobular SRF, septae, RPE folds",
-      "Check choroidal thickening (if enhanced depth available)"
+      "Check choroidal thickening"
     ],
     "octa": [
-      "6×6 mm",
-      "Slabs: Choriocapillaris (key) + SCP/DCP (optional)",
+      "6x6 mm",
+      "Slabs: Choriocapillaris (key) + SCP/DCP",
       "Look for diffuse CC hypoperfusion/flow voids"
     ],
     "targets": [
@@ -627,17 +628,6 @@
       "Persistent SRF despite treatment",
       "Optic disc edema suspected clinically"
     ],
-    "images": [
-      {
-        "label": "VKH SRF example",
-        "path": ""
-      },
-      {
-        "label": "CC changes example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
     "follow_up": "",
     "triage": "",
     "ddx": [],
@@ -646,395 +636,5 @@
   {
     "id": "cmv_retinitis",
     "name": "CMV Retinitis (immunocompromised)",
-    "aliases": [
-      "cmv",
-      "retinitis",
-      "hiv retinitis"
-    ],
-    "category": "Uveitis / Infection (India)",
-    "urgency": "urgent",
-    "oct": [
-      "Lesion-centered line scan",
-      "Look for full-thickness retinal hyperreflectivity and disruption"
-    ],
-    "octa": [
-      "6×6 mm if possible",
-      "Slabs: SCP/DCP (capillary dropout can be extensive)",
-      "Use mainly for documentation, not diagnosis"
-    ],
-    "targets": [
-      "Structural involvement depth",
-      "Perfusion loss documentation"
-    ],
-    "red_flags": [
-      "Macular involvement",
-      "Rapid progression / new lesions",
-      "Vitreous haze increasing"
-    ],
-    "images": [
-      {
-        "label": "Normal retina",
-        "path": ""
-      },
-      {
-        "label": "CMV lesion example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  },
-  {
-    "id": "toxo",
-    "name": "Toxoplasma Retinochoroiditis (active vs scar)",
-    "aliases": [
-      "toxo",
-      "toxoplasma",
-      "retinochoroiditis"
-    ],
-    "category": "Uveitis / Infection (India)",
-    "urgency": "urgent",
-    "oct": [
-      "Lesion-centered line scan",
-      "Look for focal full-thickness hyperreflectivity, vitreous cells shadowing"
-    ],
-    "octa": [
-      "3×3 or 6×6",
-      "Slabs: CC + Outer retina (exclude CNV in scars)",
-      "Document perfusion impact"
-    ],
-    "targets": [
-      "Differentiate active edge vs scar (structural)",
-      "Exclude CNV in old scar if new symptoms"
-    ],
-    "red_flags": [
-      "Lesion near fovea/ONH",
-      "New SRF/bleed near scar (CNV)"
-    ],
-    "images": [
-      {
-        "label": "Scar example",
-        "path": ""
-      },
-      {
-        "label": "Active lesion example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  },
-  {
-    "id": "eales",
-    "name": "Eales Disease / Peripheral Vasculitis (screen)",
-    "aliases": [
-      "eales",
-      "peripheral vasculitis",
-      "retinal vasculitis"
-    ],
-    "category": "Vascular / Inflammation (India)",
-    "urgency": "soon",
-    "oct": [
-      "Macula cube (often normal unless edema/ERM present)",
-      "If VA drop → look for CME or vitreomacular traction"
-    ],
-    "octa": [
-      "Macular OCT-A may miss peripheral disease",
-      "If using: 6×6 mm SCP/DCP to document ischemia signs",
-      "Use mainly for macular ischemia/CME correlation"
-    ],
-    "targets": [
-      "Any CME/ERM component explaining VA",
-      "Macular ischemia signs if present"
-    ],
-    "red_flags": [
-      "New VH symptoms",
-      "Macular ischemia or CME",
-      "Disc/arcade neovascular suspicion"
-    ],
-    "images": [
-      {
-        "label": "Macula normal",
-        "path": ""
-      },
-      {
-        "label": "CME example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  },
-  {
-    "id": "pcv",
-    "name": "PCV / Aneurysmal Type 1 Neovascularization (common in Asians)",
-    "aliases": [
-      "pcv",
-      "polypoidal",
-      "aneurysmal",
-      "asia amd variant"
-    ],
-    "category": "AMD / CNV (Asia/India)",
-    "urgency": "urgent",
-    "oct": [
-      "Macula cube + line scans through PED",
-      "Look for sharp-peaked PED, notches, sub-RPE changes, SRF"
-    ],
-    "octa": [
-      "3×3 mm preferred",
-      "Slabs: Outer retina + Choriocapillaris",
-      "Look for branching vascular network; polyps may be variable on OCTA"
-    ],
-    "targets": [
-      "Type 1 neovascular complex under RPE",
-      "Segmentation around PED"
-    ],
-    "red_flags": [
-      "New SRF/bleed suspicion",
-      "Rapid VA loss/metamorphopsia"
-    ],
-    "images": [
-      {
-        "label": "Type 1 NV example",
-        "path": ""
-      },
-      {
-        "label": "PED notch example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  },
-  {
-    "id": "mac_tel",
-    "name": "Macular Telangiectasia Type 2",
-    "aliases": [
-      "mactel",
-      "macular telangiectasia",
-      "telangiectasia type 2"
-    ],
-    "category": "Macula",
-    "urgency": "soon",
-    "oct": [
-      "Macula cube",
-      "Look for inner/outer lamellar cavities, ILM drape, EZ disruption temporal"
-    ],
-    "octa": [
-      "3×3 mm preferred",
-      "Slabs: SCP + DCP (telangiectatic changes often in DCP)",
-      "Check right-left asymmetry and parafoveal vascular changes"
-    ],
-    "targets": [
-      "Parafoveal capillary changes (esp DCP)",
-      "EZ integrity for prognosis"
-    ],
-    "red_flags": [
-      "Secondary CNV suspicion (outer retina flow)",
-      "Rapid VA decline"
-    ],
-    "images": [
-      {
-        "label": "ILM drape example",
-        "path": ""
-      },
-      {
-        "label": "DCP changes example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  },
-  {
-    "id": "pamm_amn",
-    "name": "PAMM / AMN (acute ischemic maculopathy patterns)",
-    "aliases": [
-      "pamm",
-      "amn",
-      "paracentral scotoma"
-    ],
-    "category": "Vascular",
-    "urgency": "soon",
-    "oct": [
-      "High-res line scan through symptomatic area",
-      "PAMM: hyperreflective band at INL",
-      "AMN: outer plexiform/outer retina focal lesions"
-    ],
-    "octa": [
-      "3×3 mm preferred",
-      "Slabs: DCP (key) + SCP",
-      "Look for focal DCP flow deficits"
-    ],
-    "targets": [
-      "DCP perfusion defect",
-      "INL/outer retina structural correlate"
-    ],
-    "red_flags": [
-      "Associated systemic risk (BP/vascular event suspicion)",
-      "Progressive scotomas"
-    ],
-    "images": [
-      {
-        "label": "PAMM OCT example",
-        "path": ""
-      },
-      {
-        "label": "DCP deficit example",
-        "path": ""
-      }
-    ],
-    "domain": "Retina",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  },
-  {
-    "id": "glaucoma",
-    "name": "Glaucoma Suspect / RNFL-GCC Protocol",
-    "aliases": [
-      "glaucoma",
-      "rnfl",
-      "gcc",
-      "oct nerve"
-    ],
-    "category": "Optic Nerve / Glaucoma",
-    "urgency": "routine",
-    "oct": [
-      "ONH/RNFL scan (peripapillary circle) + optic disc cube",
-      "Macular GCC/GCIPL scan (if available)",
-      "Compare symmetry and progression (repeatable protocol)"
-    ],
-    "octa": [
-      "Optional: ONH/peripapillary OCT-A if available",
-      "Document radial peripapillary capillary density (adjunct, not primary)"
-    ],
-    "targets": [
-      "RNFL thinning sectors (superior/inferior)",
-      "GCC loss pattern (early detection)",
-      "Disc hemorrhage correlation clinically"
-    ],
-    "red_flags": [
-      "Rapid progression on repeat scans",
-      "Disc hemorrhage with structural loss"
-    ],
-    "images": [
-      {
-        "label": "Normal RNFL",
-        "path": ""
-      },
-      {
-        "label": "RNFL thinning example",
-        "path": ""
-      }
-    ],
-    "domain": "Optic Nerve",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  },
-  {
-    "id": "papilledema",
-    "name": "Papilledema / Disc Edema (screen + follow-up)",
-    "aliases": [
-      "papilledema",
-      "disc edema",
-      "raised icp"
-    ],
-    "category": "ON",
-    "urgency": "urgent",
-    "oct": "OCT (ONH/RNFL) documentation:\n• RNFL thickness: diffuse swelling typical; note asymmetry/quadrants.\n• ONH contour: elevated disc; peripapillary subretinal hyporeflective space may be present.\n• Beware segmentation errors in high swelling.\n\nKey: OCT supports diagnosis/monitoring but does NOT replace systemic evaluation.",
-    "octa": "OCT-A (optional):\n• Peripapillary perfusion changes are variable and not primary for diagnosis.\nClinical pathway + systemic workup remain decisive.",
-    "targets": "Decision outputs:\n• Suspected papilledema clinically → urgent neuro‑ophthalmology/neurology pathway.\n• Use OCT to document baseline RNFL/ONH and monitor response after treatment begins.",
-    "red_flags": "Red flags:\n• Rapid symptom progression or vision drop.\n• Marked asymmetry (consider alternate diagnoses).\n• Pseudopapilledema possibility (disc drusen) if chronic/asymptomatic—confirm with appropriate tests if available.",
-    "images": [
-      {
-        "label": "Disc edema example",
-        "path": ""
-      },
-      {
-        "label": "RNFL thickening example",
-        "path": ""
-      }
-    ],
-    "domain": "Optic Nerve",
-    "follow_up": "Follow-up:\n• Arrange urgent systemic evaluation first.\n• Repeat OCT in 2–6 weeks to document response once treatment starts.\n• RNFL may later thin after resolution—interpret trend with symptoms.",
-    "triage": "Triage (high-stakes):\nUrgent escalation if any of:\n• headache + vomiting\n• transient visual obscurations\n• diplopia\n• pulsatile tinnitus\n• rapid vision change\nDo not “watch and wait” if raised ICP suspected.",
-    "ddx": [
-      "Pseudopapilledema (disc drusen)",
-      "Optic neuritis",
-      "NAION",
-      "Hypertensive optic neuropathy"
-    ],
-    "ddx_rules": [
-      {
-        "candidate": "Pseudopapilledema (disc drusen)",
-        "reason": "Chronic/asymptomatic appearance; consider confirmatory testing",
-        "weight": 2,
-        "when": {
-          "flag": "chronic_asymptomatic",
-          "is": true
-        }
-      }
-    ]
-  },
-  {
-    "id": "naion",
-    "name": "NAION / Ischemic Optic Neuropathy (supportive OCT)",
-    "aliases": [
-      "naion",
-      "aion",
-      "ischemic optic neuropathy"
-    ],
-    "category": "Neuro-ophthalmology",
-    "urgency": "urgent",
-    "oct": [
-      "ONH scan + RNFL (acute thickening)",
-      "Later follow-up shows sectoral RNFL thinning"
-    ],
-    "octa": [
-      "Optional: ONH OCT-A to document perfusion reduction",
-      "Use as adjunct only"
-    ],
-    "targets": [
-      "RNFL evolution (thickening → thinning)",
-      "Macular GCC loss over time"
-    ],
-    "red_flags": [
-      "GCA suspicion symptoms (older patients) → urgent referral",
-      "Progressive loss"
-    ],
-    "images": [
-      {
-        "label": "Acute swelling example",
-        "path": ""
-      },
-      {
-        "label": "Sectoral thinning example",
-        "path": ""
-      }
-    ],
-    "domain": "Optic Nerve",
-    "follow_up": "",
-    "triage": "",
-    "ddx": [],
-    "ddx_rules": []
-  }
-]
+    "aliases": ["cmv", "retinitis", "hiv retinitis"],
+    "domain": "
