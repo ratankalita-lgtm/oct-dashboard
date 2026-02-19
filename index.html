@@ -6,85 +6,91 @@
 <title>OCT Protocol Dashboard – Ratan Kalita</title>
 
 <style>
-.ddx-chip{ border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; user-select:none; transition:.15s; color:#93c5fd; font-weight:600;}
-.ddx-chip:hover{ background:rgba(255,255,255,.08); }
-:root{ --bg:#0b1020; --card:#ffffff; --muted:#6b7280; --border:#e5e7eb; --shadow:0 10px 26px rgba(0,0,0,.14); --accent:#1d4ed8; --accent2:#06b6d4; --danger:#dc2626; }
-body{ font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif; background: radial-gradient(900px 500px at 20% 0%, rgba(29,78,216,0.16), transparent 60%), radial-gradient(900px 500px at 90% 5%, rgba(6,182,212,0.14), transparent 60%), var(--bg); margin:16px; color:#111; }
+.ddx-chip{ border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); padding:4px 10px; border-radius:999px; font-size:11px; cursor:pointer; user-select:none; transition:.15s; color:#93c5fd; font-weight:700;}
+.ddx-chip:hover{ background:rgba(255,255,255,.10); }
+:root{ --bg:#0b1020; --card:#ffffff; --muted:#6b7280; --border:#e5e7eb; --shadow:0 8px 24px rgba(0,0,0,.12); --accent:#1d4ed8; --accent2:#06b6d4; --danger:#dc2626; }
+body{ font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif; background: radial-gradient(900px 500px at 20% 0%, rgba(29,78,216,0.12), transparent 60%), radial-gradient(900px 500px at 90% 5%, rgba(6,182,212,0.10), transparent 60%), var(--bg); margin:12px 16px; color:#111; }
 .wrap{max-width:1220px;margin:auto;}
-header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding:18px; border-radius:14px; box-shadow:0 12px 28px rgba(0,0,0,.25); position: sticky; top: 10px; z-index: 4; }
-header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
-.sub{font-size:13px;margin-top:6px;opacity:.95;line-height:1.35}
 
-.domain-tabs { display:flex; gap:10px; margin-top:16px; border-bottom:1px solid rgba(255,255,255,.2); padding-bottom:10px; overflow-x:auto;}
-.dTab { background:transparent; border:none; color:rgba(255,255,255,.6); font-weight:800; font-size:14px; cursor:pointer; padding:6px 12px; transition:.2s; white-space:nowrap; }
+/* ULTRA-COMPACT HEADER */
+header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding:12px 16px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,.20); position: sticky; top: 10px; z-index: 4; display:flex; flex-direction:column; gap:10px;}
+.h-top { display:flex; justify-content:space-between; align-items:center; }
+.h-title h1 { margin:0; font-size:18px; font-weight:900; letter-spacing:.2px; display:inline-block; }
+.sub { font-size:12px; opacity:.85; display:inline-block; margin-left:8px; font-weight:500; border-left:1px solid rgba(255,255,255,0.3); padding-left:8px;}
+
+.h-mid { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+.domain-tabs { display:flex; gap:6px; overflow-x:auto; flex:1; }
+.dTab { background:transparent; border:none; color:rgba(255,255,255,.65); font-weight:800; font-size:13px; cursor:pointer; padding:4px 10px; transition:.2s; white-space:nowrap; }
 .dTab:hover { color:rgba(255,255,255,.9); }
-.dTab.active { color:#fff; background:rgba(255,255,255,.2); border-radius:8px; }
+.dTab.active { color:#fff; background:rgba(255,255,255,.2); border-radius:6px; }
 
-.toolsRow{ display:flex;flex-wrap:wrap;gap:10px;align-items:center; margin-top:14px; }
-.searchWrap{ flex:1; min-width:240px; position:relative; }
-#search{ width:100%; padding:10px 42px 10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.16); color:#fff; font-size:15px; outline:none; }
-#search::placeholder{color:rgba(255,255,255,.75)}
-.clearX{ position:absolute; right:8px; top:50%; transform:translateY(-50%); width:24px;height:24px; border-radius:8px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.12); color:#fff; cursor:pointer; display:flex;align-items:center;justify-content:center; font-weight:900; font-size:12px;}
+.searchWrap{ flex:0 1 320px; min-width:200px; position:relative; }
+#search{ width:100%; padding:6px 28px 6px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.16); color:#fff; font-size:13px; outline:none; box-sizing:border-box;}
+#search::placeholder{color:rgba(255,255,255,.70)}
+.clearX{ position:absolute; right:6px; top:50%; transform:translateY(-50%); width:20px;height:20px; border-radius:6px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.12); color:#fff; cursor:pointer; display:flex;align-items:center;justify-content:center; font-weight:900; font-size:12px;}
 .clearX:hover{filter:brightness(1.12)}
-.btn{ padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.16); color:#fff; font-weight:900; cursor:pointer; }
-.btn:hover{filter:brightness(1.10)}
-.filterBar{ margin-top:12px; display:flex; flex-wrap:wrap; gap:6px; }
-.filterBtn{ padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.40); background:rgba(255,255,255,.14); color:white; font-weight:800; cursor:pointer; font-size:11px; }
-.filterBtn.active{ background:white; color:#1457ff; box-shadow:0 10px 20px rgba(0,0,0,.18); }
-.metaLine{ margin-top:8px; font-size:11px; opacity:.95; }
+
+.btn{ padding:6px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.35); background:rgba(0,0,0,0.2); color:#fff; font-weight:800; cursor:pointer; font-size:12px;}
+.btn:hover{filter:brightness(1.20)}
+
+.h-bot { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;}
+.filterBar{ display:flex; flex-wrap:wrap; gap:4px; flex:1;}
+.filterBtn{ padding:4px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.30); background:rgba(255,255,255,.10); color:rgba(255,255,255,0.9); font-weight:700; cursor:pointer; font-size:11px; }
+.filterBtn.active{ background:white; color:#1d4ed8; box-shadow:0 4px 10px rgba(0,0,0,.15); font-weight:800;}
+.metaLine{ font-size:11px; opacity:.90; font-weight:600; text-align:right;}
 
 /* REBALANCED & COMPACT LAYOUT */
-.main{ display:grid; grid-template-columns: 0.85fr 1.3fr; gap:16px; margin-top:16px; align-items:start; }
-.grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; }
+.main{ display:grid; grid-template-columns: 0.85fr 1.3fr; gap:16px; margin-top:14px; align-items:start; }
+.grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap:10px; }
 
-.tile{ background:var(--card); border:1px solid var(--border); padding:10px 12px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,.06); cursor:pointer; transition:.12s; }
-.tile:hover{ transform:translateY(-2px); box-shadow:0 10px 20px rgba(29,78,216,.12); border-color: rgba(29,78,216,.3); }
-.tileTitle{font-weight:800;font-size:13px;line-height:1.25}
-.catPill{ display:inline-flex; margin-top:6px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:10px; font-weight:800; color:#374151; background:#f1f5f9;}
-.countRow{ margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; font-size:11px; color:#475569; font-weight:700; }
-.countRow span{ display:inline-flex; gap:4px; align-items:center; padding:2px 8px; border-radius:999px; background:#f8fafc; border:1px solid var(--border); }
+.tile{ background:var(--card); border:1px solid var(--border); padding:10px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,.05); cursor:pointer; transition:.12s; }
+.tile:hover{ transform:translateY(-2px); box-shadow:0 8px 16px rgba(29,78,216,.10); border-color: rgba(29,78,216,.3); }
+.tileTitle{font-weight:800;font-size:13px;line-height:1.2; color:#0f172a;}
+.catPill{ display:inline-flex; margin-top:6px; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:700; color:#475569; background:#f1f5f9; border:1px solid #e2e8f0;}
+.countRow{ margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; font-size:10px; color:#64748b; font-weight:700; }
+.countRow span{ display:inline-flex; gap:4px; align-items:center; padding:2px 6px; border-radius:4px; background:#f8fafc; border:1px solid #e2e8f0; }
 
 /* VISUAL TRIAGE BORDER APPLIED HERE */
-.panel{ background:var(--card); border:1px solid var(--border); border-left:6px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:20px; position: sticky; top: 150px; display:none; transition: border-left-color 0.3s; }
-.panel h2{margin:0 0 8px 0;color:var(--accent); font-size:18px;}
-.panel h3{ margin:16px 0 8px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; font-size:14px;}
+.panel{ background:var(--card); border:1px solid var(--border); border-left:6px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:16px 20px; position: sticky; top: 110px; display:none; transition: border-left-color 0.3s; }
+.panel h2{margin:0 0 6px 0;color:var(--accent); font-size:18px;}
+.panel h3{ margin:14px 0 6px 0; border-bottom:1px solid #f1f5f9; padding-bottom:4px; color:#334155; display:flex; justify-content:space-between; align-items:center; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; font-weight:800;}
 
 /* OBSERVATION CHIP STYLES */
-.obsChip{ display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px; border:1px solid #cbd5e1; background:#f8fafc; font-size:12px; font-weight:700; cursor:pointer; user-select:none; line-height:1.3; transition:0.15s; }
+.obsChip{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:6px; border:1px solid #cbd5e1; background:#f8fafc; font-size:11px; font-weight:700; cursor:pointer; user-select:none; line-height:1.3; transition:0.15s; color:#334155;}
 .obsChip:hover{ background:#f1f5f9; border-color:#94a3b8; }
-.obsChip.on{ background:#dcfce7; border-color:#22c55e; color:#166534; box-shadow:0 2px 8px rgba(34,197,94,0.15); }
+.obsChip.on{ background:#dcfce7; border-color:#22c55e; color:#166534; box-shadow:0 2px 6px rgba(34,197,94,0.15); }
 .obsChip.flag{ border-color:#fecaca; background:#fff1f2; color:#991b1b; }
 .obsChip.flag:hover{ background:#fee2e2; border-color:#fca5a5; }
-.obsChip.flag.on{ background:#fee2e2; border-color:#ef4444; color:#991b1b; box-shadow:0 2px 8px rgba(239,68,68,0.15); }
+.obsChip.flag.on{ background:#fee2e2; border-color:#ef4444; color:#991b1b; box-shadow:0 2px 6px rgba(239,68,68,0.15); }
 
-.actionRow{ display:flex; gap:8px; flex-wrap:wrap; }
-.pBtn{ padding:6px 10px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; font-size:12px; color:#334155;}
+.actionRow{ display:flex; gap:6px; flex-wrap:wrap; }
+.pBtn{ padding:4px 10px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; font-size:11px; color:#475569;}
 .pBtn:hover{border-color: rgba(29,78,216,.35); background:#f8fafc; color:#1d4ed8; }
-@media (max-width: 920px){ .main{grid-template-columns:1fr;} .panel{position:relative; top:auto;} }
-.footer{ text-align:center; margin:22px 0 26px 0; color:rgba(255,255,255,.50); font-size:11px; line-height: 1.5; }
+@media (max-width: 920px){ .main{grid-template-columns:1fr;} .panel{position:relative; top:auto;} .h-title h1 {display:block;} .sub {display:block; margin:2px 0 0 0; border:none; padding:0;} }
+.footer{ text-align:center; margin:20px 0; color:rgba(255,255,255,.40); font-size:10px; line-height: 1.5; }
 
 /* DRAWER CSS */
 .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.2s;z-index:60}
 .drawer-overlay.open{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:-420px;width:420px;max-width:92vw;height:100vh;background:#0f172a;border-left:1px solid rgba(148,163,184,.2);z-index:70;transition:.25s;display:flex;flex-direction:column; color:white;}
+.drawer{position:fixed;top:0;right:-400px;width:400px;max-width:90vw;height:100vh;background:#0f172a;border-left:1px solid rgba(148,163,184,.2);z-index:70;transition:.25s;display:flex;flex-direction:column; color:white;}
 .drawer.open{right:0}
-.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(148,163,184,.15);background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(139,92,246,.06))}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(148,163,184,.15);background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(139,92,246,.06))}
 .drawer-body{padding:14px;overflow:auto;display:flex;flex-direction:column;gap:12px}
-.d-panel{background:rgba(51,65,85,.55);border:1px solid rgba(148,163,184,.12);border-radius:12px;padding:12px}
+.d-panel{background:rgba(51,65,85,.55);border:1px solid rgba(148,163,184,.12);border-radius:10px;padding:12px}
 .panel-title{font-size:11px;color:#94a3b8;margin-bottom:8px;letter-spacing:.02em;text-transform:uppercase; font-weight:800;}
 .row{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
 .row label{font-size:11px;color:#94a3b8; font-weight:600;}
-.row input,.row select{background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.18);color:#fff;border-radius:8px;padding:8px 10px;outline:none; font-size:13px;}
+.row input,.row select{background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.18);color:#fff;border-radius:6px;padding:6px 8px;outline:none; font-size:12px;}
 .row input:focus,.row select:focus{border-color:rgba(59,130,246,.6);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
-.chk{display:flex;align-items:center;gap:6px;font-size:11px;color:#fff;background:rgba(15,23,42,.35);padding:6px 10px;border-radius:999px;border:1px solid rgba(148,163,184,.12); cursor:pointer; user-select:none;}
+.chk{display:flex;align-items:center;gap:6px;font-size:11px;color:#fff;background:rgba(15,23,42,.35);padding:4px 8px;border-radius:6px;border:1px solid rgba(148,163,184,.12); cursor:pointer; user-select:none;}
 .actions{display:flex;gap:8px;justify-content:flex-end; margin-top:4px;}
 .list{display:flex;flex-direction:column;gap:6px}
-.item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(15,23,42,.35);border:1px solid rgba(148,163,184,.12);border-radius:10px;padding:10px}
+.item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;background:rgba(15,23,42,.35);border:1px solid rgba(148,163,184,.12);border-radius:8px;padding:8px 10px}
 .item strong{color:white;font-size:12px}
 .item small{color:#94a3b8;font-size:11px}
-.item button{padding:6px 10px;font-size:11px; border-radius:6px; border:none; cursor:pointer;}
+.item button{padding:4px 8px;font-size:11px; border-radius:4px; border:none; cursor:pointer;}
 .hint{margin-top:6px;color:#94a3b8;font-size:11px}
 .close-btn{background:transparent; border:none; color:white; font-size:22px; cursor:pointer; padding:0; line-height:1;}
 
@@ -105,30 +111,32 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
 <div class="wrap">
 
 <header>
-  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-    <div>
+  <div class="h-top">
+    <div class="h-title">
       <h1>Dr. Ratan Kalita</h1>
-      <div class="sub">OCT / OCT-A Clinical Protocol Dashboard • DRI Triton OCTA</div>
+      <span class="sub">OCT / OCT-A Protocol Dashboard</span>
     </div>
-    <button class="btn" style="background:rgba(0,0,0,0.2)" onclick="openPatients()">👥 Patients</button>
+    <button class="btn" onclick="openPatients()">👥 Patients</button>
   </div>
 
-  <div class="domain-tabs">
-    <button class="dTab active" onclick="setDomain('All')">All Domains</button>
-    <button class="dTab" onclick="setDomain('Retina')">Retina</button>
-    <button class="dTab" onclick="setDomain('Optic Nerve')">Optic Nerve</button>
-    <button class="dTab" onclick="setDomain('Anterior Segment')">Anterior Segment</button>
-  </div>
+  <div class="h-mid">
+    <div class="domain-tabs">
+      <button class="dTab active" onclick="setDomain('All')">All Domains</button>
+      <button class="dTab" onclick="setDomain('Retina')">Retina</button>
+      <button class="dTab" onclick="setDomain('Optic Nerve')">Optic Nerve</button>
+      <button class="dTab" onclick="setDomain('Anterior Segment')">Anterior Segment</button>
+    </div>
 
-  <div class="toolsRow">
     <div class="searchWrap">
-      <input id="search" placeholder="Search by name, alias, or acronym (e.g., BRVO, DME)..." onkeyup="debouncedSearch()">
+      <input id="search" placeholder="Search (e.g., BRVO, DME)..." onkeyup="debouncedSearch()">
       <div class="clearX" title="Clear" onclick="clearSearch()">×</div>
     </div>
   </div>
 
-  <div class="filterBar" id="categoryFilters"></div>
-  <div class="metaLine" id="metaLine"></div>
+  <div class="h-bot">
+    <div class="filterBar" id="categoryFilters"></div>
+    <div class="metaLine" id="metaLine"></div>
+  </div>
 </header>
 
 <div class="main">
@@ -137,57 +145,57 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
   </div>
 
   <div id="details" class="panel">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
       <div style="flex:1; padding-right:12px;">
         <h2 id="dxName" style="margin:0 0 6px 0;"></h2>
-        <div id="activePatientBanner" style="display:none; font-size:12px; color:#334155; background:#f1f5f9; padding:6px 10px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:8px;"></div>
+        <div id="activePatientBanner" style="display:none; font-size:11px; color:#475569; background:#f8fafc; padding:4px 8px; border-radius:4px; border:1px solid #e2e8f0; margin-bottom:4px;"></div>
       </div>
       <div class="actionRow">
-        <button class="pBtn" type="button" onclick="clearFindings()">🧽 Clear Findings</button>
-        <button class="pBtn" type="button" onclick="copyReport()">📋 Copy Report</button>
+        <button class="pBtn" type="button" onclick="clearFindings()">🧽 Clear</button>
+        <button class="pBtn" type="button" onclick="copyReport()">📋 Copy</button>
         <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print</button>
-        <button class="pBtn" type="button" onclick="openPatients(true)">💾 Save</button>
-        <button class="pBtn" type="button" onclick="collapseDetails()">✖ Close</button>
+        <button class="pBtn" type="button" style="border-color:#1d4ed8; color:#1d4ed8;" onclick="openPatients(true)">💾 Save</button>
+        <button class="pBtn" type="button" onclick="collapseDetails()">✖</button>
       </div>
     </div>
     
-    <h3>📷 Structural OCT <span id="octCount"></span></h3>
-    <div id="octList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+    <h3>📷 Structural OCT <span id="octCount" style="font-size:11px; opacity:0.6;"></span></h3>
+    <div id="octList" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
 
-    <h3>🧬 OCT-A Protocol <span id="octaCount"></span></h3>
-    <div id="octaList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+    <h3>🧬 OCT-A Protocol <span id="octaCount" style="font-size:11px; opacity:0.6;"></span></h3>
+    <div id="octaList" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
 
-    <h3>🎯 Analysis Targets <span id="tCount"></span></h3>
-    <div id="targetsList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+    <h3>🎯 Analysis Targets <span id="tCount" style="font-size:11px; opacity:0.6;"></span></h3>
+    <div id="targetsList" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
 
-    <h3>⚠ Red Flags <span id="fCount"></span></h3>
-    <div id="flagsList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+    <h3>⚠ Red Flags <span id="fCount" style="font-size:11px; opacity:0.6;"></span></h3>
+    <div id="flagsList" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
 
-    <hr style="border:0; border-top:1px solid #e2e8f0; margin:24px 0 16px 0;">
+    <hr style="border:0; border-top:1px solid #e2e8f0; margin:16px 0 12px 0;">
 
-    <div class="d-panel" style="background:#f8fafc; border:1px solid #cbd5e1; padding:16px;">
-      <div class="row2" style="gap:20px;">
-        <div class="row">
-          <label style="font-weight:800; color:#1d4ed8; font-size:12px; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">1. Clinical Triage</label>
-          <select id="triageSelect" style="color:#000; background:#fff; border-color:#cbd5e1; font-weight:700; cursor:pointer; font-size:14px; padding:8px;">
+    <div class="d-panel" style="background:#f8fafc; border:1px solid #cbd5e1; padding:12px; border-radius:8px;">
+      <div class="row2" style="gap:16px;">
+        <div class="row" style="margin:0;">
+          <label style="font-weight:800; color:#1d4ed8; font-size:11px; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.5px;">1. Clinical Triage</label>
+          <select id="triageSelect" style="color:#000; background:#fff; border-color:#cbd5e1; font-weight:700; cursor:pointer; font-size:13px; padding:6px; border-radius:6px;">
             <option value="Routine">Routine</option>
             <option value="Soon">Refer soon</option>
             <option value="Urgent">Urgent</option>
           </select>
-          <div class="hint" style="margin-top:8px; display:flex; align-items:center; gap:8px; color:#475569;">
+          <div class="hint" style="margin-top:6px; display:flex; align-items:center; gap:6px; color:#475569; font-size:10px;">
             <span style="font-weight:700;">Decision:</span>
             <span id="decisionBadge" style="font-weight:800; padding:2px 6px; border-radius:4px; background:#f1f5f9; cursor:help;">—</span>
           </div>
         </div>
-        <div class="row">
-          <label style="font-weight:800; color:#1d4ed8; font-size:12px; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">2. DDx Suggestions</label>
-          <div id="ddxChips" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+        <div class="row" style="margin:0;">
+          <label style="font-weight:800; color:#1d4ed8; font-size:11px; margin-bottom:2px; text-transform:uppercase; letter-spacing:0.5px;">2. DDx Suggestions</label>
+          <div id="ddxChips" style="display:flex; flex-wrap:wrap; gap:4px;"></div>
         </div>
       </div>
       
-      <div style="margin-top:16px;">
-        <label style="font-weight:800; color:#1d4ed8; font-size:12px; margin-bottom:6px; display:block; text-transform:uppercase; letter-spacing:0.5px;">3. Clinical Impression / Plan</label>
-        <textarea id="doctorNotes" placeholder="Type final impression, specific treatment plan, or follow-up instructions here..." style="width:100%; box-sizing:border-box; background:#fff; border:1px solid #cbd5e1; color:#000; border-radius:8px; padding:10px; font-family:inherit; font-size:13px; resize:vertical; min-height:65px;" oninput="document.getElementById('p_note').value = this.value"></textarea>
+      <div style="margin-top:12px;">
+        <label style="font-weight:800; color:#1d4ed8; font-size:11px; margin-bottom:4px; display:block; text-transform:uppercase; letter-spacing:0.5px;">3. Clinical Impression / Plan</label>
+        <textarea id="doctorNotes" placeholder="Type final impression or plan..." style="width:100%; box-sizing:border-box; background:#fff; border:1px solid #cbd5e1; color:#000; border-radius:6px; padding:8px; font-family:inherit; font-size:12px; resize:vertical; min-height:45px;" oninput="document.getElementById('p_note').value = this.value"></textarea>
       </div>
     </div>
 
@@ -199,7 +207,7 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
 <div class="footer">
   ⚠ <strong>Clinical Decision Support Only:</strong> This tool is not a substitute for clinical judgment.<br>
   📸 <strong>Data Privacy:</strong> All images and patient names must be fully de-identified before external upload or sharing.<br>
-  © Ratan Kalita (Optometry) • Private clinical tool
+  © Ratan Kalita (Optometry)
 </div>
 
 </div>
@@ -208,8 +216,8 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
 <aside class="drawer" id="patientDrawer" aria-hidden="true">
   <div class="drawer-header">
     <div>
-      <div style="font-weight:800; font-size:15px;">Patients</div>
-      <div style="font-size:11px; color:#cbd5e1;">Local follow-ups (offline).</div>
+      <div style="font-weight:800; font-size:14px;">Patients</div>
+      <div style="font-size:10px; color:#cbd5e1;">Local follow-ups (offline).</div>
     </div>
     <button class="close-btn" onclick="closePatients()">×</button>
   </div>
@@ -277,11 +285,11 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
         <input id="p_note" placeholder="Quick clinical note..." oninput="document.getElementById('doctorNotes').value = this.value" />
       </div>
       
-      <div class="actions" style="margin-top:8px;">
-        <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:none;" onclick="clearPatientForm()">Clear Form</button>
-        <button type="button" style="padding:8px 12px; border-radius:8px; cursor:pointer; background:#2563eb; color:white; border:none; font-weight:700;" onclick="savePatientAndMaybeVisit()">Save Context</button>
+      <div class="actions" style="margin-top:6px;">
+        <button type="button" style="padding:6px 10px; border-radius:6px; cursor:pointer; background:rgba(255,255,255,0.1); color:#fff; border:none; font-size:11px;" onclick="clearPatientForm()">Clear Form</button>
+        <button type="button" style="padding:6px 10px; border-radius:6px; cursor:pointer; background:#2563eb; color:white; border:none; font-weight:700; font-size:11px;" onclick="savePatientAndMaybeVisit()">Save Context</button>
       </div>
-      <div id="activeDxHint" class="hint" style="display:none; color:#fbbf24; font-weight:bold; margin-top:10px;"></div>
+      <div id="activeDxHint" class="hint" style="display:none; color:#fbbf24; font-weight:bold; margin-top:8px;"></div>
       <div id="overdueAlert" class="hint" style="display:none; color:#ef4444; font-weight:bold; margin-top:4px;"></div>
     </div>
 
@@ -293,12 +301,12 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
     <div class="d-panel">
       <div class="panel-title">Saved Patients</div>
       
-      <div style="display:flex; gap:8px; margin-bottom:10px;">
-        <button type="button" style="flex:1; padding:8px; font-size:11px; border-radius:8px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="exportPatients()">Export</button>
-        <button type="button" style="flex:1; padding:8px; font-size:11px; border-radius:8px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="importPatients()">Import</button>
+      <div style="display:flex; gap:6px; margin-bottom:8px;">
+        <button type="button" style="flex:1; padding:6px; font-size:10px; border-radius:6px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="exportPatients()">Export Data</button>
+        <button type="button" style="flex:1; padding:6px; font-size:10px; border-radius:6px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); cursor:pointer;" onclick="importPatients()">Import Data</button>
       </div>
 
-      <input id="patientSearch" placeholder="Search patient ID..." oninput="renderPatientList()" style="width:100%; box-sizing:border-box; background:rgba(15,23,42,.6); border:1px solid rgba(148,163,184,.18); color:#fff; border-radius:8px; padding:8px 10px; margin-bottom:10px; font-size:12px;" />
+      <input id="patientSearch" placeholder="Search patient ID..." oninput="renderPatientList()" style="width:100%; box-sizing:border-box; background:rgba(15,23,42,.6); border:1px solid rgba(148,163,184,.18); color:#fff; border-radius:6px; padding:6px 8px; margin-bottom:8px; font-size:11px;" />
       <div id="patientList" class="list"></div>
     </div>
     
@@ -366,19 +374,13 @@ document.addEventListener("click", (e)=>{
   cb.dispatchEvent(new Event("change", {bubbles:true}));
 });
 
-// ESC Key Listener (Closes drawer or details panel safely)
+// ESC Key Listener
 document.addEventListener("keydown", (e)=>{
   if(e.key !== "Escape") return;
-  
   const tag = (document.activeElement?.tagName || "").toLowerCase();
   const isTyping = ["input","select","textarea"].includes(tag);
-
   const drawer = document.getElementById("patientDrawer");
-  if(drawer && drawer.classList.contains("open")) {
-    closePatients();
-    return;
-  }
-
+  if(drawer && drawer.classList.contains("open")) { closePatients(); return; }
   if(!isTyping){
     const details = document.getElementById("details");
     if(details && details.style.display === "block") collapseDetails();
@@ -394,11 +396,8 @@ function updateDecisionBadgeFromSelect(){
   
   if(badge) {
     badge.textContent = dec.badge;
-    badge.style.color =
-      dec.badge.includes("URGENT") ? "#ef4444" :
-      dec.badge.includes("SOON") ? "#eab308" : "#10b981";
+    badge.style.color = dec.badge.includes("URGENT") ? "#ef4444" : dec.badge.includes("SOON") ? "#eab308" : "#10b981";
   }
-  
   if (panel) {
       if(tri === "Urgent") panel.style.borderLeftColor = "#ef4444";
       else if(tri === "Soon") panel.style.borderLeftColor = "#eab308";
@@ -417,60 +416,41 @@ function computeTriage(dx, ctx, obs) {
     if(scores[level] > score) { tri = level; reason = r; score = scores[level]; }
   };
 
-  // 1. Context Baseline (General flags)
   if (ctx.pain) setTri("Urgent", "Context: Patient reports pain");
   if (ctx.sudden) setTri("Soon", "Context: Sudden onset symptoms");
 
-  // 2. Custom JSON Protocol Rules
   if (Array.isArray(dx.triage_rules) && dx.triage_rules.length > 0) {
     dx.triage_rules.forEach(rule => {
        let match = false;
        if (rule.when) {
-         if (rule.when.any_flag_selected) {
-             match = Object.values(obs.flags || {}).some(Boolean);
-         } else if (rule.when.any_target_selected) {
-             match = Object.values(obs.targets || {}).some(Boolean);
-         } else if (rule.when.chip_contains) {
+         if (rule.when.any_flag_selected) match = Object.values(obs.flags || {}).some(Boolean);
+         else if (rule.when.any_target_selected) match = Object.values(obs.targets || {}).some(Boolean);
+         else if (rule.when.chip_contains) {
              const bucketName = rule.when.bucket || "targets";
              const bucket = obs[bucketName] || {};
              match = Object.entries(bucket).some(([k,v]) => v && k.includes(norm(rule.when.chip_contains)));
-         } else if (rule.when.flag) {
-             match = evalCond(rule.when, ctx);
-         }
+         } else if (rule.when.flag) match = evalCond(rule.when, ctx);
        }
        if (match) setTri(rule.level, rule.reason || `Protocol rule: ${rule.level}`);
     });
   } else {
-    // 3. Universal Fallback
     const anyFlag = Object.values(obs.flags || {}).some(Boolean);
     if (anyFlag) setTri("Urgent", "Auto fallback: Red flag selected");
-
     const anyTarget = Object.entries(obs.targets || {}).some(([k,v]) => v && _isSoonTargetKey(k));
     if (anyTarget && score < 1) setTri("Soon", "Auto fallback: High-risk finding selected");
   }
-
   return { level: tri, reason: reason };
 }
 
-// Clinical logic helper: identify high-risk targets
-function _isSoonTargetKey(key){
-  return /(fluid|sr?f|irf|edema|dme|cnv|nv|ischemi|dropout|non perfusion|hemorrhage|traction|detachment)/.test(key);
-}
+function _isSoonTargetKey(key){ return /(fluid|sr?f|irf|edema|dme|cnv|nv|ischemi|dropout|non perfusion|hemorrhage|traction|detachment)/.test(key); }
 
-// Auto-triage based on interactive finding clicks using the engine
 function autoTriageFromObservations(){
   if(triageWasManuallySet) return;
-  
   const ctx = _ctxFromForm();
   const result = computeTriage(currentDx, ctx, currentObs); 
-
   const triSel = document.getElementById("triageSelect");
-  if(triSel && triSel.value !== result.level) {
-    triSel.value = result.level;
-  }
-  
+  if(triSel && triSel.value !== result.level) triSel.value = result.level;
   updateDecisionBadgeFromSelect();
-  
   const badge = document.getElementById("decisionBadge");
   if(badge) badge.title = result.reason;
 }
@@ -483,12 +463,9 @@ function renderChips(containerId, items, bucket, isFlag=false){
     const chip = document.createElement("div");
     chip.className = "obsChip" + (isFlag ? " flag" : "");
     chip.textContent = text;
-    
-    // Normalize key to prevent mismatch if wording changes
     const key = norm(text); 
     const isOn = !!(currentObs[bucket] && currentObs[bucket][key]);
     chip.classList.toggle("on", isOn);
-    
     chip.onclick = ()=>{
       currentObs[bucket][key] = !currentObs[bucket][key];
       chip.classList.toggle("on", !!currentObs[bucket][key]);
@@ -510,7 +487,6 @@ function clearFindings(){
   }
 }
 
-// Helper to format checked lists for reports
 function getReportList(items, bucket) {
     return items.map(x => {
         const key = norm(x);
@@ -533,7 +509,6 @@ function _copyTextFallback(txt){
 
 function copyReport(){
   if(!currentDx){ alert("Open a protocol first."); return; }
-
   const pid = (document.getElementById("p_id")?.value || "").trim();
   const age = (document.getElementById("p_age")?.value || "").trim();
   const sex = (document.getElementById("p_sex")?.value || "").trim();
@@ -543,13 +518,10 @@ function copyReport(){
   const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
   const sx = (document.getElementById("p_symptoms")?.value || "").trim();
   
-  // Use the Doctor Notes box directly for the report if present
   const noteEl = document.getElementById("doctorNotes");
   const note = noteEl ? noteEl.value.trim() : (document.getElementById("p_note")?.value || "").trim();
-
   const triage = document.getElementById("triageSelect")?.value || "Routine";
   const decision = decisionFromTriage(triage).badge;
-
   const oct = getReportList(listify(currentDx.oct), 'oct');
   const octa = getReportList(listify(currentDx.octa), 'octa');
   const targets = getReportList(listify(currentDx.targets), 'targets');
@@ -586,12 +558,9 @@ function copyReport(){
     lines.push(`Clinical Impression / Plan:`);
     lines.push(note);
   }
-
   const txt = lines.join("\n");
-  
   if(navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(txt).then(()=>alert("Report copied ✅"))
-      .catch(()=>{ _copyTextFallback(txt); alert("Report copied ✅"); });
+    navigator.clipboard.writeText(txt).then(()=>alert("Report copied ✅")).catch(()=>{ _copyTextFallback(txt); alert("Report copied ✅"); });
   } else {
     _copyTextFallback(txt);
     alert("Report copied ✅");
@@ -600,10 +569,8 @@ function copyReport(){
 
 function printProtocol(){
   if(!currentDx){ alert("Open a protocol first."); return; }
-
   const triage = document.getElementById("triageSelect")?.value || "Routine";
   const decision = decisionFromTriage(triage).badge;
-
   const pid = (document.getElementById("p_id")?.value || "").trim();
   const age = (document.getElementById("p_age")?.value || "").trim();
   const sex = (document.getElementById("p_sex")?.value || "").trim();
@@ -612,10 +579,8 @@ function printProtocol(){
   const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
   const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
   const sx = (document.getElementById("p_symptoms")?.value || "").trim();
-  
   const noteEl = document.getElementById("doctorNotes");
   const note = noteEl ? noteEl.value.trim() : (document.getElementById("p_note")?.value || "").trim();
-
   const oct = getReportList(listify(currentDx.oct), 'oct');
   const octa = getReportList(listify(currentDx.octa), 'octa');
   const targets = getReportList(listify(currentDx.targets), 'targets');
@@ -633,7 +598,6 @@ function printProtocol(){
           ${escapeHtml(triage)} • ${escapeHtml(decision)}
         </div>
       </div>
-
       <div style="margin-top:12px; border-top:1px solid #ddd; padding-top:10px; font-size:12px; line-height:1.5;">
         <b>Patient:</b> ${escapeHtml(pid||"—")} &nbsp; | &nbsp;
         <b>Age/Sex:</b> ${escapeHtml(age||"—")}/${escapeHtml(sex||"—")} <br>
@@ -641,35 +605,28 @@ function printProtocol(){
         <b>IOP (OD/OS):</b> ${escapeHtml(iop_od||"—")} / ${escapeHtml(iop_os||"—")} <br>
         <b>Symptoms:</b> ${escapeHtml(sx||"—")}
       </div>
-
       <div style="margin-top:12px;">
         <div style="font-size:14px; font-weight:800;">Provisional Dx: ${escapeHtml(currentDx.name||currentDx.id||"—")}</div>
         <div style="font-size:12px; color:#444; margin-top:2px;">
           ${escapeHtml(currentDx.domain||"—")} • ${escapeHtml(getCategory(currentDx))}
         </div>
       </div>
-
       ${section("Structural OCT", oct)}
       ${section("OCT-A Protocol", octa)}
       ${section("Analysis Targets", targets)}
       ${flags.length ? section("Red Flags", flags, true) : ""}
-
       ${note ? `
         <div style="margin-top:16px;">
           <div style="font-size:13px; font-weight:800; color:#1d4ed8;">Clinical Impression / Plan</div>
           <div style="margin-top:4px; font-size:12px; border-left:3px solid #1d4ed8; padding-left:8px; white-space:pre-wrap;">${escapeHtml(note)}</div>
         </div>
       ` : ""}
-
       <div style="margin-top:14px; font-size:10px; color:#444; border-top:1px dashed #bbb; padding-top:8px;">
         Decision support tool only. Clinical correlation required. De-identify images before sharing.
       </div>
     </div>
   `;
-
-  requestAnimationFrame(()=> {
-    requestAnimationFrame(()=> window.print());
-  });
+  requestAnimationFrame(()=> { requestAnimationFrame(()=> window.print()); });
 }
 
 function section(title, items, danger=false){
@@ -685,34 +642,27 @@ function section(title, items, danger=false){
 // --- INITIALIZATION ---
 async function loadData(){
   try {
-    const res = await fetch('./diagnoses.json?v=6'); // Busted cache for the new rule engine JSON
+    const res = await fetch('./diagnoses.json?v=7'); // Busted cache for the new layout
     allDiagnoses = await res.json();
     buildCategoryFilters();
     applyFilters();
-  } catch(e) {
-    console.error("Failed to load diagnoses.json", e);
-  }
+  } catch(e) { console.error("Failed to load diagnoses.json", e); }
 }
 
-// --- DOMAIN & UI FILTERING ---
 function setDomain(dom) {
-  activeDomain = dom;
-  activeCategory = "All"; 
+  activeDomain = dom; activeCategory = "All"; 
   document.querySelectorAll('.dTab').forEach(btn => {
     btn.classList.remove('active');
-    if (btn.textContent === dom || (btn.textContent === 'All Domains' && dom === 'All')) {
-      btn.classList.add('active');
-    }
+    if (btn.textContent === dom || (btn.textContent === 'All Domains' && dom === 'All')) btn.classList.add('active');
   });
-  buildCategoryFilters();
-  applyFilters();
+  buildCategoryFilters(); applyFilters();
 }
 
 function buildCategoryFilters(){
   const bar = document.getElementById("categoryFilters");
   bar.innerHTML = "";
   let validData = allDiagnoses;
-  if (activeDomain !== "All") { validData = validData.filter(d => d.domain === activeDomain); }
+  if (activeDomain !== "All") validData = validData.filter(d => d.domain === activeDomain);
   const set = new Set(validData.map(d => getCategory(d)));
   const cats = ["All", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
   cats.forEach(cat=>{
@@ -722,8 +672,7 @@ function buildCategoryFilters(){
     b.onclick = ()=>{
       activeCategory = cat;
       document.querySelectorAll(".filterBtn").forEach(x=>x.classList.remove("active"));
-      b.classList.add("active");
-      applyFilters();
+      b.classList.add("active"); applyFilters();
     };
     bar.appendChild(b);
   });
@@ -735,31 +684,21 @@ function clearSearch(){
   applyFilters();
 }
 
-// --- SMART SEARCH ALGORITHM WITH DEBOUNCE ---
 let searchTimer;
 function debouncedSearch() {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => { applyFilters(); }, 150);
 }
 
-function norm(s){
-  return (s || "").toString().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-}
-
-function searchKey(dx){
-  const parts = [ dx.id, dx.name, dx.domain, dx.category, ...(dx.aliases || []), ...(dx.ddx || []) ];
-  return norm(parts.filter(Boolean).join(" "));
-}
+function norm(s){ return (s || "").toString().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+function searchKey(dx){ const parts = [ dx.id, dx.name, dx.domain, dx.category, ...(dx.aliases || []), ...(dx.ddx || []) ]; return norm(parts.filter(Boolean).join(" ")); }
 
 function scoreMatch(query, key){
   if (!query) return 0;
   if (key.includes(query)) return 100;
   const qTokens = query.split(" ");
   let score = 0;
-  for (const t of qTokens){
-    if (!t) continue;
-    if (key.includes(t)) score += 20;
-  }
+  for (const t of qTokens){ if (!t) continue; if (key.includes(t)) score += 20; }
   return score;
 }
 
@@ -777,16 +716,13 @@ function smartFilter(data, q){
   return scored.filter(x => x.score > 0).sort((a,b) => b.score - a.score).map(x => x.dx);
 }
 
-// --- CORE RENDERING ---
 function applyFilters(){
   const raw = (document.getElementById("search").value || "");
   const term = raw.trim();
   let data = allDiagnoses.slice();
-
-  if(activeDomain !== "All") { data = data.filter(d => d.domain === activeDomain); }
-  if(activeCategory !== "All"){ data = data.filter(d => getCategory(d) === activeCategory); }
-  if(term){ data = smartFilter(data, term); }
-  
+  if(activeDomain !== "All") data = data.filter(d => d.domain === activeDomain);
+  if(activeCategory !== "All") data = data.filter(d => getCategory(d) === activeCategory);
+  if(term) data = smartFilter(data, term);
   renderTiles(data, term);
   updateMeta(data.length, term);
 }
@@ -807,14 +743,8 @@ function renderTiles(data, term){
   data.forEach(dx=>{
     const tile = document.createElement("div");
     tile.className = "tile";
-    
-    // Guard against accidental clicks when selecting text
     tile.onmousedown = (e)=>{ tile._downSel = _hasSelection(); };
-    tile.onclick = ()=>{ 
-      if(tile._downSel || _hasSelection()) return;
-      showDetails(dx);
-    };
-    
+    tile.onclick = ()=>{ if(tile._downSel || _hasSelection()) return; showDetails(dx); };
     const octN = listify(dx.oct).length;
     const tarN = listify(dx.targets).length;
     const displayName = highlightTerm(dx.name || dx.id || "Untitled", term);
@@ -833,10 +763,8 @@ function showDetails(dx){
   const newKey = (dx?.name || dx?.id || "");
   const oldKey = (currentDx?.name || currentDx?.id || "");
   const isNew = newKey && oldKey && newKey !== oldKey;
-
   currentDx = dx;
 
-  // Reset ONLY if new protocol or first load
   if(isNew || !oldKey) _resetObs();
   if(isNew) triageWasManuallySet = false;
   
@@ -844,14 +772,11 @@ function showDetails(dx){
   panel.style.display = "block";
   document.getElementById("dxName").textContent = dx.name || dx.id || "";
   
-  // Sync the Doctor Notes box from the Patient Drawer
   const docNotes = document.getElementById("doctorNotes");
   const pNote = document.getElementById("p_note");
   if(docNotes && pNote) docNotes.value = pNote.value || "";
   
   const o = listify(dx.oct); const a = listify(dx.octa); const t = listify(dx.targets); const f = listify(dx.red_flags);
-  
-  // Render Interactive Chips
   renderChips("octList", o, "oct");
   renderChips("octaList", a, "octa");
   renderChips("targetsList", t, "targets");
@@ -861,32 +786,23 @@ function showDetails(dx){
 
   const ctx = _ctxFromForm();
   const initialTriage = computeTriage(dx, ctx, currentObs);
-  
   const triSel = document.getElementById("triageSelect");
-  
-  if(!triageWasManuallySet){
-    if(triSel) triSel.value = initialTriage.level;
-  }
+  if(!triageWasManuallySet){ if(triSel) triSel.value = initialTriage.level; }
   updateDecisionBadgeFromSelect();
-  
   if(!triageWasManuallySet) {
      const badge = document.getElementById("decisionBadge");
      if(badge) badge.title = initialTriage.reason;
   }
-
   renderDDX(dx);
   updateActivePatientBanner();
-
-  if (window.matchMedia("(max-width: 920px)").matches) { panel.scrollIntoView({behavior:"smooth", block:"start"}); }
+  if (window.matchMedia("(max-width: 920px)").matches) panel.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 function collapseDetails(){
   document.getElementById("details").style.display = "none";
-  currentDx = null;
-  triageWasManuallySet = false;
+  currentDx = null; triageWasManuallySet = false;
 }
 
-// --- LIVE PATIENT BANNER ON MAIN DASHBOARD ---
 function updateActivePatientBanner() {
   const banner = document.getElementById("activePatientBanner");
   if(!banner) return;
@@ -895,22 +811,15 @@ function updateActivePatientBanner() {
   const va_os = (document.getElementById("p_va_os")?.value || "").trim();
   const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
   const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
-
-  if(!pid) {
-     banner.style.display = "none";
-     return;
-  }
-
+  if(!pid) { banner.style.display = "none"; return; }
   const bits = [];
   bits.push(`<strong>${escapeHtml(pid)}</strong>`);
   if(va_od || va_os) bits.push(`VA: ${escapeHtml(va_od||'-')}/${escapeHtml(va_os||'-')}`);
   if(iop_od || iop_os) bits.push(`IOP: ${escapeHtml(iop_od||'-')}/${escapeHtml(iop_os||'-')}`);
-
   banner.innerHTML = `<span style="color:#64748b; margin-right:8px;">Active Patient:</span> ` + bits.join(' <span style="color:#cbd5e1; margin:0 6px;">|</span> ');
   banner.style.display = "block";
 }
 
-// --- DDX RULES & CLINICAL CONTEXT ---
 function getFindingsState(){
   const wrap = document.getElementById("findingsWrap") || document;
   const state = {};
@@ -942,20 +851,15 @@ function computeDDX(primaryDx, ctx){
     if (ex) { ex.w = Math.max(ex.w||0, w||0); return; }
     out.push({name, reason, w});
   };
-
   if (Array.isArray(primaryDx.ddx_rules)) {
-    primaryDx.ddx_rules.forEach(rule=>{
-      try { if (evalCond(rule.when, ctx)) push(rule.candidate, rule.reason, rule.weight || 1); } catch(e){}
-    });
+    primaryDx.ddx_rules.forEach(rule=>{ try { if (evalCond(rule.when, ctx)) push(rule.candidate, rule.reason, rule.weight || 1); } catch(e){} });
   }
   if (Array.isArray(primaryDx.ddx)) { primaryDx.ddx.forEach(n=>push(n, "Listed DDx", 2)); }
-  
   const n = (primaryDx.name||"").toLowerCase();
   if (n.includes("npdr")) {
     push("Diabetic Macular Edema (DME)", "Rule out coexisting DME", ctx.dm?6:3);
     push("Branch Retinal Vein Occlusion (BRVO)", "Hemorrhage mimic", ctx.htn?4:1);
   }
-  
   out.sort((a,b)=> (b.w||0)-(a.w||0));
   return out.slice(0, 6);
 }
@@ -966,22 +870,17 @@ function renderDDX(primaryDx){
   wrap.innerHTML = "";
   const ctx = _ctxFromForm();
   const ddx = computeDDX(primaryDx, ctx);
-
   if (!ddx.length) { wrap.innerHTML = '<span class="hint">No automatic DDx generated.</span>'; return; }
   ddx.forEach(x=>{
     const b = document.createElement("div");
     b.className = "ddx-chip";
     b.textContent = x.name;
     b.title = x.reason || "Open protocol";
-    b.onclick = ()=>{ 
-      const dx = allDiagnoses.find(d=>d.name===x.name);
-      if (dx) showDetails(dx); 
-    };
+    b.onclick = ()=>{ const dx = allDiagnoses.find(d=>d.name===x.name); if (dx) showDetails(dx); };
     wrap.appendChild(b);
   });
 }
 
-// --- PATIENT STATE & TIMELINE (Local-only) ---
 function _loadStore(){ try { return JSON.parse(localStorage.getItem(LS_KEY) || '{"patients":{}}'); } catch(e){ return {"patients":{}}; } }
 function _saveStore(store){ localStorage.setItem(LS_KEY, JSON.stringify(store)); }
 function _nowISO(){ return new Date().toISOString(); }
@@ -990,68 +889,37 @@ function _ctxFromForm(){
   const symptoms = (document.getElementById("p_symptoms")?.value || "").toLowerCase();
   const dm = !!document.getElementById("p_dm")?.checked;
   const htn = !!document.getElementById("p_htn")?.checked;
-  
   const find = getFindingsState();
-  
-  find.diabetes = dm;
-  find.htn = htn;
-  find.hypertension = htn;
-  find.dm = dm;
-
-  return {
-    dm,
-    htn,
-    sudden: /sudden|today|yesterday|since morning/.test(symptoms),
-    pain: /pain|ache|headache/.test(symptoms),
-    symptoms: symptoms,
-    find
-  };
+  find.diabetes = dm; find.htn = htn; find.hypertension = htn; find.dm = dm;
+  return { dm, htn, sudden: /sudden|today|yesterday|since morning/.test(symptoms), pain: /pain|ache|headache/.test(symptoms), symptoms: symptoms, find };
 }
 
 function _getPatientForm(){
   const flags = {
-    dm: !!document.getElementById("p_dm")?.checked,
-    htn: !!document.getElementById("p_htn")?.checked,
-    myopia: !!document.getElementById("p_myopia")?.checked,
-    steroid: !!document.getElementById("p_steroid")?.checked,
-    smoke: !!document.getElementById("p_smoke")?.checked,
-    ...getFindingsState()
+    dm: !!document.getElementById("p_dm")?.checked, htn: !!document.getElementById("p_htn")?.checked,
+    myopia: !!document.getElementById("p_myopia")?.checked, steroid: !!document.getElementById("p_steroid")?.checked,
+    smoke: !!document.getElementById("p_smoke")?.checked, ...getFindingsState()
   };
   return {
-    id: (document.getElementById("p_id")?.value || "").trim(),
-    age: (document.getElementById("p_age")?.value || "").trim(),
-    sex: (document.getElementById("p_sex")?.value || "").trim(),
-    va_od: (document.getElementById("p_va_od")?.value || "").trim(),
-    va_os: (document.getElementById("p_va_os")?.value || "").trim(),
-    iop_od: (document.getElementById("p_iop_od")?.value || "").trim(),
-    iop_os: (document.getElementById("p_iop_os")?.value || "").trim(),
-    note: (document.getElementById("p_note")?.value || "").trim(),
-    symptoms: (document.getElementById("p_symptoms")?.value || "").trim(),
-    flags
+    id: (document.getElementById("p_id")?.value || "").trim(), age: (document.getElementById("p_age")?.value || "").trim(),
+    sex: (document.getElementById("p_sex")?.value || "").trim(), va_od: (document.getElementById("p_va_od")?.value || "").trim(),
+    va_os: (document.getElementById("p_va_os")?.value || "").trim(), iop_od: (document.getElementById("p_iop_od")?.value || "").trim(),
+    iop_os: (document.getElementById("p_iop_os")?.value || "").trim(), note: (document.getElementById("p_note")?.value || "").trim(),
+    symptoms: (document.getElementById("p_symptoms")?.value || "").trim(), flags
   };
 }
 
 function openPatients(fromDx=false){
   if(fromDx && !currentDx) fromDx = false;
   autoSaveVisitOnPatientSave = !!fromDx;
-  
   document.getElementById("drawerOverlay").classList.add("open");
   document.getElementById("patientDrawer").classList.add("open");
   renderPatientList();
-  
   const last = localStorage.getItem(LS_KEY + "_last");
-  if(last){
-    const store = _loadStore();
-    if(store.patients && store.patients[last]) loadPatient(last);
-  }
-  
+  if(last){ const store = _loadStore(); if(store.patients && store.patients[last]) loadPatient(last); }
   const hint = document.getElementById("activeDxHint");
-  if (fromDx && currentDx){
-    hint.style.display="block";
-    hint.textContent = `Ready to link to: ${currentDx.name || currentDx.id}`;
-  } else {
-    hint.style.display="none";
-  }
+  if (fromDx && currentDx){ hint.style.display="block"; hint.textContent = `Ready to link to: ${currentDx.name || currentDx.id}`; } 
+  else { hint.style.display="none"; }
 }
 
 function closePatients(ev){
@@ -1062,18 +930,13 @@ function closePatients(ev){
 
 function clearPatientForm(){
   document.querySelectorAll(".drawer-body input, .drawer-body select").forEach(el => {
-    if(el.type === 'checkbox') el.checked = false;
-    else el.value = "";
+    if(el.type === 'checkbox') el.checked = false; else el.value = "";
   });
   document.getElementById("visitTimelinePanel").style.display = "none";
   document.getElementById("overdueAlert").style.display = "none";
-  
-  // Clear doctor notes too
   const docNotes = document.getElementById("doctorNotes");
   if(docNotes) docNotes.value = "";
-
   updateActivePatientBanner();
-  
   if(currentDx) {
     if(!triageWasManuallySet) {
        const initialTriage = computeTriage(currentDx, _ctxFromForm(), currentObs);
@@ -1087,101 +950,55 @@ function clearPatientForm(){
 function savePatientAndMaybeVisit(){
   const form = _getPatientForm();
   if(!form.id){ alert("Please enter Patient ID / OPD No."); return; }
-
-  const store = _loadStore();
-  store.patients = store.patients || {};
-
+  const store = _loadStore(); store.patients = store.patients || {};
   const existing = store.patients[form.id] || { id: form.id, createdAt: _nowISO(), visits: [] };
-
-  existing.age = form.age;
-  existing.sex = form.sex;
-  existing.va_od = form.va_od;
-  existing.va_os = form.va_os;
-  existing.iop_od = form.iop_od;
-  existing.iop_os = form.iop_os;
-  existing.note = form.note;
-  existing.symptoms = form.symptoms;
-  existing.flags = form.flags;
-  existing.updatedAt = _nowISO();
-
+  existing.age = form.age; existing.sex = form.sex; existing.va_od = form.va_od; existing.va_os = form.va_os;
+  existing.iop_od = form.iop_od; existing.iop_os = form.iop_os; existing.note = form.note;
+  existing.symptoms = form.symptoms; existing.flags = form.flags; existing.updatedAt = _nowISO();
   let loggedThisTime = false;
 
   if (autoSaveVisitOnPatientSave && currentDx){
     const triage = document.getElementById("triageSelect")?.value || "Routine";
     const dxKey = currentDx.name || currentDx.id || "—";
-    
     const lastVisit = (existing.visits || [])[0];
     const lastT = lastVisit && lastVisit.at ? new Date(lastVisit.at).getTime() : NaN;
     const tooSoon = lastVisit && lastVisit.dx === dxKey && isFinite(lastT) && (Date.now() - lastT) < 2*60*1000;
-
     if (!tooSoon) {
       existing.visits.unshift({
-        at: _nowISO(),
-        dx: dxKey,
-        domain: currentDx.domain || "—",
-        category: getCategory(currentDx),
-        triage,
-        decision: decisionFromTriage(triage).badge,
-        va_od: form.va_od,
-        va_os: form.va_os,
-        iop_od: form.iop_od,
-        iop_os: form.iop_os,
-        note: form.note,
-        findings: JSON.parse(JSON.stringify(currentObs)) // Snapshot selected chips
+        at: _nowISO(), dx: dxKey, domain: currentDx.domain || "—", category: getCategory(currentDx),
+        triage, decision: decisionFromTriage(triage).badge, va_od: form.va_od, va_os: form.va_os,
+        iop_od: form.iop_od, iop_os: form.iop_os, note: form.note,
+        findings: JSON.parse(JSON.stringify(currentObs)) 
       });
       existing.visits = existing.visits.slice(0, 30);
       loggedThisTime = true;
     }
-    
     autoSaveVisitOnPatientSave = false;
   }
-
-  store.patients[form.id] = existing;
-  _saveStore(store);
-  updateActivePatientBanner();
-
+  store.patients[form.id] = existing; _saveStore(store); updateActivePatientBanner();
   const hint = document.getElementById("activeDxHint");
   hint.style.display = "block";
-  hint.textContent = loggedThisTime 
-    ? `Saved + Visit logged for: ${currentDx.name || currentDx.id}` 
-    : "Patient context saved.";
-
-  // Re-eval overdue logic on save
+  hint.textContent = loggedThisTime ? `Saved + Visit logged for: ${currentDx.name || currentDx.id}` : "Patient context saved.";
   document.getElementById("overdueAlert").style.display = "none";
-  
-  renderPatientList();
-  renderVisitTimeline(existing);
+  renderPatientList(); renderVisitTimeline(existing);
   document.getElementById("visitTimelinePanel")?.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 function renderPatientList(){
-  const store = _loadStore();
-  const list = document.getElementById("patientList");
-  if(!list) return;
-
+  const store = _loadStore(); const list = document.getElementById("patientList"); if(!list) return;
   const q = (document.getElementById("patientSearch")?.value || "").trim().toLowerCase();
-  const patients = store.patients || {};
-  let ids = Object.keys(patients);
-
+  const patients = store.patients || {}; let ids = Object.keys(patients);
   if(q) ids = ids.filter(id => id.toLowerCase().includes(q));
-
-  if(ids.length===0){
-    list.innerHTML = `<div style="color:#94a3b8; font-size:12px; padding:6px;">No patients found.</div>`;
-    return;
-  }
-
+  if(ids.length===0){ list.innerHTML = `<div style="color:#94a3b8; font-size:12px; padding:6px;">No patients found.</div>`; return; }
   ids.sort((a,b)=>{
     const A = patients[a]?.updatedAt || patients[a]?.createdAt || "";
     const B = patients[b]?.updatedAt || patients[b]?.createdAt || "";
     return (B > A) ? 1 : (B < A ? -1 : 0);
   });
-
   list.innerHTML = "";
   ids.forEach(pid=>{
-    const p = patients[pid];
-    const vCount = (p.visits || []).length;
-    const el = document.createElement("div");
-    el.className = "item";
+    const p = patients[pid]; const vCount = (p.visits || []).length;
+    const el = document.createElement("div"); el.className = "item";
     el.innerHTML = `
       <div style="flex:1; min-width:0;">
         <strong>${escapeHtml(pid)}</strong>
@@ -1195,19 +1012,14 @@ function renderPatientList(){
         <button type="button" class="delBtn" style="background:#ef4444; color:#fff;" data-pid="${escapeAttr(pid)}">Delete</button>
       </div>
     `;
-    
     el.querySelector(".loadBtn").addEventListener("click", (e)=> loadPatient(e.currentTarget.dataset.pid));
     el.querySelector(".delBtn").addEventListener("click", (e)=> deletePatient(e.currentTarget.dataset.pid));
-    
     list.appendChild(el);
   });
 }
 
 function loadPatient(pid){
-  const store = _loadStore();
-  const p = store.patients?.[pid];
-  if(!p) return;
-
+  const store = _loadStore(); const p = store.patients?.[pid]; if(!p) return;
   document.getElementById("p_id").value = p.id || pid;
   document.getElementById("p_age").value = p.age || "";
   document.getElementById("p_sex").value = p.sex || "";
@@ -1216,56 +1028,36 @@ function loadPatient(pid){
   document.getElementById("p_iop_od").value = p.iop_od || "";
   document.getElementById("p_iop_os").value = p.iop_os || "";
   document.getElementById("p_note").value = p.note || "";
-  
-  // Sync to doctor panel immediately
-  const docNotes = document.getElementById("doctorNotes");
-  if(docNotes) docNotes.value = p.note || "";
-
+  const docNotes = document.getElementById("doctorNotes"); if(docNotes) docNotes.value = p.note || "";
   document.getElementById("p_symptoms").value = p.symptoms || "";
 
   const flags = p.flags || {};
   const map = { dm:"p_dm", htn:"p_htn", myopia:"p_myopia", steroid:"p_steroid", smoke:"p_smoke" };
-  Object.keys(map).forEach(k=>{
-    const el = document.getElementById(map[k]);
-    if(el) el.checked = !!flags[k];
-  });
-
+  Object.keys(map).forEach(k=>{ const el = document.getElementById(map[k]); if(el) el.checked = !!flags[k]; });
   const wrap = document.getElementById("findingsWrap") || document;
-  wrap.querySelectorAll("input[type=checkbox][data-finding]").forEach(cb=>{
-    cb.checked = !!flags[cb.dataset.finding];
-  });
-
+  wrap.querySelectorAll("input[type=checkbox][data-finding]").forEach(cb=>{ cb.checked = !!flags[cb.dataset.finding]; });
+  
   updateActivePatientBanner();
-
-  // SMART ALERT: Follow-up Overdue Logic by Dx
-  const overdueAlert = document.getElementById("overdueAlert");
-  overdueAlert.style.display = "none";
+  const overdueAlert = document.getElementById("overdueAlert"); overdueAlert.style.display = "none";
   if (p.visits && p.visits.length > 0) {
       const lastV = p.visits[0];
       if (lastV && lastV.at) {
           const daysSince = Math.floor((Date.now() - new Date(lastV.at).getTime()) / (1000 * 60 * 60 * 24));
-          let overdue = false;
-          const dxLower = (lastV.dx || "").toLowerCase();
-
-          if (dxLower.match(/brvo|crvo|dme|cnv|wet amd|macular edema/)) {
-              if (daysSince > 45) overdue = true;
-          } else if (dxLower.match(/glaucoma|suspect/)) {
-              if (daysSince > 90) overdue = true;
-          } else {
+          let overdue = false; const dxLower = (lastV.dx || "").toLowerCase();
+          if (dxLower.match(/brvo|crvo|dme|cnv|wet amd|macular edema/)) { if (daysSince > 45) overdue = true; } 
+          else if (dxLower.match(/glaucoma|suspect/)) { if (daysSince > 90) overdue = true; } 
+          else {
               if (lastV.triage === "Urgent" && daysSince > 3) overdue = true;
               if (lastV.triage === "Soon" && daysSince > 45) overdue = true;
               if (lastV.triage === "Routine" && daysSince > 180) overdue = true;
           }
-
           if (overdue) {
               overdueAlert.style.display = "block";
               overdueAlert.innerHTML = `⚠️ Follow-up Overdue (${daysSince} days since last visit)`;
           }
       }
   }
-
   renderVisitTimeline(p);
-
   if(currentDx) {
     if(!triageWasManuallySet) {
        const initialTriage = computeTriage(currentDx, _ctxFromForm(), currentObs);
@@ -1274,62 +1066,38 @@ function loadPatient(pid){
     }
     updateDecisionBadgeFromSelect();
   }
-  
   localStorage.setItem(LS_KEY + "_last", pid);
   document.getElementById("p_symptoms")?.focus();
 }
 
 function deletePatient(pid){
-  // CLINICAL SAFETY LOCK
   const confirmation = prompt(`To delete patient "${pid}", type the exact ID below:`);
-  if(confirmation !== pid) {
-      if (confirmation !== null) alert("ID did not match. Deletion cancelled.");
-      return;
-  }
-  
+  if(confirmation !== pid) { if (confirmation !== null) alert("ID did not match. Deletion cancelled."); return; }
   const store = _loadStore();
   if(store.patients && store.patients[pid]){
-    delete store.patients[pid];
-    _saveStore(store);
-    clearPatientForm();
-    renderPatientList();
-    
-    const last = localStorage.getItem(LS_KEY + "_last");
-    if(last === pid) localStorage.removeItem(LS_KEY + "_last");
+    delete store.patients[pid]; _saveStore(store); clearPatientForm(); renderPatientList();
+    const last = localStorage.getItem(LS_KEY + "_last"); if(last === pid) localStorage.removeItem(LS_KEY + "_last");
   }
 }
 
 function renderVisitTimeline(p) {
   const panel = document.getElementById("visitTimelinePanel");
   const list = document.getElementById("visitTimelineList");
-  
-  if(!p || !p.visits || !p.visits.length) {
-    panel.style.display = "none";
-    return;
-  }
-  
-  panel.style.display = "block";
-  list.innerHTML = "";
+  if(!p || !p.visits || !p.visits.length) { panel.style.display = "none"; return; }
+  panel.style.display = "block"; list.innerHTML = "";
   
   (p.visits || []).slice(0, 10).forEach((v, i) => {
-    const el = document.createElement("div");
-    el.className = "item";
-    
+    const el = document.createElement("div"); el.className = "item";
     let badgeColor = "rgba(255,255,255,0.1)";
     if(v.triage === "Urgent") badgeColor = "rgba(220, 38, 38, 0.2)"; 
     if(v.triage === "Soon") badgeColor = "rgba(202, 138, 4, 0.2)"; 
-
-    const d = new Date(v.at);
-    const ds = isNaN(d) ? String(v.at||"").slice(0,10) : d.toLocaleDateString();
-
+    const d = new Date(v.at); const ds = isNaN(d) ? String(v.at||"").slice(0,10) : d.toLocaleDateString();
     let metrics = [];
     if(v.va_od || v.va_os) metrics.push(`VA: ${v.va_od||'-'}/${v.va_os||'-'}`);
     if(v.iop_od || v.iop_os) metrics.push(`IOP: ${v.iop_od||'-'}/${v.iop_os||'-'}`);
-    
     const metricStr = metrics.length ? `<div style="margin-top:4px; font-size:11px; color:#cbd5e1;">${escapeHtml(metrics.join(" | "))}</div>` : "";
     const noteStr = v.note ? `<div style="margin-top:2px; font-size:11px; color:#94a3b8; font-style:italic;">"${escapeHtml(v.note)}"</div>` : "";
 
-    // Count saved findings
     let activeFindings = [];
     if(v.findings) {
        let fCount = Object.values(v.findings.flags||{}).filter(Boolean).length;
@@ -1349,98 +1117,66 @@ function renderVisitTimeline(p) {
       <div style="flex:1;">
         <strong style="color:#e2e8f0;">${escapeHtml(v.dx)}</strong> 
         <span style="font-size:10px; padding:2px 6px; border-radius:4px; background:${badgeColor}; margin-left:6px;">${escapeHtml(v.triage)}</span>
-        ${metricStr}
-        ${noteStr}
-        ${findingStr}
+        ${metricStr} ${noteStr} ${findingStr}
         <div style="margin-top:4px; font-size:10px; color:#64748b;">Recorded: ${escapeHtml(ds)}</div>
       </div>
       <button type="button" class="reopenBtn" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);" data-dx="${escapeAttr(v.dx)}" data-vi="${i}">Reopen</button>
     `;
-    
     el.querySelector(".reopenBtn").addEventListener("click", (e)=>{
-      const dxKey = e.currentTarget.dataset.dx;
-      const vi = parseInt(e.currentTarget.dataset.vi, 10);
+      const dxKey = e.currentTarget.dataset.dx; const vi = parseInt(e.currentTarget.dataset.vi, 10);
       reopenDx(dxKey, p.visits[vi]?.findings);
     });
-    
     list.appendChild(el);
   });
 }
 
 function reopenDx(key, findings) {
-  const k = (key || "").trim();
-  const dx = allDiagnoses.find(d => d.name === k || d.id === k);
+  const k = (key || "").trim(); const dx = allDiagnoses.find(d => d.name === k || d.id === k);
   if(!dx) return alert("Protocol not found in current database.");
-
-  closePatients();
-  showDetails(dx); 
+  closePatients(); showDetails(dx); 
 
   function _upgradeFindingKeys(bucket){
-    const o = currentObs[bucket] || {};
-    const upgraded = {};
-    Object.keys(o).forEach(k=>{
-      upgraded[norm(k)] = !!o[k];
-    });
+    const o = currentObs[bucket] || {}; const upgraded = {};
+    Object.keys(o).forEach(k=>{ upgraded[norm(k)] = !!o[k]; });
     currentObs[bucket] = upgraded;
   }
 
   if(findings) {
     currentObs = JSON.parse(JSON.stringify(findings));
     ["oct","octa","targets","flags"].forEach(_upgradeFindingKeys);
-    
     const o = listify(dx.oct), a = listify(dx.octa), t = listify(dx.targets), f = listify(dx.red_flags);
-    renderChips("octList", o, "oct");
-    renderChips("octaList", a, "octa");
-    renderChips("targetsList", t, "targets");
-    renderChips("flagsList", f, "flags", true);
+    renderChips("octList", o, "oct"); renderChips("octaList", a, "octa");
+    renderChips("targetsList", t, "targets"); renderChips("flagsList", f, "flags", true);
     autoTriageFromObservations();
   }
 }
 
 // --- EXPORT & IMPORT BACKUPS ---
 function exportPatients(){
-  const store = _loadStore();
-  const blob = new Blob([JSON.stringify(store, null, 2)], {type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
+  const store = _loadStore(); const blob = new Blob([JSON.stringify(store, null, 2)], {type:"application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
   a.download = `oct_patients_backup_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href), 500);
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 500);
 }
 
 function importPatients(){
-  const inp = document.createElement("input");
-  inp.type = "file";
-  inp.accept = "application/json";
+  const inp = document.createElement("input"); inp.type = "file"; inp.accept = "application/json";
   inp.onchange = async () => {
-    const f = inp.files?.[0];
-    if(!f) return;
+    const f = inp.files?.[0]; if(!f) return;
     try{
-      const text = await f.text();
-      const data = JSON.parse(text);
+      const text = await f.text(); const data = JSON.parse(text);
       if(!data || typeof data !== "object" || !data.patients) throw new Error("Invalid file");
-      
-      const current = _loadStore();
-      current.patients = current.patients || {};
+      const current = _loadStore(); current.patients = current.patients || {};
       const incoming = data.patients || {};
-      Object.keys(incoming).forEach(id=>{
-        current.patients[id] = incoming[id];
-      });
-      _saveStore(current);
-      
-      renderPatientList();
-      alert("Import successful (merged with existing).");
-    } catch(e){
-      alert("Import failed: invalid backup file.");
-    }
+      Object.keys(incoming).forEach(id=>{ current.patients[id] = incoming[id]; });
+      _saveStore(current); renderPatientList(); alert("Import successful (merged with existing).");
+    } catch(e){ alert("Import failed: invalid backup file."); }
   };
   inp.click();
 }
 
-// Ensure decision recalculates when fields change
 document.addEventListener("DOMContentLoaded", ()=>{ 
-  updateDecisionBadgeFromSelect();
-  loadData(); 
+  updateDecisionBadgeFromSelect(); loadData(); 
   
   document.querySelectorAll(".drawer-body input, .drawer-body select").forEach(el=>{
     el.addEventListener("change", () => {
@@ -1453,18 +1189,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
         updateDecisionBadgeFromSelect();
       }
     });
-    
-    el.addEventListener("input", () => {
-      updateActivePatientBanner();
-    });
+    el.addEventListener("input", () => { updateActivePatientBanner(); });
   });
   
-  // Enter key in search bar bypasses debounce
   document.getElementById("search")?.addEventListener("keydown", (e)=>{
     if(e.key==="Enter"){ clearTimeout(searchTimer); applyFilters(); }
   });
 
-  // Triage manual override listener
   document.getElementById("triageSelect")?.addEventListener("change", ()=>{
     triageWasManuallySet = true;
     const badge = document.getElementById("decisionBadge");
