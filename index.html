@@ -47,10 +47,16 @@ header h1{margin:0;font-size:20px;font-weight:900;letter-spacing:.2px}
 /* VISUAL TRIAGE BORDER APPLIED HERE */
 .panel{ background:var(--card); border:1px solid var(--border); border-left:6px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:20px; position: sticky; top: 150px; display:none; transition: border-left-color 0.3s; }
 .panel h2{margin:0 0 8px 0;color:var(--accent); font-size:18px;}
-.panel h3{ margin:16px 0 6px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; font-size:14px;}
-ul{margin:4px 0 0 0;padding-left:20px; font-size:14px;}
-li{margin-bottom:5px;line-height:1.4}
-#flagsList li{color:var(--danger);font-weight:700}
+.panel h3{ margin:16px 0 8px 0; border-bottom:1px solid #eee; padding-bottom:4px; color:#374151; display:flex; justify-content:space-between; align-items:center; font-size:14px;}
+
+/* OBSERVATION CHIP STYLES */
+.obsChip{ display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px; border:1px solid #cbd5e1; background:#f8fafc; font-size:12px; font-weight:700; cursor:pointer; user-select:none; line-height:1.3; transition:0.15s; }
+.obsChip:hover{ background:#f1f5f9; border-color:#94a3b8; }
+.obsChip.on{ background:#dcfce7; border-color:#22c55e; color:#166534; box-shadow:0 2px 8px rgba(34,197,94,0.15); }
+.obsChip.flag{ border-color:#fecaca; background:#fff1f2; color:#991b1b; }
+.obsChip.flag:hover{ background:#fee2e2; border-color:#fca5a5; }
+.obsChip.flag.on{ background:#fee2e2; border-color:#ef4444; color:#991b1b; box-shadow:0 2px 8px rgba(239,68,68,0.15); }
+
 .actionRow{ display:flex; gap:8px; flex-wrap:wrap; }
 .pBtn{ padding:6px 10px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; font-size:12px; color:#334155;}
 .pBtn:hover{border-color: rgba(29,78,216,.35); background:#f8fafc; color:#1d4ed8; }
@@ -137,6 +143,7 @@ li{margin-bottom:5px;line-height:1.4}
         <div id="activePatientBanner" style="display:none; font-size:12px; color:#334155; background:#f1f5f9; padding:6px 10px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:8px;"></div>
       </div>
       <div class="actionRow">
+        <button class="pBtn" type="button" onclick="clearFindings()">🧽 Clear Findings</button>
         <button class="pBtn" type="button" onclick="copyReport()">📋 Copy Report</button>
         <button class="pBtn" type="button" onclick="printProtocol()">🖨 Print (rare)</button>
         <button class="pBtn" type="button" onclick="openPatients(true)">💾 Save</button>
@@ -145,16 +152,16 @@ li{margin-bottom:5px;line-height:1.4}
     </div>
     
     <h3>📷 Structural OCT <span id="octCount"></span></h3>
-    <ul id="octList"></ul>
+    <div id="octList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
 
     <h3>🧬 OCT-A Protocol <span id="octaCount"></span></h3>
-    <ul id="octaList"></ul>
+    <div id="octaList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
 
     <h3>🎯 Analysis Targets <span id="tCount"></span></h3>
-    <ul id="targetsList"></ul>
+    <div id="targetsList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
 
     <h3>⚠ Red Flags <span id="fCount"></span></h3>
-    <ul id="flagsList"></ul>
+    <div id="flagsList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
 
     <hr style="border:0; border-top:1px solid #e2e8f0; margin:24px 0 16px 0;">
 
@@ -169,7 +176,7 @@ li{margin-bottom:5px;line-height:1.4}
           </select>
           <div class="hint" style="margin-top:8px; display:flex; align-items:center; gap:8px; color:#475569;">
             <span style="font-weight:700;">Decision:</span>
-            <span id="decisionBadge" style="font-weight:800; padding:2px 6px; border-radius:4px; background:#f1f5f9;">—</span>
+            <span id="decisionBadge" style="font-weight:800; padding:2px 6px; border-radius:4px; background:#f1f5f9; cursor:help;">—</span>
           </div>
         </div>
         <div class="row">
@@ -300,6 +307,11 @@ let activeCategory = "All";
 let currentDx = null;
 let triageWasManuallySet = false;
 let autoSaveVisitOnPatientSave = false;
+
+// OBSERVATION STATE
+let currentObs = { oct:{}, octa:{}, targets:{}, flags:{} };
+function _resetObs(){ currentObs = { oct:{}, octa:{}, targets:{}, flags:{} }; }
+
 const LS_KEY = "octengine_patients_v2"; 
 
 (function migrateV1toV2(){
@@ -388,6 +400,78 @@ function updateDecisionBadgeFromSelect(){
   }
 }
 
+// Clinical logic helper: identify high-risk targets
+function _isSoonTargetKey(key){
+  return /(fluid|sr?f|irf|edema|dme|cnv|nv|ischemi|dropout|non perfusion|hemorrhage|traction|detachment)/.test(key);
+}
+
+// Auto-triage based on interactive finding clicks
+function autoTriageFromObservations(){
+  if(triageWasManuallySet) return;
+  
+  const anyFlag = Object.entries(currentObs.flags || {}).find(([k,v])=>v);
+  const anyTarget = Object.entries(currentObs.targets || {}).find(([k,v])=>v && _isSoonTargetKey(k));
+  
+  const ctx = _ctxFromForm();
+  let tri = defaultTriageFor(currentDx, ctx); 
+  let reason = "";
+  
+  if(anyFlag) { 
+      tri = "Urgent"; 
+      reason = "Auto: red flag selected"; 
+  } else if(anyTarget && tri !== "Urgent") { 
+      tri = "Soon"; 
+      reason = "Auto: target selected"; 
+  }
+
+  const triSel = document.getElementById("triageSelect");
+  if(triSel && triSel.value !== tri) {
+    triSel.value = tri;
+  }
+  
+  updateDecisionBadgeFromSelect();
+  
+  const badge = document.getElementById("decisionBadge");
+  if(badge && reason) badge.title = reason;
+}
+
+// Render Findings Chips
+function renderChips(containerId, items, bucket, isFlag=false){
+  const el = document.getElementById(containerId);
+  el.innerHTML = "";
+  (items||[]).forEach(text=>{
+    const chip = document.createElement("div");
+    chip.className = "obsChip" + (isFlag ? " flag" : "");
+    chip.textContent = text;
+    
+    // Normalize key to prevent mismatch if wording changes
+    const key = norm(text); 
+    const isOn = !!(currentObs[bucket] && currentObs[bucket][key]);
+    chip.classList.toggle("on", isOn);
+    
+    chip.onclick = ()=>{
+      currentObs[bucket][key] = !currentObs[bucket][key];
+      chip.classList.toggle("on", !!currentObs[bucket][key]);
+      autoTriageFromObservations();
+    };
+    el.appendChild(chip);
+  });
+}
+
+function clearFindings(){
+  _resetObs();
+  if(currentDx) showDetails(currentDx);
+}
+
+// Helper to format checked lists for reports
+function getReportList(items, bucket) {
+    return items.map(x => {
+        const key = norm(x);
+        const isChecked = !!(currentObs[bucket] && currentObs[bucket][key]);
+        return (isChecked ? "☑ " : "☐ ") + x;
+    });
+}
+
 // --- REPORTING LOGIC (COPY & PRINT) ---
 function _copyTextFallback(txt){
   const ta = document.createElement("textarea");
@@ -416,6 +500,11 @@ function copyReport(){
   const triage = document.getElementById("triageSelect")?.value || "Routine";
   const decision = decisionFromTriage(triage).badge;
 
+  const oct = getReportList(listify(currentDx.oct), 'oct');
+  const octa = getReportList(listify(currentDx.octa), 'octa');
+  const targets = getReportList(listify(currentDx.targets), 'targets');
+  const flags = getReportList(listify(currentDx.red_flags), 'flags');
+
   const lines = [];
   lines.push(`OCT/OCTA REPORT`);
   lines.push(`Date: ${new Date().toLocaleString()}`);
@@ -430,18 +519,17 @@ function copyReport(){
   lines.push(`Triage: ${triage} | Decision: ${decision}`);
   lines.push(``);
   lines.push(`Structural OCT:`);
-  listify(currentDx.oct).forEach(x=>lines.push(`- ${x}`));
+  oct.forEach(x=>lines.push(`${x}`));
   lines.push(``);
   lines.push(`OCT-A Protocol:`);
-  listify(currentDx.octa).forEach(x=>lines.push(`- ${x}`));
+  octa.forEach(x=>lines.push(`${x}`));
   lines.push(``);
   lines.push(`Analysis Targets:`);
-  listify(currentDx.targets).forEach(x=>lines.push(`- ${x}`));
+  targets.forEach(x=>lines.push(`${x}`));
   lines.push(``);
-  const rf = listify(currentDx.red_flags);
-  if(rf.length){
+  if(flags.length){
     lines.push(`Red Flags:`);
-    rf.forEach(x=>lines.push(`- ${x}`));
+    flags.forEach(x=>lines.push(`${x}`));
     lines.push(``);
   }
   if(note) lines.push(`Note: ${note}`);
@@ -473,10 +561,10 @@ function printProtocol(){
   const sx = (document.getElementById("p_symptoms")?.value || "").trim();
   const note = (document.getElementById("p_note")?.value || "").trim();
 
-  const oct = listify(currentDx.oct);
-  const octa = listify(currentDx.octa);
-  const targets = listify(currentDx.targets);
-  const flags = listify(currentDx.red_flags);
+  const oct = getReportList(listify(currentDx.oct), 'oct');
+  const octa = getReportList(listify(currentDx.octa), 'octa');
+  const targets = getReportList(listify(currentDx.targets), 'targets');
+  const flags = getReportList(listify(currentDx.red_flags), 'flags');
 
   const report = document.getElementById("reportPrint");
   report.innerHTML = `
@@ -519,18 +607,17 @@ function printProtocol(){
     </div>
   `;
 
-  // Cross-browser reliable printing wrapper
   requestAnimationFrame(()=> {
     requestAnimationFrame(()=> window.print());
   });
 }
 
 function section(title, items, danger=false){
-  const li = items.map(x=>`<li style="margin:4px 0;">${escapeHtml(x)}</li>`).join("");
+  const li = items.map(x=>`<li style="margin:4px 0; list-style-type:none;">${escapeHtml(x)}</li>`).join("");
   return `
     <div style="margin-top:12px;">
       <div style="font-size:13px; font-weight:800; ${danger ? "color:#b91c1c;" : ""}">${escapeHtml(title)}</div>
-      <ul style="margin:6px 0 0 18px; padding:0; font-size:12px;">${li || "<li>—</li>"}</ul>
+      <ul style="margin:6px 0 0 0; padding:0; font-size:12px;">${li || "<li style='list-style-type:none;'>—</li>"}</ul>
     </div>
   `;
 }
@@ -680,29 +767,31 @@ function renderTiles(data, term){
   });
 }
 
-function fill(id, arr){
-  const ul = document.getElementById(id);
-  ul.innerHTML = "";
-  (listify(arr) || []).forEach(v=>{
-    const li = document.createElement("li");
-    li.textContent = v;
-    ul.appendChild(li);
-  });
-}
 function setCount(id, n){ document.getElementById(id).textContent = n ? `(${n})` : ""; }
 
 function showDetails(dx){
   const newKey = (dx?.name || dx?.id || "");
   const oldKey = (currentDx?.name || currentDx?.id || "");
-  if(newKey && oldKey && newKey !== oldKey) triageWasManuallySet = false;
+  const isNew = newKey && oldKey && newKey !== oldKey;
 
   currentDx = dx;
+
+  // Reset ONLY if new protocol or first load
+  if(isNew || !oldKey) _resetObs();
+  if(isNew) triageWasManuallySet = false;
+  
   const panel = document.getElementById("details");
   panel.style.display = "block";
   document.getElementById("dxName").textContent = dx.name || dx.id || "";
   
   const o = listify(dx.oct); const a = listify(dx.octa); const t = listify(dx.targets); const f = listify(dx.red_flags);
-  fill("octList", o); fill("octaList", a); fill("targetsList", t); fill("flagsList", f);
+  
+  // Render Interactive Chips
+  renderChips("octList", o, "oct");
+  renderChips("octaList", a, "octa");
+  renderChips("targetsList", t, "targets");
+  renderChips("flagsList", f, "flags", true);
+  
   setCount("octCount", o.length); setCount("octaCount", a.length); setCount("tCount", t.length); setCount("fCount", f.length);
 
   const ctx = _ctxFromForm();
@@ -918,7 +1007,15 @@ function clearPatientForm(){
   document.getElementById("visitTimelinePanel").style.display = "none";
   document.getElementById("overdueAlert").style.display = "none";
   updateActivePatientBanner();
-  if(currentDx) showDetails(currentDx);
+  
+  if(currentDx) {
+    if(!triageWasManuallySet) {
+       const tri = defaultTriageFor(currentDx, _ctxFromForm());
+       const triSel = document.getElementById("triageSelect");
+       if(triSel) triSel.value = tri;
+    }
+    updateDecisionBadgeFromSelect();
+  }
 }
 
 function savePatientAndMaybeVisit(){
@@ -963,7 +1060,8 @@ function savePatientAndMaybeVisit(){
         va_os: form.va_os,
         iop_od: form.iop_od,
         iop_os: form.iop_os,
-        note: form.note
+        note: form.note,
+        findings: JSON.parse(JSON.stringify(currentObs)) // Snapshot selected chips
       });
       existing.visits = existing.visits.slice(0, 30);
       loggedThisTime = true;
@@ -1097,7 +1195,14 @@ function loadPatient(pid){
 
   renderVisitTimeline(p);
 
-  if(currentDx) showDetails(currentDx);
+  if(currentDx) {
+    if(!triageWasManuallySet) {
+       const tri = defaultTriageFor(currentDx, _ctxFromForm());
+       const triSel = document.getElementById("triageSelect");
+       if(triSel) triSel.value = tri;
+    }
+    updateDecisionBadgeFromSelect();
+  }
   
   localStorage.setItem(LS_KEY + "_last", pid);
   document.getElementById("p_symptoms")?.focus();
@@ -1135,7 +1240,7 @@ function renderVisitTimeline(p) {
   panel.style.display = "block";
   list.innerHTML = "";
   
-  (p.visits || []).slice(0, 10).forEach(v => {
+  (p.visits || []).slice(0, 10).forEach((v, i) => {
     const el = document.createElement("div");
     el.className = "item";
     
@@ -1153,31 +1258,71 @@ function renderVisitTimeline(p) {
     const metricStr = metrics.length ? `<div style="margin-top:4px; font-size:11px; color:#cbd5e1;">${escapeHtml(metrics.join(" | "))}</div>` : "";
     const noteStr = v.note ? `<div style="margin-top:2px; font-size:11px; color:#94a3b8; font-style:italic;">"${escapeHtml(v.note)}"</div>` : "";
 
+    // Count saved findings
+    let activeFindings = [];
+    if(v.findings) {
+       let fCount = Object.values(v.findings.flags||{}).filter(Boolean).length;
+       let tCount = Object.values(v.findings.targets||{}).filter(Boolean).length;
+       let oCount = Object.values(v.findings.oct||{}).filter(Boolean).length;
+       let oaCount = Object.values(v.findings.octa||{}).filter(Boolean).length;
+       let total = fCount + tCount + oCount + oaCount;
+       if(total > 0) {
+           let str = `Findings: ${total}`;
+           if(fCount>0) str += ` <span style="color:#ef4444; font-weight:bold;">(${fCount} flags)</span>`;
+           activeFindings.push(str);
+       }
+    }
+    const findingStr = activeFindings.length ? `<div style="margin-top:2px; font-size:10px; color:#fbbf24;">${activeFindings.join("")}</div>` : "";
+
     el.innerHTML = `
       <div style="flex:1;">
         <strong style="color:#e2e8f0;">${escapeHtml(v.dx)}</strong> 
         <span style="font-size:10px; padding:2px 6px; border-radius:4px; background:${badgeColor}; margin-left:6px;">${escapeHtml(v.triage)}</span>
         ${metricStr}
         ${noteStr}
+        ${findingStr}
         <div style="margin-top:4px; font-size:10px; color:#64748b;">Recorded: ${escapeHtml(ds)}</div>
       </div>
-      <button type="button" class="reopenBtn" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);" data-dx="${escapeAttr(v.dx)}">Reopen</button>
+      <button type="button" class="reopenBtn" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);" data-dx="${escapeAttr(v.dx)}" data-vi="${i}">Reopen</button>
     `;
     
-    el.querySelector(".reopenBtn").addEventListener("click", (e)=> reopenDx(e.currentTarget.dataset.dx));
+    el.querySelector(".reopenBtn").addEventListener("click", (e)=>{
+      const dxKey = e.currentTarget.dataset.dx;
+      const vi = parseInt(e.currentTarget.dataset.vi, 10);
+      reopenDx(dxKey, p.visits[vi]?.findings);
+    });
     
     list.appendChild(el);
   });
 }
 
-function reopenDx(key) {
+function reopenDx(key, findings) {
   const k = (key || "").trim();
   const dx = allDiagnoses.find(d => d.name === k || d.id === k);
-  if(dx) {
-    closePatients();
-    showDetails(dx);
-  } else {
-    alert("Protocol not found in current database.");
+  if(!dx) return alert("Protocol not found in current database.");
+
+  closePatients();
+  showDetails(dx); 
+
+  function _upgradeFindingKeys(bucket){
+    const o = currentObs[bucket] || {};
+    const upgraded = {};
+    Object.keys(o).forEach(k=>{
+      upgraded[norm(k)] = !!o[k];
+    });
+    currentObs[bucket] = upgraded;
+  }
+
+  if(findings) {
+    currentObs = JSON.parse(JSON.stringify(findings));
+    ["oct","octa","targets","flags"].forEach(_upgradeFindingKeys);
+    
+    const o = listify(dx.oct), a = listify(dx.octa), t = listify(dx.targets), f = listify(dx.red_flags);
+    renderChips("octList", o, "oct");
+    renderChips("octaList", a, "octa");
+    renderChips("targetsList", t, "targets");
+    renderChips("flagsList", f, "flags", true);
+    autoTriageFromObservations();
   }
 }
 
@@ -1225,14 +1370,21 @@ function importPatients(){
 document.addEventListener("DOMContentLoaded", ()=>{ 
   updateDecisionBadgeFromSelect();
   loadData(); 
+  
   document.querySelectorAll(".drawer-body input, .drawer-body select").forEach(el=>{
     el.addEventListener("change", () => {
-      if(currentDx) showDetails(currentDx);
+      if(currentDx){
+        if(!triageWasManuallySet) {
+          const tri = defaultTriageFor(currentDx, _ctxFromForm());
+          const triSel = document.getElementById("triageSelect");
+          if(triSel) triSel.value = tri;
+        }
+        updateDecisionBadgeFromSelect();
+      }
     });
-    // Live update the Active Patient Banner as you type
+    
     el.addEventListener("input", () => {
       updateActivePatientBanner();
-      if(currentDx) showDetails(currentDx);
     });
   });
   
@@ -1244,6 +1396,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Triage manual override listener
   document.getElementById("triageSelect")?.addEventListener("change", ()=>{
     triageWasManuallySet = true;
+    const badge = document.getElementById("decisionBadge");
+    if(badge) badge.title = "Manual override";
     updateDecisionBadgeFromSelect();
   });
 });
