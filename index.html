@@ -12,6 +12,17 @@
 body{ font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif; background: radial-gradient(900px 500px at 20% 0%, rgba(29,78,216,0.12), transparent 60%), radial-gradient(900px 500px at 90% 5%, rgba(6,182,212,0.10), transparent 60%), var(--bg); margin:12px 16px; color:#111; }
 .wrap{max-width:1220px;margin:auto;}
 
+/* SECURE LOGIN OVERLAY CSS */
+#loginOverlay { position:fixed; inset:0; background:#0f172a; z-index:100000; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px; }
+.login-box { background:#1e293b; border:1px solid #334155; border-radius:12px; max-width:380px; width:100%; padding:30px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); text-align:center;}
+.login-box h2 { margin:0 0 6px 0; color:#fff; font-size:22px; font-weight:900; letter-spacing:0.5px;}
+.login-box p { color:#94a3b8; font-size:13px; margin:0 0 24px 0;}
+.l-input { width:100%; padding:14px; margin-bottom:14px; border-radius:8px; border:1px solid #475569; background:#0f172a; color:#fff; font-size:14px; outline:none; box-sizing:border-box; transition:0.2s;}
+.l-input:focus { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.2);}
+.l-btn { width:100%; padding:14px; border-radius:8px; background:#2563eb; color:#fff; font-weight:bold; font-size:15px; border:none; cursor:pointer; transition:0.2s; margin-top:8px;}
+.l-btn:hover { background:#1d4ed8; }
+.l-error { color:#fca5a5; font-size:13px; margin-bottom:16px; font-weight:600; min-height:18px; }
+
 /* ULTRA-COMPACT HEADER */
 header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding:12px 16px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,.20); position: sticky; top: 10px; z-index: 4; display:flex; flex-direction:column; gap:10px;}
 .h-top { display:flex; justify-content:space-between; align-items:center; }
@@ -94,7 +105,7 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 .close-btn{background:transparent; border:none; color:white; font-size:22px; cursor:pointer; padding:0; line-height:1;}
 
 /* COPYRIGHT MODAL CSS */
-#startupModal { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+#startupModal { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; display:none; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
 .modal-box { background:#0f172a; border:1px solid #334155; border-radius:12px; max-width:450px; padding:24px; color:#f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.5); text-align:center; }
 .modal-box h2 { margin:0 0 12px 0; color:#38bdf8; font-size:18px; text-transform:uppercase; letter-spacing:0.5px;}
 .modal-box p { font-size:13px; line-height:1.6; color:#cbd5e1; margin-bottom:20px; text-align:left;}
@@ -103,7 +114,7 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 #reportPrint { display:none; }
 @media print {
   body { background:#fff !important; color:#000 !important; margin:0 !important; }
-  header, .filterBar, .toolsRow, .metaLine, .domain-tabs, .drawer, .drawer-overlay, .footer, #startupModal { display:none !important; }
+  header, .filterBar, .toolsRow, .metaLine, .domain-tabs, .drawer, .drawer-overlay, .footer, #startupModal, #loginOverlay { display:none !important; }
   .main { display:block !important; margin:0 !important; }
   #tiles { display:none !important; }
   #details { display:none !important; }
@@ -113,6 +124,71 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 </head>
 
 <body>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDCMtyemzDroV1DKAestox-l8iYymQvGYw",
+    authDomain: "oct-dashborad-app.firebaseapp.com",
+    projectId: "oct-dashborad-app",
+    storageBucket: "oct-dashborad-app.firebasestorage.app",
+    messagingSenderId: "1004160854962",
+    appId: "1:1004160854962:web:f2055f2d2d488dfeb092ab"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginErr = document.getElementById("loginError");
+
+  loginBtn.addEventListener("click", async () => {
+      const email = document.getElementById("loginEmail").value;
+      const pass = document.getElementById("loginPassword").value;
+      try {
+          loginErr.textContent = "Authenticating...";
+          await signInWithEmailAndPassword(auth, email, pass);
+      } catch (error) {
+          loginErr.textContent = "Invalid credentials. You are not authorized.";
+      }
+  });
+
+  logoutBtn.addEventListener("click", () => { signOut(auth); });
+
+  // Watch for login status
+  onAuthStateChanged(auth, (user) => {
+      if (user) {
+          // Logged IN: Hide login screen, Show Disclaimer, Load Data
+          document.getElementById("loginOverlay").style.display = "none";
+          document.getElementById("startupModal").style.display = "flex";
+          
+          if(window.allDiagnoses && window.allDiagnoses.length === 0) {
+              window.loadData();
+          }
+      } else {
+          // Logged OUT: Show Login wall, hide disclaimer
+          document.getElementById("loginOverlay").style.display = "flex";
+          document.getElementById("startupModal").style.display = "none";
+          document.getElementById("loginPassword").value = "";
+          loginErr.textContent = "";
+      }
+  });
+</script>
+
+<div id="loginOverlay">
+  <div class="login-box">
+    <h2>Secure Gateway</h2>
+    <p>Please log in to access the clinical system.</p>
+    <div class="l-error" id="loginError"></div>
+    <input type="email" id="loginEmail" class="l-input" placeholder="Admin Email" />
+    <input type="password" id="loginPassword" class="l-input" placeholder="Password" />
+    <button class="l-btn" id="loginBtn">Log In</button>
+  </div>
+</div>
+
 <div id="startupModal">
   <div class="modal-box">
     <h2>⚠️ Copyright & Terms of Use</h2>
@@ -133,7 +209,10 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
       <h1>Ratan Kalita</h1>
       <span class="sub">OCT / OCT-A Protocol Dashboard</span>
     </div>
-    <button class="btn" onclick="openPatients()">👥 Patients</button>
+    <div style="display:flex; gap:8px;">
+      <button class="btn" onclick="openPatients()">👥 Patients</button>
+      <button class="btn" id="logoutBtn" style="background:rgba(220,38,38,0.15); color:#fca5a5; border-color:rgba(220,38,38,0.3);">🚪 Logout</button>
+    </div>
   </div>
 
   <div class="h-mid">
@@ -335,7 +414,8 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 </aside>
 
 <script>
-let allDiagnoses = [];
+// Expose functions to the window so the HTML onclick handlers can still find them
+window.allDiagnoses = [];
 let activeDomain = "All";
 let activeCategory = "All";
 let currentDx = null;
@@ -481,7 +561,7 @@ function renderChips(containerId, items, bucket, isFlag=false){
   });
 }
 
-function clearFindings(){
+window.clearFindings = function(){
   _resetObs();
   if(currentDx) {
     const o = listify(currentDx.oct), a = listify(currentDx.octa), t = listify(currentDx.targets), f = listify(currentDx.red_flags);
@@ -509,7 +589,7 @@ function _copyTextFallback(txt){
   document.body.removeChild(ta);
 }
 
-function copyReport(){
+window.copyReport = function(){
   if(!currentDx){ alert("Open a protocol first."); return; }
   const pid = (document.getElementById("p_id")?.value || "").trim();
   const age = (document.getElementById("p_age")?.value || "").trim();
@@ -572,7 +652,7 @@ function copyReport(){
   } else { _copyTextFallback(txt); alert("Report copied ✅"); }
 }
 
-function printProtocol(){
+window.printProtocol = function(){
   if(!currentDx){ alert("Open a protocol first."); return; }
   const triage = document.getElementById("triageSelect")?.value || "Routine";
   const decision = decisionFromTriage(triage).badge;
@@ -654,16 +734,16 @@ function section(title, items, danger=false){
 }
 
 // --- INITIALIZATION ---
-async function loadData(){
+window.loadData = async function(){
   try {
-    const res = await fetch('./diagnoses.json?v=9'); 
-    allDiagnoses = await res.json();
+    const res = await fetch('./diagnoses.json?v=11'); 
+    window.allDiagnoses = await res.json();
     buildCategoryFilters();
     applyFilters();
   } catch(e) { console.error("Failed to load diagnoses.json", e); }
 }
 
-function setDomain(dom) {
+window.setDomain = function(dom) {
   activeDomain = dom; activeCategory = "All"; 
   document.querySelectorAll('.dTab').forEach(btn => {
     btn.classList.remove('active');
@@ -675,7 +755,7 @@ function setDomain(dom) {
 function buildCategoryFilters(){
   const bar = document.getElementById("categoryFilters");
   bar.innerHTML = "";
-  let validData = allDiagnoses;
+  let validData = window.allDiagnoses;
   if (activeDomain !== "All") validData = validData.filter(d => d.domain === activeDomain);
   const set = new Set(validData.map(d => getCategory(d)));
   const cats = ["All", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
@@ -692,14 +772,14 @@ function buildCategoryFilters(){
   });
 }
 
-function clearSearch(){
+window.clearSearch = function(){
   const s = document.getElementById("search");
   if(s) s.value = "";
   applyFilters();
 }
 
 let searchTimer;
-function debouncedSearch() {
+window.debouncedSearch = function() {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => { applyFilters(); }, 150);
 }
@@ -733,7 +813,7 @@ function smartFilter(data, q){
 function applyFilters(){
   const raw = (document.getElementById("search").value || "");
   const term = raw.trim();
-  let data = allDiagnoses.slice();
+  let data = window.allDiagnoses.slice();
   if(activeDomain !== "All") data = data.filter(d => d.domain === activeDomain);
   if(activeCategory !== "All") data = data.filter(d => getCategory(d) === activeCategory);
   if(term) data = smartFilter(data, term);
@@ -826,7 +906,7 @@ function showDetails(dx){
   if (window.matchMedia("(max-width: 920px)").matches) panel.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
-function collapseDetails(){
+window.collapseDetails = function(){
   document.getElementById("details").style.display = "none";
   currentDx = null; triageWasManuallySet = false;
 }
@@ -871,10 +951,10 @@ function evalCond(cond, ctx){
 }
 
 function computeDDX(primaryDx, ctx){
-  const all = allDiagnoses.map(d=>d.name);
+  const all = window.allDiagnoses.map(d=>d.name);
   const out = [];
   const push = (name, reason, w=0)=>{
-    const actualDx = allDiagnoses.find(d => d.name === name || d.id === name || (d.aliases && d.aliases.includes(name)));
+    const actualDx = window.allDiagnoses.find(d => d.name === name || d.id === name || (d.aliases && d.aliases.includes(name)));
     if (!actualDx || actualDx.name === primaryDx.name) return;
     const ex = out.find(x=>x.name===actualDx.name);
     if (ex) { ex.w += w; return; }
@@ -954,7 +1034,7 @@ function _getPatientForm(){
   };
 }
 
-function openPatients(fromDx=false){
+window.openPatients = function(fromDx=false){
   if(fromDx && !currentDx) fromDx = false;
   autoSaveVisitOnPatientSave = !!fromDx;
   document.getElementById("drawerOverlay").classList.add("open");
@@ -967,13 +1047,13 @@ function openPatients(fromDx=false){
   else { hint.style.display="none"; }
 }
 
-function closePatients(ev){
+window.closePatients = function(ev){
   if(ev && ev.target && ev.target.id !== "drawerOverlay") return;
   document.getElementById("drawerOverlay").classList.remove("open");
   document.getElementById("patientDrawer").classList.remove("open");
 }
 
-function clearPatientForm(){
+window.clearPatientForm = function(){
   document.querySelectorAll(".drawer-body input, .drawer-body select").forEach(el => {
     if(el.type === 'checkbox') el.checked = false; else el.value = "";
   });
@@ -992,7 +1072,7 @@ function clearPatientForm(){
   }
 }
 
-function savePatientAndMaybeVisit(){
+window.savePatientAndMaybeVisit = function(){
   const form = _getPatientForm();
   if(!form.id){ alert("Please enter Patient ID / OPD No."); return; }
   const store = _loadStore(); store.patients = store.patients || {};
@@ -1025,11 +1105,11 @@ function savePatientAndMaybeVisit(){
   hint.style.display = "block";
   hint.textContent = loggedThisTime ? `Saved + Visit logged for: ${currentDx.name || currentDx.id}` : "Patient context saved.";
   document.getElementById("overdueAlert").style.display = "none";
-  renderPatientList(); renderVisitTimeline(existing);
+  window.renderPatientList(); renderVisitTimeline(existing);
   document.getElementById("visitTimelinePanel")?.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
-function renderPatientList(){
+window.renderPatientList = function(){
   const store = _loadStore(); const list = document.getElementById("patientList"); if(!list) return;
   const q = (document.getElementById("patientSearch")?.value || "").trim().toLowerCase();
   const patients = store.patients || {}; let ids = Object.keys(patients);
@@ -1120,7 +1200,7 @@ function deletePatient(pid){
   if(confirmation !== pid) { if (confirmation !== null) alert("ID did not match. Deletion cancelled."); return; }
   const store = _loadStore();
   if(store.patients && store.patients[pid]){
-    delete store.patients[pid]; _saveStore(store); clearPatientForm(); renderPatientList();
+    delete store.patients[pid]; _saveStore(store); window.clearPatientForm(); window.renderPatientList();
     const last = localStorage.getItem(LS_KEY + "_last"); if(last === pid) localStorage.removeItem(LS_KEY + "_last");
   }
 }
@@ -1176,9 +1256,9 @@ function renderVisitTimeline(p) {
 }
 
 function reopenDx(key, findings) {
-  const k = (key || "").trim(); const dx = allDiagnoses.find(d => d.name === k || d.id === k);
+  const k = (key || "").trim(); const dx = window.allDiagnoses.find(d => d.name === k || d.id === k);
   if(!dx) return alert("Protocol not found in current database.");
-  closePatients(); showDetails(dx); 
+  window.closePatients(); showDetails(dx); 
 
   function _upgradeFindingKeys(bucket){
     const o = currentObs[bucket] || {}; const upgraded = {};
@@ -1196,14 +1276,14 @@ function reopenDx(key, findings) {
   }
 }
 
-function exportPatients(){
+window.exportPatients = function(){
   const store = _loadStore(); const blob = new Blob([JSON.stringify(store, null, 2)], {type:"application/json"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
   a.download = `oct_patients_backup_${new Date().toISOString().slice(0,10)}.json`;
   a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 500);
 }
 
-function importPatients(){
+window.importPatients = function(){
   const inp = document.createElement("input"); inp.type = "file"; inp.accept = "application/json";
   inp.onchange = async () => {
     const f = inp.files?.[0]; if(!f) return;
@@ -1213,14 +1293,14 @@ function importPatients(){
       const current = _loadStore(); current.patients = current.patients || {};
       const incoming = data.patients || {};
       Object.keys(incoming).forEach(id=>{ current.patients[id] = incoming[id]; });
-      _saveStore(current); renderPatientList(); alert("Import successful (merged with existing).");
+      _saveStore(current); window.renderPatientList(); alert("Import successful (merged with existing).");
     } catch(e){ alert("Import failed: invalid backup file."); }
   };
   inp.click();
 }
 
 document.addEventListener("DOMContentLoaded", ()=>{ 
-  updateDecisionBadgeFromSelect(); loadData(); 
+  updateDecisionBadgeFromSelect(); 
   
   document.querySelectorAll(".drawer-body input, .drawer-body select").forEach(el=>{
     el.addEventListener("change", () => {
