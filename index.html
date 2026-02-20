@@ -93,11 +93,17 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 .hint{margin-top:6px;color:#94a3b8;font-size:11px}
 .close-btn{background:transparent; border:none; color:white; font-size:22px; cursor:pointer; padding:0; line-height:1;}
 
+/* COPYRIGHT MODAL CSS */
+#startupModal { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+.modal-box { background:#0f172a; border:1px solid #334155; border-radius:12px; max-width:450px; padding:24px; color:#f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.5); text-align:center; }
+.modal-box h2 { margin:0 0 12px 0; color:#38bdf8; font-size:18px; text-transform:uppercase; letter-spacing:0.5px;}
+.modal-box p { font-size:13px; line-height:1.6; color:#cbd5e1; margin-bottom:20px; text-align:left;}
+
 /* PRINT STYLES */
 #reportPrint { display:none; }
 @media print {
   body { background:#fff !important; color:#000 !important; margin:0 !important; }
-  header, .filterBar, .toolsRow, .metaLine, .domain-tabs, .drawer, .drawer-overlay, .footer { display:none !important; }
+  header, .filterBar, .toolsRow, .metaLine, .domain-tabs, .drawer, .drawer-overlay, .footer, #startupModal { display:none !important; }
   .main { display:block !important; margin:0 !important; }
   #tiles { display:none !important; }
   #details { display:none !important; }
@@ -107,12 +113,24 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 </head>
 
 <body>
+<div id="startupModal">
+  <div class="modal-box">
+    <h2>⚠️ Copyright & Terms of Use</h2>
+    <p>
+      <b>© 2026 Ratan Kalita. All rights reserved.</b><br><br>
+      This software is a <strong>Clinical Decision Support Tool</strong> intended solely for use by qualified eye care professionals. It does not replace independent clinical judgment, diagnosis, or treatment.<br><br>
+      By proceeding, you agree to ensure all patient data and images are fully de-identified before entering them into any external or shared system.
+    </p>
+    <button onclick="document.getElementById('startupModal').style.display='none'" style="width:100%; padding:12px; background:#2563eb; color:#fff; border:none; border-radius:8px; font-weight:800; cursor:pointer; font-size:14px; transition:0.2s;">I Acknowledge & Agree</button>
+  </div>
+</div>
+
 <div class="wrap">
 
 <header>
   <div class="h-top">
     <div class="h-title">
-      <h1>Dr. Ratan Kalita</h1>
+      <h1>Ratan Kalita</h1>
       <span class="sub">OCT / OCT-A Protocol Dashboard</span>
     </div>
     <button class="btn" onclick="openPatients()">👥 Patients</button>
@@ -457,6 +475,7 @@ function renderChips(containerId, items, bucket, isFlag=false){
       currentObs[bucket][key] = !currentObs[bucket][key];
       chip.classList.toggle("on", !!currentObs[bucket][key]);
       autoTriageFromObservations();
+      renderDDX(currentDx);
     };
     el.appendChild(chip);
   });
@@ -500,6 +519,7 @@ function copyReport(){
   const iop_od = (document.getElementById("p_iop_od")?.value || "").trim();
   const iop_os = (document.getElementById("p_iop_os")?.value || "").trim();
   const sx = (document.getElementById("p_symptoms")?.value || "").trim();
+  
   const noteEl = document.getElementById("doctorNotes");
   const note = noteEl ? noteEl.value.trim() : (document.getElementById("p_note")?.value || "").trim();
   const triage = document.getElementById("triageSelect")?.value || "Routine";
@@ -577,7 +597,7 @@ function printProtocol(){
       <div style="display:flex; justify-content:space-between; align-items:flex-start;">
         <div>
           <div style="font-size:18px; font-weight:800;">OCT / OCTA Report</div>
-          <div style="font-size:12px; margin-top:2px;">Dr. Ratan Kalita • ${new Date().toLocaleString()}</div>
+          <div style="font-size:12px; margin-top:2px;">Ratan Kalita • ${new Date().toLocaleString()}</div>
         </div>
         <div style="font-size:12px; font-weight:800; padding:6px 10px; border:1px solid #ccc; border-radius:6px;">
           ${escapeHtml(triage)} • ${escapeHtml(decision)}
@@ -636,7 +656,7 @@ function section(title, items, danger=false){
 // --- INITIALIZATION ---
 async function loadData(){
   try {
-    const res = await fetch('./diagnoses.json?v=8'); 
+    const res = await fetch('./diagnoses.json?v=9'); 
     allDiagnoses = await res.json();
     buildCategoryFilters();
     applyFilters();
@@ -854,22 +874,34 @@ function computeDDX(primaryDx, ctx){
   const all = allDiagnoses.map(d=>d.name);
   const out = [];
   const push = (name, reason, w=0)=>{
-    if (!all.includes(name) || name===primaryDx.name) return;
-    const ex = out.find(x=>x.name===name);
-    if (ex) { ex.w = Math.max(ex.w||0, w||0); return; }
-    out.push({name, reason, w});
+    const actualDx = allDiagnoses.find(d => d.name === name || d.id === name || (d.aliases && d.aliases.includes(name)));
+    if (!actualDx || actualDx.name === primaryDx.name) return;
+    const ex = out.find(x=>x.name===actualDx.name);
+    if (ex) { ex.w += w; return; }
+    out.push({name: actualDx.name, reason, w, targetDx: actualDx});
   };
   if (Array.isArray(primaryDx.ddx_rules)) {
-    primaryDx.ddx_rules.forEach(rule=>{ try { if (evalCond(rule.when, ctx)) push(rule.candidate, rule.reason, rule.weight || 1); } catch(e){} });
+    primaryDx.ddx_rules.forEach(rule=>{ 
+      let match = false;
+       if (rule.when) {
+         if (rule.when.chip_contains) {
+             const bucket = currentObs[rule.when.bucket || "targets"] || {};
+             match = Object.entries(bucket).some(([k,v]) => v && k.includes(norm(rule.when.chip_contains)));
+         } else if (rule.when.flag) {
+             match = evalCond(rule.when, ctx);
+         }
+       }
+       if (match) push(rule.candidate, rule.reason, rule.weight || 5);
+    });
   }
-  if (Array.isArray(primaryDx.ddx)) { primaryDx.ddx.forEach(n=>push(n, "Listed DDx", 2)); }
+  if (Array.isArray(primaryDx.ddx)) { primaryDx.ddx.forEach(n=>push(n, "Listed DDx", 1)); }
   const n = (primaryDx.name||"").toLowerCase();
   if (n.includes("npdr")) {
     push("Diabetic Macular Edema (DME)", "Rule out coexisting DME", ctx.dm?6:3);
     push("Branch Retinal Vein Occlusion (BRVO)", "Hemorrhage mimic", ctx.htn?4:1);
   }
   out.sort((a,b)=> (b.w||0)-(a.w||0));
-  return out.slice(0, 6);
+  return out.slice(0, 5);
 }
 
 function renderDDX(primaryDx){
@@ -882,9 +914,14 @@ function renderDDX(primaryDx){
   ddx.forEach(x=>{
     const b = document.createElement("div");
     b.className = "ddx-chip";
-    b.textContent = x.name;
+    if(x.w > 2) {
+       b.style.borderColor = "#f59e0b"; b.style.color = "#d97706"; b.style.background = "#fef3c7";
+       b.innerHTML = `💡 Switch to: ${escapeHtml(x.name)}`;
+    } else {
+       b.textContent = x.name;
+    }
     b.title = x.reason || "Open protocol";
-    b.onclick = ()=>{ const dx = allDiagnoses.find(d=>d.name===x.name); if (dx) showDetails(dx); };
+    b.onclick = ()=>{ if (x.targetDx) showDetails(x.targetDx); };
     wrap.appendChild(b);
   });
 }

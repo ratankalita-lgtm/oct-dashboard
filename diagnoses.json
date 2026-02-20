@@ -158,6 +158,14 @@
         "when": { "any_flag_selected": true }
       }
     ],
+    "ddx_rules": [
+      {
+        "candidate": "Wet AMD / CNV (Active)",
+        "reason": "Fluid or exudation detected",
+        "weight": 5,
+        "when": { "bucket": "red_flags", "chip_contains": "Conversion to Wet AMD" }
+      }
+    ],
     "oct": [
       "RPE and Outer Retina loss (Hyper-transmission)",
       "Retinal thinning"
