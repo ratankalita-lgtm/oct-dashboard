@@ -157,14 +157,22 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
     }
   }
 
-  // 4. The Login Strike
+  // 4. The Login Strike (Hardened)
   loginBtn.addEventListener("click", async () => {
-      const email = document.getElementById("loginEmail").value.trim();
-      const pass = document.getElementById("loginPassword").value;
-      loginErr.textContent = "Authenticating with server...";
-      
-      const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
-      if (error) loginErr.textContent = "Invalid credentials. You are not authorized.";
+      try {
+          const email = document.getElementById("loginEmail").value.trim();
+          const pass = document.getElementById("loginPassword").value;
+          loginErr.textContent = "Authenticating with server...";
+          
+          const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+          
+          if (error) {
+              loginErr.textContent = error.message; // Shows the exact Supabase rejection reason
+          }
+      } catch (err) {
+          loginErr.textContent = "Network blocked. Please open in Chrome/Safari.";
+          console.error("Login crash:", err);
+      }
   });
 
   // 5. The Logout Protocol
