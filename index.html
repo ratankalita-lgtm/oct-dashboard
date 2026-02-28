@@ -157,21 +157,32 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
     }
   }
 
-  // 4. The Login Strike (Hardened)
+ // 4. The Login Strike (Nuclear Mobile Debug)
   loginBtn.addEventListener("click", async () => {
       try {
           const email = document.getElementById("loginEmail").value.trim();
           const pass = document.getElementById("loginPassword").value;
-          loginErr.textContent = "Authenticating with server...";
+          loginErr.textContent = "Authenticating...";
           
-          const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
           
           if (error) {
-              loginErr.textContent = error.message; // Shows the exact Supabase rejection reason
+              loginErr.textContent = error.message;
+              alert("SUPABASE REJECTION: " + error.message); // Forces phone to show the error
+          } else {
+              alert("LOGIN SUCCESS! Dropping the wall..."); // Forces phone to confirm it worked
+              
+              // Manually rip down the wall in case the listener is freezing
+              document.getElementById("loginOverlay").style.display = "none";
+              document.getElementById("startupModal").style.display = "flex";
+              
+              if(window.allDiagnoses && window.allDiagnoses.length === 0) {
+                  window.loadData();
+              }
           }
       } catch (err) {
-          loginErr.textContent = "Network blocked. Please open in Chrome/Safari.";
-          console.error("Login crash:", err);
+          loginErr.textContent = "CRASH: " + err.message;
+          alert("SYSTEM CRASH: " + err.message); // Forces phone to show code failure
       }
   });
 
