@@ -126,54 +126,69 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 <body>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  // 1. Import the Supabase Engine
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDCMtyemzDroV1DKAestox-l8iYymQvGYw",
-    authDomain: "oct-dashborad-app.firebaseapp.com",
-    projectId: "oct-dashborad-app",
-    storageBucket: "oct-dashborad-app.firebasestorage.app",
-    messagingSenderId: "1004160854962",
-    appId: "1:1004160854962:web:f2055f2d2d488dfeb092ab"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  // 2. Your Supabase Keys
+  const SUPABASE_URL = 'https://sesxtccsrykoomcrtoyr.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNlc3h0Y2Nzcnlrb29tY3J0b3lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyNTEwMjEsImV4cCI6MjA4NzgyNzAyMX0.RJJRloNnUjb8KsPavkJ1fukzuV0NwZlyOg8iQ5Xcg5I';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
   const loginErr = document.getElementById("loginError");
 
+  // 3. The Secure Fetch Protocol 
+  window.loadData = async function(){
+    try {
+        // Reaches into the private vault. Fails if the user is not authenticated.
+        const { data, error } = await supabase.storage.from('clinical_vault').download('diagnoses.json');
+        if (error) throw error;
+        
+        const text = await data.text();
+        window.allDiagnoses = JSON.parse(text);
+        
+        // Trigger the UI to build
+        if (typeof buildCategoryFilters === "function") buildCategoryFilters();
+        if (typeof applyFilters === "function") applyFilters();
+    } catch(e) { 
+        console.error("Vault access denied.", e); 
+        alert("Secure data fetch failed. Your access may be revoked. Contact Ratan.");
+    }
+  }
+
+  // 4. The Login Strike
   loginBtn.addEventListener("click", async () => {
       const email = document.getElementById("loginEmail").value;
       const pass = document.getElementById("loginPassword").value;
-      try {
-          loginErr.textContent = "Authenticating...";
-          await signInWithEmailAndPassword(auth, email, pass);
-      } catch (error) {
-          loginErr.textContent = "Invalid credentials. You are not authorized.";
-      }
+      loginErr.textContent = "Authenticating with server...";
+      
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+      if (error) loginErr.textContent = "Invalid credentials. You are not authorized.";
   });
 
-  logoutBtn.addEventListener("click", () => { signOut(auth); });
+  // 5. The Logout Protocol
+  logoutBtn.addEventListener("click", async () => { 
+      await supabase.auth.signOut(); 
+      location.reload(); // Hard reset the app state
+  });
 
-  // Watch for login status
-  onAuthStateChanged(auth, (user) => {
-      if (user) {
-          // Logged IN: Hide login screen, Show Disclaimer, Load Data
+  // 6. The Heartbeat (Constantly monitors access)
+  supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+          // Logged IN: Drop the wall
           document.getElementById("loginOverlay").style.display = "none";
           document.getElementById("startupModal").style.display = "flex";
-          
           if(window.allDiagnoses && window.allDiagnoses.length === 0) {
               window.loadData();
           }
       } else {
-          // Logged OUT: Show Login wall, hide disclaimer
+          // Logged OUT: Raise the wall, wipe memory
           document.getElementById("loginOverlay").style.display = "flex";
           document.getElementById("startupModal").style.display = "none";
           document.getElementById("loginPassword").value = "";
           loginErr.textContent = "";
+          window.allDiagnoses = []; 
       }
   });
 </script>
@@ -731,16 +746,6 @@ function section(title, items, danger=false){
       <ul style="margin:6px 0 0 0; padding:0; font-size:12px;">${li || "<li style='list-style-type:none;'>—</li>"}</ul>
     </div>
   `;
-}
-
-// --- INITIALIZATION ---
-window.loadData = async function(){
-  try {
-    const res = await fetch('./diagnoses.json?v=11'); 
-    window.allDiagnoses = await res.json();
-    buildCategoryFilters();
-    applyFilters();
-  } catch(e) { console.error("Failed to load diagnoses.json", e); }
 }
 
 window.setDomain = function(dom) {
