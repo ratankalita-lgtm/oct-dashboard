@@ -159,7 +159,7 @@ header{ background:linear-gradient(135deg,#1d4ed8,#06b6d4); color:white; padding
 
   // 4. The Login Strike
   loginBtn.addEventListener("click", async () => {
-      const email = document.getElementById("loginEmail").value;
+      const email = document.getElementById("loginEmail").value.trim();
       const pass = document.getElementById("loginPassword").value;
       loginErr.textContent = "Authenticating with server...";
       
